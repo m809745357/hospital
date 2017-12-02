@@ -1,0 +1,14 @@
+<?php
+
+use Faker\Generator as Faker;
+
+$factory->define(App\Models\Special::class, function (Faker $faker) {
+    return [
+        'title' => $faker->sentence,
+        'desc' => $faker->paragraph,
+        'body' => $faker->paragraph,
+        'image' => $faker->imageUrl(200, 200),
+        'status' => 0,
+        'click_num' => rand(100, 200),
+    ];
+});

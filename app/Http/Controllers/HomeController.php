@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**
@@ -24,5 +22,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    /**
+     * 医院介绍页面
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function introduce()
+    {
+        return view('introduce');
     }
 }

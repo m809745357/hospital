@@ -43,3 +43,13 @@
  * @import "utilities/background-patterns";
  * @import "utilities/skew-transforms";
  */
+.swiper-button-prev {
+    position: relative !important;
+    top: -235px !important;
+    float: left;
+}
+.swiper-button-next {
+    position: relative !important;
+    top: -235px !important;
+    float: right;
+}

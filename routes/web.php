@@ -17,3 +17,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/introduce', 'HomeController@introduce')->name('introduce');
+Route::get('/dynamics', 'DynamicController@index')->name('dynamic.index');
+Route::get('/dynamics/{dynamic}', 'DynamicController@show')->name('dynamic.show');
+Route::get('/specials', 'SpecialController@index')->name('special.index');
+Route::get('/specials/{special}', 'SpecialController@show')->name('special.show');

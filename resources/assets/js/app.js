@@ -18,7 +18,28 @@ window.Vue = require('vue');
  */
 
 Vue.component('home', require('./pages/Home.vue'));
+Vue.component('introduce', require('./pages/Introduce.vue'));
+Vue.component('dynamic-index', require('./pages/DynamicIndex.vue'));
+Vue.component('dynamic-show', require('./pages/DynamicShow.vue'));
+Vue.component('special-index', require('./pages/SpecialIndex.vue'));
+Vue.component('special-show', require('./pages/SpecialShow.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data () {
+        return {
+            isClickMenu: false
+        }
+    },
+    methods: {
+        changeMenu() {
+            if (this.isClickMenu === false) {
+                document.getElementById("menu").style.display = 'flex';
+                this.isClickMenu = true;
+            } else {
+                document.getElementById("menu").style.display = 'none';
+                this.isClickMenu = false;
+            }
+        }
+    }
 });
