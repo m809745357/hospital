@@ -501,27 +501,25 @@ button,
 [role=button] {
   cursor: pointer;
 }
-
 /**
- * Here you would add any of your custom component classes; stuff that you'd
- * want loaded *before* the utilities so that the utilities could still
- * override them.
- *
- * Example:
- *
- * .btn { ... }
- * .form-input { ... }
- *
- * Or if using a preprocessor:
- *
- * @import "components/buttons";
- * @import "components/forms";
- */
-
+  * Here you would add any of your custom component classes; stuff that you'd
+  * want loaded *before* the utilities so that the utilities could still
+  * override them.
+  *
+  * Example:
+  *
+  * .btn { ... }
+  * .form-input { ... }
+  *
+  * Or if using a preprocessor:
+  *
+  * @import "components/buttons";
+  * @import "components/forms";
+  */
 /**
- * This injects all of Tailwind's utility classes, generated based on your
- * config file.
- */
+  * This injects all of Tailwind's utility classes, generated based on your
+  * config file.
+  */
 .container {
   width: 100%;
 }
@@ -634,7 +632,7 @@ button,
 }
 
 .bg-blue-lighter {
-  background-color: #bcdefa;
+  background-color: #4ba3ea;
 }
 
 .bg-blue-lightest {
@@ -730,7 +728,7 @@ button,
 }
 
 .hover\:bg-blue-lighter:hover {
-  background-color: #bcdefa;
+  background-color: #4ba3ea;
 }
 
 .hover\:bg-blue-lightest:hover {
@@ -886,7 +884,7 @@ button,
 }
 
 .border-blue-lighter {
-  border-color: #bcdefa;
+  border-color: #4ba3ea;
 }
 
 .border-blue-lightest {
@@ -982,7 +980,7 @@ button,
 }
 
 .hover\:border-blue-lighter:hover {
-  border-color: #bcdefa;
+  border-color: #4ba3ea;
 }
 
 .hover\:border-blue-lightest:hover {
@@ -3391,7 +3389,7 @@ button,
 }
 
 .text-blue-lighter {
-  color: #bcdefa;
+  color: #4ba3ea;
 }
 
 .text-blue-lightest {
@@ -3487,7 +3485,7 @@ button,
 }
 
 .hover\:text-blue-lighter:hover {
-  color: #bcdefa;
+  color: #4ba3ea;
 }
 
 .hover\:text-blue-lightest:hover {
@@ -3921,21 +3919,20 @@ button,
 .z-auto {
   z-index: auto;
 }
-
 /**
- * Here you would add any custom utilities you need that don't come out of the
- * box with Tailwind.
- *
- * Example :
- *
- * .bg-pattern-graph-paper { ... }
- * .skew-45 { ... }
- *
- * Or if using a preprocessor..
- *
- * @import "utilities/background-patterns";
- * @import "utilities/skew-transforms";
- */
+  * Here you would add any custom utilities you need that don't come out of the
+  * box with Tailwind.
+  *
+  * Example :
+  *
+  * .bg-pattern-graph-paper { ... }
+  * .skew-45 { ... }
+  *
+  * Or if using a preprocessor..
+  *
+  * @import "utilities/background-patterns";
+  * @import "utilities/skew-transforms";
+  */
 .swiper-button-prev {
   position: relative !important;
   top: -235px !important;
@@ -3949,7 +3946,18 @@ button,
 }
 
 .hover\:shadow:hover {
-  background: red;
+  background: #4ba3ea;
+  -webkit-box-shadow: 0 5px 14px 6px rgba(0, 0, 0, 0.09);
+          box-shadow: 0 5px 14px 6px rgba(0, 0, 0, 0.09);
+}
+
+.hover\:shadow:hover h4,
+.hover\:shadow:hover p {
+  color: #ffffff;
+}
+
+.hover\:shadow:hover div:nth-child(2) {
+  margin: 0 30px;
 }
 
 @media (min-width: 576px) {
@@ -4037,7 +4045,7 @@ button,
   }
 
   .sm\:bg-blue-lighter {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .sm\:bg-blue-lightest {
@@ -4133,7 +4141,7 @@ button,
   }
 
   .sm\:hover\:bg-blue-lighter:hover {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .sm\:hover\:bg-blue-lightest:hover {
@@ -4289,7 +4297,7 @@ button,
   }
 
   .sm\:border-blue-lighter {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .sm\:border-blue-lightest {
@@ -4385,7 +4393,7 @@ button,
   }
 
   .sm\:hover\:border-blue-lighter:hover {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .sm\:hover\:border-blue-lightest:hover {
@@ -6786,7 +6794,7 @@ button,
   }
 
   .sm\:text-blue-lighter {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .sm\:text-blue-lightest {
@@ -6882,7 +6890,7 @@ button,
   }
 
   .sm\:hover\:text-blue-lighter:hover {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .sm\:hover\:text-blue-lightest:hover {
@@ -7403,7 +7411,7 @@ button,
   }
 
   .md\:bg-blue-lighter {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .md\:bg-blue-lightest {
@@ -7499,7 +7507,7 @@ button,
   }
 
   .md\:hover\:bg-blue-lighter:hover {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .md\:hover\:bg-blue-lightest:hover {
@@ -7655,7 +7663,7 @@ button,
   }
 
   .md\:border-blue-lighter {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .md\:border-blue-lightest {
@@ -7751,7 +7759,7 @@ button,
   }
 
   .md\:hover\:border-blue-lighter:hover {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .md\:hover\:border-blue-lightest:hover {
@@ -10152,7 +10160,7 @@ button,
   }
 
   .md\:text-blue-lighter {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .md\:text-blue-lightest {
@@ -10248,7 +10256,7 @@ button,
   }
 
   .md\:hover\:text-blue-lighter:hover {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .md\:hover\:text-blue-lightest:hover {
@@ -10769,7 +10777,7 @@ button,
   }
 
   .lg\:bg-blue-lighter {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .lg\:bg-blue-lightest {
@@ -10865,7 +10873,7 @@ button,
   }
 
   .lg\:hover\:bg-blue-lighter:hover {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .lg\:hover\:bg-blue-lightest:hover {
@@ -11021,7 +11029,7 @@ button,
   }
 
   .lg\:border-blue-lighter {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .lg\:border-blue-lightest {
@@ -11117,7 +11125,7 @@ button,
   }
 
   .lg\:hover\:border-blue-lighter:hover {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .lg\:hover\:border-blue-lightest:hover {
@@ -13518,7 +13526,7 @@ button,
   }
 
   .lg\:text-blue-lighter {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .lg\:text-blue-lightest {
@@ -13614,7 +13622,7 @@ button,
   }
 
   .lg\:hover\:text-blue-lighter:hover {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .lg\:hover\:text-blue-lightest:hover {
@@ -14135,7 +14143,7 @@ button,
   }
 
   .xl\:bg-blue-lighter {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .xl\:bg-blue-lightest {
@@ -14231,7 +14239,7 @@ button,
   }
 
   .xl\:hover\:bg-blue-lighter:hover {
-    background-color: #bcdefa;
+    background-color: #4ba3ea;
   }
 
   .xl\:hover\:bg-blue-lightest:hover {
@@ -14387,7 +14395,7 @@ button,
   }
 
   .xl\:border-blue-lighter {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .xl\:border-blue-lightest {
@@ -14483,7 +14491,7 @@ button,
   }
 
   .xl\:hover\:border-blue-lighter:hover {
-    border-color: #bcdefa;
+    border-color: #4ba3ea;
   }
 
   .xl\:hover\:border-blue-lightest:hover {
@@ -16884,7 +16892,7 @@ button,
   }
 
   .xl\:text-blue-lighter {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .xl\:text-blue-lightest {
@@ -16980,7 +16988,7 @@ button,
   }
 
   .xl\:hover\:text-blue-lighter:hover {
-    color: #bcdefa;
+    color: #4ba3ea;
   }
 
   .xl\:hover\:text-blue-lightest:hover {

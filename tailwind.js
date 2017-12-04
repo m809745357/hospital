@@ -61,7 +61,7 @@ var colors = {
   'blue-dark': '#2779bd',
   'blue': '#3490dc',
   'blue-light': '#c6e5f9',
-  'blue-lighter': '#bcdefa',
+  'blue-lighter': '#4ba3ea',
   'blue-lightest': '#eff8ff',
 
   get ['brand-darkest']() { return this['orange-darkest']; },
@@ -475,6 +475,7 @@ module.exports = {
     'pc-226': '226px',
     'pc-165': '165px',
     'pc-98': '98px',
+    'pc-95': '95px',
     'pc-80': '80px',
     'pc-68': '68px',
     'pc-60': '60px',
@@ -554,6 +555,7 @@ module.exports = {
     '4xl': '90rem',
     '5xl': '100rem',
     'full': '100%',
+    '90': '90%',
     '1/3': '33.33333%'
   },
 

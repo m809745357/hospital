@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<specail-show :attributes="{{ $special }}"></special-index>
+<special-show :attributes="{{ $special }}"></special-show>
 @endsection

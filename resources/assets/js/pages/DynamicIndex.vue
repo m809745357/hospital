@@ -4,7 +4,7 @@
             <div class="border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0">医院动态</div>
          </div>
          <div class="container">
-            <div v-for="(dynamic, index) in dynamics" :key="index" class="m-1 md:m-0 max-w-full flex flex-col md:flex-row justify-between py-pc-33 border-dashed border-b">
+            <div v-for="(dynamic, index) in dynamics" :key="index" class="mx-pc-25 md:m-0 max-w-full flex flex-col md:flex-row justify-between py-pc-33 border-dashed border-b">
                 <img :src="dynamic.image" class="w-full md:w-1/4" height="213">
                 <div class="w-full md:w-3/4 md:pl-pc-33 flex flex-col justify-around">
                     <h4 class="no-underline hover:underline hover:text-blue text-2xl text-grey-darker font-normal truncate mt-1 md:mt-0" @click="viewDynamic(dynamic.id)" v-html="dynamic.title"></h4>
