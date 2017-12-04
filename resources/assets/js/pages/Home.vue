@@ -1,11 +1,5 @@
 <template>
     <div class="flex items-center w-full flex-col">
-        <div class="w-full">
-            <swiper :options="bannerOptions">
-                <swiper-slide v-for="(slide, index) in swiperSlides" :key="index"><img src="/images/slider-bg-1.png" alt=""></swiper-slide>
-                <div class="swiper-pagination" slot="pagination"></div>
-            </swiper>
-        </div>
         
         <div class="container">
             <div class="mt-pc-92 text-center pb-pc-27">
@@ -100,12 +94,6 @@ export default {
     props: [''],
     data () {
         return {
-            bannerOptions: {
-                pagination: {
-                    el: '.swiper-pagination'
-                },
-                loop : true,
-            },
             medicalOptions: {
                 navigation: {
                     nextEl: '.swiper-button-next',
@@ -114,18 +102,17 @@ export default {
                 slidesPerView : 3,
                 loop : true,
             },
-            swiperSlides: [1, 2, 3, 4, 5],
             medicals: [1, 2, 3],
-        }
-    },
-    created() {
-        if (window.screen.width < 768) {
-            this.medicalOptions.slidesPerView = 1
         }
     },
     components: {
         swiper,
         swiperSlide
-    }
+    },
+    created () {
+        if (window.screen.width < 768) {
+            this.medicalOptions.slidesPerView = 1
+        }
+    },
 }
 </script>

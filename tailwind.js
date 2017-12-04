@@ -52,25 +52,39 @@ var colors = {
   'grey-dark': '#a9a9a9',
   'grey': '#cdcdcd',
   'grey-light': '#dae4e9',
-  'grey-lighter': '#f3f7f9',
-  'grey-lightest': '#fafcfc',
-  'white': '#ffffff',
+  'grey-lighter': '#ececec',
+  'grey-lightest': '#f5f5f5',
 
-  'blue-darkest': '#05233b',
+  'white': '#ffffff',
+  'white-lightest': '#f4f4f4',
+
+  'blue-darkest': '#357bed',
   'blue-darker': '#103d60',
   'blue-dark': '#2779bd',
   'blue': '#3490dc',
-  'blue-light': '#c6e5f9',
+  'blue-light': '#dff2ff',
   'blue-lighter': '#4ba3ea',
   'blue-lightest': '#eff8ff',
 
+  'red-darkest': '#05233b',
+  'red-darker': '#103d60',
+  'red-dark': '#2779bd',
+  'red': '#E3342F',
+  'red-light': '#c6e5f9',
+  'red-lighter': '#4ba3ea',
+  'red-lightest': '#eff8ff',
+
+  'orange': '#fd995b',
+
+  'green': '#79b668',
+
   get ['brand-darkest']() { return this['orange-darkest']; },
   get ['brand-darker']() { return this['orange-darker']; },
-  get ['brand-dark']() { return this['orange-dark']; },
+  get ['brand-dark']() { return this['white-dark']; },
   get ['brand']() { return this['white']; },
   get ['brand-light']() { return this['white']; },
   get ['brand-lighter']() { return this['orange-lighter']; },
-  get ['brand-lightest']() { return this['white']; },
+  get ['brand-lightest']() { return this['white-lightest']; },
 }
 
 module.exports = {
@@ -195,7 +209,7 @@ module.exports = {
   textSizes: {
     '1xs': '10px',
     'xs': '12px',     // 12px
-    'sm': '.875rem',    // 14px
+    'sm': '14px',    // 14px
     'base': '16px',     // 16px
     'lg': '18px',   // 18px
     'xl': '20px',    // 20px
@@ -371,6 +385,7 @@ module.exports = {
     'px': '1px',
     '4px': '4px',
     '16px': '16px',
+    '1/2': '50%'
   },
 
 
@@ -426,12 +441,14 @@ module.exports = {
     'screen': '100vw',
     'pc-800': '4.17rem',
     'pc-540': '45%',
+    'pc-432': '432px',
     'pc-350': '350px',
     'pc-165': '165px',
     'pc-143': '143px',
     'pc-124': '124px',
     'pc-98': '98px',
     'pc-68': '68px',
+    'pc-60': '60px'
   },
 
 
@@ -481,7 +498,8 @@ module.exports = {
     'pc-60': '60px',
     'pc-50': '50px',
     'pc-47': '47px',
-    'pc-37': '37px',  
+    'pc-37': '37px',
+    'pc-30': '30px',
     'pc-25': '25px',
     'm-6': '6em',
     'm-3': '3em',
@@ -604,6 +622,8 @@ module.exports = {
     '4': '1rem',
     '6': '1.5rem',
     '8': '2rem',
+    'pc-10': '10px',
+    'pc-20': '20px',  
     'pc-27': '27px',
     'pc-33': '33px',
     'pc-50': '50px',
@@ -639,7 +659,9 @@ module.exports = {
     'pc-200': '1.042rem',
     'pc-6': '6px',
     'pc-10': '10px',
+    'pc-20': '20px',
     'pc-25': '25px',
+    'pc-33': '33px',
     'pc-50': '50px',
     'pc-40': '40px',
     'pc-70': '70px',

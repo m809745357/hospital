@@ -22,3 +22,6 @@ Route::get('/dynamics', 'DynamicController@index')->name('dynamic.index');
 Route::get('/dynamics/{dynamic}', 'DynamicController@show')->name('dynamic.show');
 Route::get('/specials', 'SpecialController@index')->name('special.index');
 Route::get('/specials/{special}', 'SpecialController@show')->name('special.show');
+Route::get('/schedulings', 'SchedulingController@index')->name('scheduling.index');
+Route::get('/report', 'HomeController@report')->name('report');
+Route::get('/contact', 'HomeController@contact')->name('contact');

@@ -1,9 +1,9 @@
 <template>
     <div class="flex items-center w-full flex-col">
-         <div class="container h-full mt-pc-50">
+        <div class="container h-full mt-pc-50">
             <div class="border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0">医院动态</div>
-         </div>
-         <div class="container">
+        </div>
+        <div class="container">
             <div v-for="(dynamic, index) in dynamics" :key="index" class="mx-pc-25 md:m-0 max-w-full flex flex-col md:flex-row justify-between py-pc-33 border-dashed border-b">
                 <img :src="dynamic.image" class="w-full md:w-1/4" height="213">
                 <div class="w-full md:w-3/4 md:pl-pc-33 flex flex-col justify-around">
@@ -19,8 +19,8 @@
                     </div>
                 </div>
             </div>
-         </div>
-     </div>
+        </div>
+    </div>
 </template>
 
 <script>

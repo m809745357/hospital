@@ -1072,13 +1072,19 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(65);
+module.exports = __webpack_require__(68);
 
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_swiper_dist_css_swiper_css__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_swiper_dist_css_swiper_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_swiper_dist_css_swiper_css__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1104,15 +1110,32 @@ Vue.component('dynamic-index', __webpack_require__(53));
 Vue.component('dynamic-show', __webpack_require__(56));
 Vue.component('special-index', __webpack_require__(59));
 Vue.component('special-show', __webpack_require__(62));
+Vue.component('scheduling-index', __webpack_require__(65));
+Vue.component('report', __webpack_require__(70));
+Vue.component('contact', __webpack_require__(73));
+
+
+
 
 var app = new Vue({
     el: '#app',
     data: function data() {
         return {
-            isClickMenu: false
+            isClickMenu: false,
+            bannerOptions: {
+                pagination: {
+                    el: '.swiper-pagination'
+                },
+                loop: true
+            },
+            swiperSlides: [1, 2, 3, 4, 5]
         };
     },
 
+    components: {
+        swiper: __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__["swiper"],
+        swiperSlide: __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__["swiperSlide"]
+    },
     methods: {
         changeMenu: function changeMenu() {
             if (this.isClickMenu === false) {
@@ -30357,12 +30380,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -30371,12 +30388,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: [''],
     data: function data() {
         return {
-            bannerOptions: {
-                pagination: {
-                    el: '.swiper-pagination'
-                },
-                loop: true
-            },
             medicalOptions: {
                 navigation: {
                     nextEl: '.swiper-button-next',
@@ -30385,19 +30396,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 slidesPerView: 3,
                 loop: true
             },
-            swiperSlides: [1, 2, 3, 4, 5],
             medicals: [1, 2, 3]
         };
-    },
-    created: function created() {
-        if (window.screen.width < 768) {
-            this.medicalOptions.slidesPerView = 1;
-        }
     },
 
     components: {
         swiper: __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__["swiper"],
         swiperSlide: __WEBPACK_IMPORTED_MODULE_0_vue_awesome_swiper__["swiperSlide"]
+    },
+    created: function created() {
+        if (window.screen.width < 768) {
+            this.medicalOptions.slidesPerView = 1;
+        }
     }
 });
 
@@ -38843,34 +38853,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
-    _c(
-      "div",
-      { staticClass: "w-full" },
-      [
-        _c(
-          "swiper",
-          { attrs: { options: _vm.bannerOptions } },
-          [
-            _vm._l(_vm.swiperSlides, function(slide, index) {
-              return _c("swiper-slide", { key: index }, [
-                _c("img", {
-                  attrs: { src: "/images/slider-bg-1.png", alt: "" }
-                })
-              ])
-            }),
-            _vm._v(" "),
-            _c("div", {
-              staticClass: "swiper-pagination",
-              attrs: { slot: "pagination" },
-              slot: "pagination"
-            })
-          ],
-          2
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
     _vm._m(0, false, false),
     _vm._v(" "),
     _vm._m(1, false, false),
@@ -39697,7 +39679,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-dark"
+          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter"
       },
       [
         _c(
@@ -40066,7 +40048,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-dark"
+          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter"
       },
       [
         _c(
@@ -40104,9 +40086,1096 @@ if (false) {
 
 /***/ }),
 /* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(66)
+/* template */
+var __vue_template__ = __webpack_require__(67)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/SchedulingIndex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5a68ea1e", Component.options)
+  } else {
+    hotAPI.reload("data-v-5a68ea1e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes', 'categories'],
+    data: function data() {
+        return {
+            doctors: this.attributes,
+            count: this.attributes.length,
+            departments: this.categories,
+            filter: {
+                name: '',
+                department: '',
+                day: '',
+                time: ''
+            },
+            days: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+            times: ['上午', '下午', '全天'],
+            source: ''
+        };
+    },
+    created: function created() {
+        console.log(this.doctors);
+    },
+
+    methods: {
+        url: function url() {
+            return '/schedulings?name=' + this.filter.name + '&department=' + this.filter.department + '&day=' + this.filter.day + '&time=' + this.filter.time;
+        },
+        filterDoctor: function filterDoctor() {
+            var _this = this;
+
+            var CancelToken = axios.CancelToken;
+            if (this.source) {
+                this.source.cancel('Operation canceled by the user.');
+            }
+
+            this.source = CancelToken.source();
+            console.log(this.filter);
+
+            axios.get(this.url(), { cancelToken: this.source.token }).then(function (response) {
+                console.log(response.data);
+                _this.doctors = response.data;
+            }).catch(function (thrown) {
+                if (axios.isCancel(thrown)) {
+                    console.log('Request canceled', thrown.message);
+                } else {
+                    // handle error
+                }
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
+    _vm._m(0, false, false),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter px-pc-20 md:p-0"
+      },
+      [
+        _c("p", { staticClass: "mt-1 md:mt-pc-33 md:mb-pc-20 text-lg" }, [
+          _vm._v("找到"),
+          _c("span", { staticClass: "text-blue mx-px" }, [
+            _vm._v(_vm._s(_vm.count))
+          ]),
+          _vm._v("位医生")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "md:h-pc-37 bg-grey-lightest border-b border-grey-lighter flex flex-col md:flex-row items-start md:items-center text-xs text-grey-darkest p-pc-10 md-p-0 mt-1 md:mt-0"
+          },
+          [
+            _c("div", { staticClass: "flex flex-row items-center h-pc-37" }, [
+              _c("label", { staticClass: "md:ml-pc-25 w-pc-60" }, [
+                _vm._v("医生名：")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.filter.name,
+                    expression: "filter.name"
+                  }
+                ],
+                staticClass:
+                  "md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey",
+                attrs: {
+                  placeholder: "请输入医生名称",
+                  type: "text",
+                  name: "doctor"
+                },
+                domProps: { value: _vm.filter.name },
+                on: {
+                  change: _vm.filterDoctor,
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.filter, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex flex-row items-center h-pc-37" }, [
+              _c("label", { staticClass: "md:ml-pc-25 w-pc-60" }, [
+                _vm._v("选择科室：")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.filter.department,
+                      expression: "filter.department"
+                    }
+                  ],
+                  staticClass:
+                    "md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey bg-white",
+                  attrs: { name: "department" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.filter,
+                          "department",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.filterDoctor
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.departments, function(department, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: department.id } },
+                      [_vm._v(_vm._s(department.name))]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex flex-row items-center h-pc-37" }, [
+              _c("label", { staticClass: "md:ml-pc-25 w-pc-60" }, [
+                _vm._v("门诊时间：")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.filter.day,
+                      expression: "filter.day"
+                    }
+                  ],
+                  staticClass:
+                    "md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey bg-white",
+                  attrs: { name: "day", id: "" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.filter,
+                          "day",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.filterDoctor
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.days, function(day, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: index + 1 } },
+                      [_vm._v(_vm._s(day))]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.filter.time,
+                      expression: "filter.time"
+                    }
+                  ],
+                  staticClass:
+                    "md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey bg-white",
+                  attrs: { name: "time", id: "" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.filter,
+                          "time",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.filterDoctor
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.times, function(time, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: index + 1 } },
+                      [_vm._v(_vm._s(time))]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(1, false, false),
+        _vm._v(" "),
+        _vm._l(_vm.doctors, function(doctor, index) {
+          return _vm.doctors
+            ? _c(
+                "div",
+                {
+                  key: index,
+                  staticClass:
+                    "md:border md:border-grey-lighter flex flex-col md:flex-row max-w-full mb-pc-20 md:mt-0 mt-1 shadow"
+                },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-full md:w-1/5 md:border-r md:border-grey-ligter flex items-center md:ml-pc-50 py-pc-10"
+                    },
+                    [
+                      _c("img", {
+                        staticClass:
+                          "w-pc-60 h-pc-60 rounded-1/2 border border-grey-ligter",
+                        attrs: { src: doctor.image }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-pc-10 flex-1" }, [
+                        _c(
+                          "h4",
+                          { staticClass: "text-orange text-sm font-normal" },
+                          [
+                            _vm._v(_vm._s(doctor.name) + " "),
+                            _c("span", { staticClass: "text-grey-dark" }, [
+                              _vm._v(_vm._s(doctor.title))
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "mt-pc-6 text-grey-darkest" }, [
+                          _vm._v(_vm._s(doctor.department.name))
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "md:w-pc-432 flex items-center max-w-full md:px-pc-33 py-pc-10"
+                    },
+                    [
+                      _c("p", { staticClass: "text-sm text-grey-dark" }, [
+                        _c(
+                          "strong",
+                          {
+                            staticClass: "text-sm text-grey-darkest font-normal"
+                          },
+                          [_vm._v("擅长：")]
+                        ),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(doctor.desc) +
+                            "\n                "
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex-1" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "w-full",
+                        staticStyle: { "border-collapse": "collapse" },
+                        attrs: { border: "1" }
+                      },
+                      [
+                        _vm._m(2, true, false),
+                        _vm._v(" "),
+                        _vm._l(doctor.schedulings, function(scheduling, index) {
+                          return _c(
+                            "tr",
+                            { key: index, staticClass: "text-sm" },
+                            [
+                              _c("td", { staticClass: "text-orange" }, [
+                                _vm._v(_vm._s(scheduling.type))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(
+                                  _vm._s(_vm.days[scheduling.day - 1]) +
+                                    " " +
+                                    _vm._s(_vm.times[scheduling.time - 1])
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(_vm._s(scheduling.address))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-green" }, [
+                                _vm._v(_vm._s(scheduling.money) + "元")
+                              ])
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _vm._l(doctor.schedulings, function(scheduling, index) {
+                          return _c(
+                            "tr",
+                            { key: index, staticClass: "text-sm" },
+                            [
+                              _c("td", { staticClass: "text-blue" }, [
+                                _vm._v(_vm._s(scheduling.type))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(
+                                  _vm._s(_vm.days[scheduling.day - 1]) +
+                                    _vm._s(_vm.times[scheduling.time - 1])
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(_vm._s(scheduling.address))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-green" }, [
+                                _vm._v(_vm._s(scheduling.money) + "元")
+                              ])
+                            ]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _vm._l(doctor.schedulings, function(scheduling, index) {
+                          return _c(
+                            "tr",
+                            { key: index, staticClass: "text-sm" },
+                            [
+                              _c("td", { staticClass: "text-green" }, [
+                                _vm._v(_vm._s(scheduling.type))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(
+                                  _vm._s(_vm.days[scheduling.day - 1]) +
+                                    _vm._s(_vm.times[scheduling.time - 1])
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-grey-dark" }, [
+                                _vm._v(_vm._s(scheduling.address))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "text-green" }, [
+                                _vm._v(_vm._s(scheduling.money) + "元")
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3, true, false)
+                ]
+              )
+            : _vm._e()
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container h-full mt-pc-50" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0"
+        },
+        [_vm._v("门诊预约")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "h-pc-37 bg-grey-lightest border-b border-grey-lighter flex items-center justify-center p-pc-10 md-p-0"
+      },
+      [
+        _c("p", { staticClass: "text-sm text-red" }, [
+          _vm._v("重要说明：出诊信息仅供参考，如果有变动，以门诊公布为准")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", { staticClass: "text-sm text-grey-darkest" }, [
+      _c("th", { staticClass: "font-normal", attrs: { width: "25%" } }, [
+        _vm._v("出诊类别")
+      ]),
+      _vm._v(" "),
+      _c("th", { staticClass: "font-normal", attrs: { width: "25%" } }, [
+        _vm._v("时间")
+      ]),
+      _vm._v(" "),
+      _c("th", { staticClass: "font-normal", attrs: { width: "25%" } }, [
+        _vm._v("地点")
+      ]),
+      _vm._v(" "),
+      _c("th", { staticClass: "font-normal", attrs: { width: "25%" } }, [
+        _vm._v("诊查费")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "hidden md:w-pc-165 md:flex items-center justify-center" },
+      [
+        _c(
+          "button",
+          {
+            staticClass:
+              "bg-blue-light w-3/4 my-pc-10 md:w-pc-98 h-pc-30 text-sm text-blue-darkest",
+            attrs: { type: "button" }
+          },
+          [_vm._v("挂号")]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-5a68ea1e", module.exports)
+  }
+}
+
+/***/ }),
+/* 68 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 69 */,
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(71)
+/* template */
+var __vue_template__ = __webpack_require__(72)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/Report.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-15a8109e", Component.options)
+  } else {
+    hotAPI.reload("data-v-15a8109e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {};
+    },
+
+    computed: {
+        judgeScreen: function judgeScreen() {
+            return window.screen.width > 768;
+        }
+    }
+});
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
+    _vm._m(0, false, false),
+    _vm._v(" "),
+    _c("div", { staticClass: "container mt-pc-50" }, [
+      _vm.judgeScreen
+        ? _c("div", { staticClass: "report" }, [
+            _c("input", {
+              attrs: {
+                type: "text",
+                name: "report",
+                placeholder: "请输入报告单号"
+              }
+            }),
+            _vm._v(" "),
+            _c("button", { attrs: { type: "button" } }, [_vm._v("查询")])
+          ])
+        : _c(
+            "div",
+            {
+              staticClass:
+                "flex flex-col max-w-full m-pc-20 h-pc-98 items-center justify-around"
+            },
+            [
+              _c("input", {
+                staticClass: "w-full",
+                attrs: {
+                  type: "text",
+                  name: "report",
+                  placeholder: "请输入报告单号"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "bg-blue w-full text-lg h-pc-30 text-white shadow",
+                  attrs: { type: "button" }
+                },
+                [_vm._v("查询")]
+              )
+            ]
+          )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container h-full mt-pc-50" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0"
+        },
+        [_vm._v("在线取报告单")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-15a8109e", module.exports)
+  }
+}
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(74)
+/* template */
+var __vue_template__ = __webpack_require__(75)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/Contact.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-77d54d1a", Component.options)
+  } else {
+    hotAPI.reload("data-v-77d54d1a", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0, false, false)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
+      _c("div", { staticClass: "container bg-brand" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex items-center flex-col md:flex-row py-pc-20 relative bg-white z-10 shadow-md"
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex-1 flex items-center flex-col justify-center md:border-r md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
+              },
+              [
+                _c("h4", { staticClass: "text-2xl font-normal" }, [
+                  _vm._v("全国服务热线")
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-xl font-normal mt-pc-10" }, [
+                  _vm._v("400-000-000")
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex-1 flex items-start justify-around flex-col h-pc-165 px-pc-50"
+              },
+              [
+                _c("h4", { staticClass: "text-xl font-normal" }, [
+                  _vm._v("宁波鄞州肛肠医院")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "text-sm text-grey-darker flex items-center" },
+                  [
+                    _c("img", {
+                      staticClass: "mr-px",
+                      attrs: { src: "/images/phone.png", alt: "" }
+                    }),
+                    _vm._v("400-000-000")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "text-sm text-grey-darker flex items-center" },
+                  [
+                    _c("img", {
+                      staticClass: "mr-px",
+                      attrs: { src: "/images/address.png", alt: "" }
+                    }),
+                    _vm._v("浙江省杭州市拱墅区乐富智慧园10栋4楼")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "text-sm text-grey-darker flex items-center" },
+                  [
+                    _c("img", {
+                      staticClass: "mr-px",
+                      attrs: { src: "/images/e.png", alt: "" }
+                    }),
+                    _vm._v("www.nbyzgc.com")
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "text-sm text-grey-darker flex items-center" },
+                  [
+                    _c("img", {
+                      staticClass: "mr-px",
+                      attrs: { src: "/images/mail.png", alt: "" }
+                    }),
+                    _vm._v("1231321312@qq.com")
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex-1 flex items-center justify-around md:border-l md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "flex items-cetner flex-col justify-center" },
+                  [
+                    _c(
+                      "h4",
+                      { staticClass: "text-base font-normal text-grey-darker" },
+                      [_vm._v("微信添加")]
+                    ),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-sm mt-pc-10 text-center" }, [
+                      _vm._v("扫一扫")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("img", { attrs: { src: "/images/ewm.png", alt: "" } })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-pc-40 h-pc-470 bg-white shadow-md" }, [
+          _c("img", {
+            staticClass: "py-pc-33 px-pc-50",
+            attrs: { src: "/images/slider-bg-1.png", height: "100%" }
+          })
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-77d54d1a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

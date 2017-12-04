@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-brand-lightest h-screen font-sans">
+<body class="bg-brand h-screen font-sans">
     <div id="app">
         <nav class="h-pc-80 md:h-pc-131"></nav>
         <nav class="bg-white h-pc-80 md:h-pc-131 shadow fixed z-20 w-full pin-t">
@@ -30,9 +30,9 @@
                         <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/introduce') }}">医院介绍</a>
                         <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/dynamics') }}">医院动态</a>
                         <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/specials') }}">医疗特色</a>
-                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/login') }}">门诊预约</a>
-                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/login') }}">在线取报告</a>
-                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/register') }}">联系我们</a>
+                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/schedulings') }}">门诊预约</a>
+                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/report') }}">在线取报告</a>
+                        <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/contact') }}">联系我们</a>
                     </div>
                 </div>
             </div>
@@ -41,14 +41,20 @@
                 <a href="{{ url('/introduce') }}" class="no-underline text-lg my-1 text-grey-darker">医院介绍</a>
                 <a href="{{ url('/dynamics') }}" class="no-underline text-lg my-1 text-grey-darker">医院动态</a>
                 <a href="{{ url('/specials') }}" class="no-underline text-lg my-1 text-grey-darker">医疗特色</a>
-                <a href="" class="no-underline text-lg my-1 text-grey-darker">门诊预约</a>
-                <a href="" class="no-underline text-lg my-1 text-grey-darker">在线去报告</a>
-                <a href="" class="no-underline text-lg my-1 text-grey-darker">联系我们</a>
+                <a href="{{ url('/schedulings') }}" class="no-underline text-lg my-1 text-grey-darker">门诊预约</a>
+                <a href="{{ url('/report') }}" class="no-underline text-lg my-1 text-grey-darker">在线去报告</a>
+                <a href="{{ url('/contact') }}" class="no-underline text-lg my-1 text-grey-darker">联系我们</a>
             </div>
         </nav>
-
-        @yield('content')
-
+        <div class="flex items-center w-full flex-col">
+            <div class="w-full">
+                <swiper :options="bannerOptions">
+                    <swiper-slide v-for="(slide, index) in swiperSlides" :key="index"><img src="/images/slider-bg-1.png" alt=""></swiper-slide>
+                    <div class="swiper-pagination" slot="pagination"></div>
+                </swiper>
+            </div>
+            @yield('content')
+        </div>
         <footer class="container mx-auto md:mt-pc-176">
             <div class="flex md:flex-row justify-between flex-col m-4 md:m-0">
                 <div class="flex flex-row md:pl-pc-50 md:w-pc-540 w-full justify-between">

@@ -23,13 +23,30 @@ Vue.component('dynamic-index', require('./pages/DynamicIndex.vue'));
 Vue.component('dynamic-show', require('./pages/DynamicShow.vue'));
 Vue.component('special-index', require('./pages/SpecialIndex.vue'));
 Vue.component('special-show', require('./pages/SpecialShow.vue'));
+Vue.component('scheduling-index', require('./pages/SchedulingIndex.vue'));
+Vue.component('report', require('./pages/Report.vue'));
+Vue.component('contact', require('./pages/Contact.vue'));
+
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 
 const app = new Vue({
     el: '#app',
     data () {
         return {
-            isClickMenu: false
+            isClickMenu: false,
+            bannerOptions: {
+                pagination: {
+                    el: '.swiper-pagination'
+                },
+                loop : true,
+            },
+            swiperSlides: [1, 2, 3, 4, 5],
         }
+    },
+    components: {
+        swiper,
+        swiperSlide
     },
     methods: {
         changeMenu() {

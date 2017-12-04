@@ -62,7 +62,37 @@
         color: #ffffff;
     }
 }
+
 .hover\:shadow:hover div:nth-child(2) {
     margin: 0 30px;
+}
+
+table tr td, th {
+    border: 1px solid #ececec;
+    height: 40px;
+    text-align: center;
+}
+
+.report {
+    background: url('/images/report.png') center no-repeat;
+    height: 144px;
+    @apply .flex .items-end .justify-center;
+
+    input {
+        width: 550px;
+        height: 40px;
+        border: 1px solid #4ba3ea;
+        margin-bottom: 30px;
+    }
+
+    button {
+        width: 150px;
+        height: 40px;
+        background: #4ba3ea;
+        text-align: center;
+        font-size: 16px;
+        color: #ffffff;
+        margin-bottom: 30px;
+    }
 }
  
