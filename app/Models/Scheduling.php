@@ -16,8 +16,8 @@ class Scheduling extends Model
 
     protected $guarded = [];
 
-    public function getTypeAttribute($type)
+    public function doctor()
     {
-        return self::TYPES_DISPLAY[$type];
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
 }

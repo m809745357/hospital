@@ -56,19 +56,19 @@
                             <th width="25%" class="font-normal">诊查费</th>
                         </tr>
                         <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-orange">{{ scheduling.type }}</td>
+                            <td class="text-orange">{{ typeDisplay(scheduling.type) }}</td>
                             <td class="text-grey-dark">{{ days[scheduling.day - 1] }} {{ times[scheduling.time - 1] }}</td>
                             <td class="text-grey-dark">{{ scheduling.address }}</td>
                             <td class="text-green">{{ scheduling.money }}元</td>
                         </tr>
                         <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-blue">{{ scheduling.type }}</td>
+                            <td class="text-blue">{{ typeDisplay(scheduling.type) }}</td>
                             <td class="text-grey-dark">{{ days[scheduling.day - 1] }}{{ times[scheduling.time - 1] }}</td>
                             <td class="text-grey-dark">{{ scheduling.address }}</td>
                             <td class="text-green">{{ scheduling.money }}元</td>
                         </tr>
                         <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-green">{{ scheduling.type }}</td>
+                            <td class="text-green">{{ typeDisplay(scheduling.type) }}</td>
                             <td class="text-grey-dark">{{ days[scheduling.day - 1] }}{{ times[scheduling.time - 1] }}</td>
                             <td class="text-grey-dark">{{ scheduling.address }}</td>
                             <td class="text-green">{{ scheduling.money }}元</td>
@@ -134,6 +134,19 @@ export default {
                     }
                 });
 
+        },
+        typeDisplay(type) {
+            switch (type) {
+                case 'expert':
+                    return '专家门诊';
+                    break;
+                case 'general':
+                    return '普通门诊';
+                    break;
+                case 'famous':
+                    return '名医门诊';
+                    break;
+            }
         }
         
     }
