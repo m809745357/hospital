@@ -18,7 +18,7 @@
                         <h4 class="text-base font-normal text-grey-darker">微信添加</h4>
                         <p class="text-sm mt-pc-10 text-center">扫一扫</p>
                     </div>
-                    <img :src="`/${configs.qrcode}`" alt="">
+                    <img :src="`/uploads/${configs.qrcode}`" alt="">
                 </div>
             </div>
             <div class="mt-pc-40 h-pc-470 bg-white shadow-md">

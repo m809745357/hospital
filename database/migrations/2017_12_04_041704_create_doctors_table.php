@@ -17,7 +17,7 @@ class CreateDoctorsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('title');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('desc');
             $table->unsignedInteger('department_id');
             $table->string('status');

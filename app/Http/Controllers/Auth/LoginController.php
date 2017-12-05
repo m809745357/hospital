@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
+use EasyWeChat\Foundation\Application;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -35,5 +37,65 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm(Application $app)
+    {
+        if (!session()->has('wechat.oauth_user')) {
+            $response = $app->oauth->scopes(['snsapi_userinfo'])
+                                      ->redirect();
+            return $response;
+        }
+        $user = $this->createUserAndLogin();
+        // return view('auth.login');
+        // if (!$user->mobile) {
+        //     return redirect()->route('bind.mobile');
+        // }
+        return redirect('/mobile/users');
+    }
+
+    /**
+     * WeChat Auth
+     * @param  Application $app wechat
+     * @return redirect         goto /
+     */
+    public function oauthCallback(Application $app)
+    {
+        if (app()->environment('testing')) {
+            if (!session()->has('wechat.oauth_user')) {
+                $user = $app->oauth->user();
+            } else {
+                $user = session()->get('wechat.oauth_user');
+            }
+        } else {
+            $user = $app->oauth->user();
+            session(['wechat.oauth_user' => $user]);
+        }
+        return redirect('/users');
+    }
+
+    /**
+     * create user
+     * @return App/User $user
+     */
+    protected function createUserAndLogin()
+    {
+        $oauthUser = session()->get('wechat.oauth_user');
+        if (!User::where(['openid' => $oauthUser->id])->exists()) {
+            $user = User::create([
+                'name' => $oauthUser->name,
+                'avatar' => $oauthUser->avatar,
+                'openid' => $oauthUser->id,
+            ]);
+        } else {
+            $user = User::where(['openid' => $oauthUser->id])->firstOrFail();
+        }
+        \Auth::login($user);
+        return $user;
     }
 }

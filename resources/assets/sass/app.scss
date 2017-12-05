@@ -5,9 +5,10 @@
  * You can see the styles here:
  * https://github.com/tailwindcss/tailwindcss/blob/master/css/preflight.css
  */
- @tailwind preflight;
- 
- /**
+
+@tailwind preflight;
+
+/**
   * Here you would add any of your custom component classes; stuff that you'd
   * want loaded *before* the utilities so that the utilities could still
   * override them.
@@ -22,14 +23,16 @@
   * @import "components/buttons";
   * @import "components/forms";
   */
- 
- /**
+
+
+/**
   * This injects all of Tailwind's utility classes, generated based on your
   * config file.
   */
- @tailwind utilities;
- 
- /**
+
+@tailwind utilities;
+
+/**
   * Here you would add any custom utilities you need that don't come out of the
   * box with Tailwind.
   *
@@ -43,22 +46,24 @@
   * @import "utilities/background-patterns";
   * @import "utilities/skew-transforms";
   */
- .swiper-button-prev {
+
+.swiper-button-prev {
     position: relative !important;
     top: -235px !important;
     float: left;
- }
- .swiper-button-next {
+}
+
+.swiper-button-next {
     position: relative !important;
     top: -235px !important;
     float: right;
- }
- 
- .hover\:shadow:hover {
+}
+
+.hover\:shadow:hover {
     background: #4ba3ea;
     box-shadow: 0 5px 14px 6px rgba(0, 0, 0, 0.09);
-
-    h4, p {
+    h4,
+    p {
         color: #ffffff;
     }
 }
@@ -67,7 +72,8 @@
     margin: 0 30px;
 }
 
-table tr td, th {
+table tr td,
+th {
     border: 1px solid #ececec;
     height: 40px;
     text-align: center;
@@ -77,14 +83,12 @@ table tr td, th {
     background: url('/images/report.png') center no-repeat;
     height: 144px;
     @apply .flex .items-end .justify-center;
-
     input {
         width: 550px;
         height: 40px;
         border: 1px solid #4ba3ea;
         margin-bottom: 30px;
     }
-
     button {
         width: 150px;
         height: 40px;
@@ -97,12 +101,35 @@ table tr td, th {
 }
 
 .banner-button {
-    @apply absolute bg-blue text-white text-lg font-normal shadow p-pc-10 rounded-4px;
     top: 60%;
     left: 20%;
+    @apply absolute bg-blue text-white text-lg font-normal shadow p-pc-10 rounded-4px;
 }
 
 .more {
     @apply mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center no-underline;
 }
- 
+
+.user-index {
+    margin: 0 0.3333rem;
+    @apply max-w-full text-grey-dark text-sm;
+    .from-group {
+        height: 1.16rem;
+        padding: 0 0.4rem;
+        margin-bottom: 0.2667rem;
+        @apply bg-grey-lighter flex flex-row items-center justify-between;
+
+        label {
+            width: 1.8667rem;
+        }
+        
+        input {
+            height: 1.16rem;
+            @apply bg-grey-lighter flex-1 w-full;
+        }
+    }
+    button {
+        height: 1.16rem;
+        @apply bg-blue mx-auto w-full text-white text-sm shadow;
+    }
+}

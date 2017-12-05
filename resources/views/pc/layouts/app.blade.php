@@ -29,7 +29,7 @@
                 <div class="flex items-center justify-end md:h-pc-131 h-full">
                     <div class="md:absolute pin-l md:ml-pc-200 m-1 md:m-0 h-full flex items-center">
                         <a href="{{ url('/home') }}" class="no-underline">
-                            <img :src="`/${configs.logo}`" class="w-3/4">
+                            <img :src="`/uploads/${configs.logo}`" class="w-3/4">
                         </a>
                         <div class="block md:hidden"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
                     </div>
@@ -69,8 +69,8 @@
         <footer class="container mx-auto md:mt-pc-176">
             <div class="flex md:flex-row justify-between flex-col m-4 md:m-0">
                 <div class="flex flex-row md:pl-pc-50 md:w-pc-540 w-full justify-between">
-                    <img :src="`/${configs.bottom_logo}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
-                    <img :src="`/${configs.qrcode}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="`/uploads/${configs.bottom_logo}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="`/uploads/${configs.qrcode}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
                 </div>
                 <div class="md:w-pc-540 md:text-lg text-xs text-grey-darker leading-normal flex flex-col justify-center">
                     <p>@{{ configs.site_title }}</p>

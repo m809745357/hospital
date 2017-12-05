@@ -23,9 +23,6 @@ class SchedulingController extends Controller
                 if ($request->day) {
                     $query = $query->where('day', $request->day)->where('time', $request->time);
                 }
-                // if ($request->time) {
-                //     $query = $query->where('time', $request->time);
-                // }
             });
             $doctors = $doctors->latest()->get();
             return $doctors;

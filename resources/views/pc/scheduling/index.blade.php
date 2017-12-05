@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('pc.layouts.app')
 
 @section('content')
 <scheduling-index :attributes="{{ $doctors }}" :categories="{{ $departments }}"></scheduling-index>

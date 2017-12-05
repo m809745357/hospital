@@ -18,7 +18,7 @@ class CreateSpecialsTable extends Migration
             $table->string('title');
             $table->string('desc');
             $table->text('body');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->integer('status')->default(1);
             $table->integer('click_num')->default(0);
             $table->timestamps();

@@ -4411,6 +4411,8 @@ th {
 }
 
 .banner-button {
+  top: 60%;
+  left: 20%;
   position: absolute;
   background-color: #3490dc;
   color: #ffffff;
@@ -4420,8 +4422,6 @@ th {
           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
   padding: 10px;
   border-radius: 4px;
-  top: 60%;
-  left: 20%;
 }
 
 .more {
@@ -4445,6 +4445,58 @@ th {
       -ms-flex-pack: center;
           justify-content: center;
   text-decoration: none;
+}
+
+.user-index {
+  margin: 0 0.3333rem;
+  max-width: 100%;
+  color: #a9a9a9;
+  font-size: 14px;
+}
+
+.user-index .from-group {
+  height: 1.16rem;
+  padding: 0 0.4rem;
+  margin-bottom: 0.2667rem;
+  background-color: #ececec;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.user-index .from-group label {
+  width: 1.8667rem;
+}
+
+.user-index .from-group input {
+  height: 1.16rem;
+  background-color: #ececec;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  width: 100%;
+}
+
+.user-index button {
+  height: 1.16rem;
+  background-color: #3490dc;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
 }
 
 @media (min-width: 576px) {

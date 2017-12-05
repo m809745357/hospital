@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         $dynamics = Dynamic::latest('click_num')->take(4)->get();
-        return view('home', compact('dynamics'));
+        return view('pc.home', compact('dynamics'));
     }
 
     /**
@@ -34,16 +34,16 @@ class HomeController extends Controller
      */
     public function introduce()
     {
-        return view('introduce');
+        return view('pc.introduce');
     }
 
     public function report()
     {
-        return view('report');
+        return view('pc.report');
     }
 
     public function contact()
     {
-        return view('contact');
+        return view('pc.contact');
     }
 }

@@ -25,3 +25,5 @@ Route::get('/specials/{special}', 'SpecialController@show')->name('special.show'
 Route::get('/schedulings', 'SchedulingController@index')->name('scheduling.index');
 Route::get('/report', 'HomeController@report')->name('report');
 Route::get('/contact', 'HomeController@contact')->name('contact');
+
+Route::get('/user', 'UserController@index')->name('user.index');

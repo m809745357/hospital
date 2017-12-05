@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('pc.layouts.app')
 
 @section('content')
 <home :attributes="{{ $dynamics }}"></home>
