@@ -14,26 +14,25 @@ class HomeController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
+            // $content->header('Dashboard');
+            // $content->description('Description...');
 
-            $content->header('Dashboard');
-            $content->description('Description...');
+            // $content->row(Dashboard::title());
 
-            $content->row(Dashboard::title());
+            // $content->row(function (Row $row) {
 
-            $content->row(function (Row $row) {
+            //     $row->column(4, function (Column $column) {
+            //         $column->append(Dashboard::environment());
+            //     });
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
-                });
+            //     $row->column(4, function (Column $column) {
+            //         $column->append(Dashboard::extensions());
+            //     });
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
-                });
-            });
+            //     $row->column(4, function (Column $column) {
+            //         $column->append(Dashboard::dependencies());
+            //     });
+            // });
         });
     }
 }

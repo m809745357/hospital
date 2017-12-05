@@ -94,6 +94,7 @@ class DynamicController extends Controller
             $form->text('title', '标题')->help('最好少于20个字');
             $form->textarea('desc', '描述')->help('最好少于50个字');
             $form->number('click_num', '点击量');
+            $form->editor('body', '内容');
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');
