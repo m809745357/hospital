@@ -1165,7 +1165,8 @@ var app = new Vue({
                 },
                 loop: true
             },
-            swiperSlides: [1, 2, 3, 4, 5]
+            swiperSlides: window.App.banners,
+            configs: window.App.configs
         };
     },
 
@@ -30401,28 +30402,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: [''],
+    props: ['attributes'],
     data: function data() {
         return {
             medicalOptions: {
@@ -30433,7 +30418,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 slidesPerView: 3,
                 loop: true
             },
-            medicals: [1, 2, 3]
+            medicals: [1, 2, 3],
+            dynamics: this.attributes
         };
     },
 
@@ -30445,7 +30431,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (window.screen.width < 768) {
             this.medicalOptions.slidesPerView = 1;
         }
-    }
+    },
+
+    methods: {}
 });
 
 /***/ }),
@@ -38853,11 +38841,119 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
-    _vm._m(0, false, false),
-    _vm._v(" "),
-    _vm._m(1, false, false),
+    _c("div", { staticClass: "container" }, [
+      _vm._m(0, false, false),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "mt-pc-50 flex items-center justify-between flex-col m-1 md:m-pc-50 md:flex-row md:h-pc-403"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "h-full md:w-pc-540 flex justify-between flex-col w-full"
+            },
+            [
+              _c("img", { attrs: { src: _vm.dynamics[0].image, alt: "" } }),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center mt-1 md:mt-0" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4",
+                    attrs: { href: "/dynamics/" + _vm.dynamics[0].id }
+                  },
+                  [_vm._v(_vm._s(_vm.dynamics[0].title))]
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-grey-darkest text-xs" }, [
+                  _vm._v(_vm._s(_vm.dynamics[0].created_at))
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass:
+                    "text-grey-darker text-xs leading-loose h-m-6 overflow-hidden mt-1 md:mt-0"
+                },
+                [_vm._v(_vm._s(_vm.dynamics[0].desc))]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "h-full w-full md:w-pc-540 justify-around flex items-center md:justify-between flex-col"
+            },
+            _vm._l(_vm.dynamics, function(dynamic, index) {
+              return index > 0
+                ? _c(
+                    "div",
+                    {
+                      key: index,
+                      staticClass:
+                        "h-pc-98 w-full flex items-center justify-between"
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "w-1/4 md:w-pc-98",
+                        attrs: { src: dynamic.image }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0"
+                        },
+                        [
+                          _c(
+                            "span",
+                            { staticClass: "text-grey-darkest text-xs" },
+                            [_vm._v(_vm._s(dynamic.created_at))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass:
+                                "no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4",
+                              attrs: { href: "/dynamics/" + dynamic.id }
+                            },
+                            [_vm._v(_vm._s(dynamic.title))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              staticClass: "text-grey-darker text-xs truncate"
+                            },
+                            [_vm._v(_vm._s(dynamic.desc))]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            })
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(1, false, false)
+    ]),
     _vm._v(" "),
     _vm._m(2, false, false),
+    _vm._v(" "),
+    _vm._m(3, false, false),
     _vm._v(" "),
     _c(
       "div",
@@ -38882,7 +38978,7 @@ var render = function() {
                   },
                   [
                     _c("img", {
-                      staticClass: "w-full rounded-t-4px",
+                      staticClass: "w-full rounded-t-4px h-pc-226",
                       attrs: { src: "/images/i-" + medical + ".png" }
                     }),
                     _vm._v(" "),
@@ -38941,7 +39037,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "swiper-button-next" }),
         _vm._v(" "),
-        _vm._m(3, false, false)
+        _vm._m(4, false, false)
       ],
       1
     )
@@ -38952,226 +39048,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "mt-pc-92 text-center pb-pc-27" }, [
-        _c("h6", { staticClass: "text-3xl font-medium" }, [_vm._v("医院动态")]),
-        _vm._v(" "),
-        _c(
-          "p",
-          {
-            staticClass:
-              "text-1xs text-grey mt-pc-6 pb-pc-27 border-b-2 border-blue inline"
-          },
-          [_vm._v("Hospital News")]
-        )
-      ]),
+    return _c("div", { staticClass: "mt-pc-92 text-center pb-pc-27" }, [
+      _c("h6", { staticClass: "text-3xl font-medium" }, [_vm._v("医院动态")]),
       _vm._v(" "),
       _c(
-        "div",
+        "p",
         {
           staticClass:
-            "mt-pc-50 flex items-center justify-between flex-col m-1 md:m-pc-50 md:flex-row md:h-pc-403"
+            "text-1xs text-grey mt-pc-6 pb-pc-27 border-b-2 border-blue inline"
         },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "h-full md:w-pc-540 flex justify-between flex-col w-full"
-            },
-            [
-              _c("img", {
-                attrs: { src: "https://lorempixel.com/540/263/?99222", alt: "" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex items-center mt-1 md:mt-0" }, [
-                _c(
-                  "h4",
-                  {
-                    staticClass:
-                      "hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4"
-                  },
-                  [_vm._v("关于庆春院区10KV配电系统预防性试验")]
-                ),
-                _vm._v(" "),
-                _c("span", { staticClass: "text-grey-darkest text-xs" }, [
-                  _vm._v("2017/06/08")
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  staticClass:
-                    "text-grey-darker text-xs leading-loose h-m-6 overflow-hidden mt-1 md:mt-0"
-                },
-                [
-                  _vm._v(
-                    "各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下"
-                  )
-                ]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "h-full w-full md:w-pc-540 justify-around flex items-center md:justify-between  flex-col"
-            },
-            [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "h-pc-98 w-full flex items-center justify-between"
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-1/4 md:w-pc-98",
-                    attrs: { src: "https://lorempixel.com/98/98/?99222" }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0"
-                    },
-                    [
-                      _c("span", { staticClass: "text-grey-darkest text-xs" }, [
-                        _vm._v("2017/06/08")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "h4",
-                        {
-                          staticClass:
-                            "hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4"
-                        },
-                        [_vm._v("关于庆春院区10KV配电系统预防性试验")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        { staticClass: "text-grey-darker text-xs truncate" },
-                        [
-                          _vm._v(
-                            "各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下"
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "h-pc-98 w-full flex items-center justify-between"
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-1/4 md:w-pc-98",
-                    attrs: { src: "https://lorempixel.com/98/98/?99222" }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0"
-                    },
-                    [
-                      _c("span", { staticClass: "text-grey-darkest text-xs" }, [
-                        _vm._v("2017/06/08")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "h4",
-                        {
-                          staticClass:
-                            "hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4"
-                        },
-                        [_vm._v("关于庆春院区10KV配电系统预防性试验")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        { staticClass: "text-grey-darker text-xs truncate" },
-                        [
-                          _vm._v(
-                            "各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下"
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "h-pc-98 w-full flex items-center justify-between"
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-1/4 md:w-pc-98",
-                    attrs: { src: "https://lorempixel.com/98/98/?99222" }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0"
-                    },
-                    [
-                      _c("span", { staticClass: "text-grey-darkest text-xs" }, [
-                        _vm._v("2017/06/08")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "h4",
-                        {
-                          staticClass:
-                            "hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4"
-                        },
-                        [_vm._v("关于庆春院区10KV配电系统预防性试验")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        { staticClass: "text-grey-darker text-xs truncate" },
-                        [
-                          _vm._v(
-                            "各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下"
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              )
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "mt-1 md:mt-pc-50 text-center" }, [
-        _c(
-          "span",
-          {
-            staticClass:
-              "block mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center"
-          },
-          [_vm._v("MORE")]
-        )
+        [_vm._v("Hospital News")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mt-1 md:mt-pc-50 text-center" }, [
+      _c("a", { staticClass: "more", attrs: { href: "/dynamics" } }, [
+        _vm._v("MORE")
       ])
     ])
   },
@@ -39207,14 +39103,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "mt-1 md:mt-pc-50 text-center" }, [
-      _c(
-        "span",
-        {
-          staticClass:
-            "block mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center"
-        },
-        [_vm._v("MORE")]
-      )
+      _c("a", { staticClass: "more", attrs: { href: "/dynamics" } }, [
+        _vm._v("MORE")
+      ])
     ])
   }
 ]
@@ -39289,10 +39180,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        return {};
+        return {
+            introduce: window.App.configs.introduce
+        };
     }
 });
 
@@ -39304,24 +39201,38 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0, false, false)
+  return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
+    _vm._m(0, false, false),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass:
+          "container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter"
+      },
+      [
+        _c("div", {
+          staticClass: "max-w-full m-1",
+          domProps: { innerHTML: _vm._s(_vm.introduce) }
+        })
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
-      _c("div", { staticClass: "container h-full mt-pc-50" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0"
-          },
-          [_vm._v("医院介绍")]
-        )
-      ])
+    return _c("div", { staticClass: "container h-full mt-pc-50" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "border-l-4 border-blue h-pc-37 text-lg pl-4 md:pl-pc-27 flex items-center mx-4 md:mx-0"
+        },
+        [_vm._v("医院介绍")]
+      )
     ])
   }
 ]
@@ -41030,8 +40941,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            configs: window.App.configs
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        setTimeout(function () {
+            var center = new qq.maps.LatLng(_this.configs.lat, _this.configs.lng);
+            var map = new qq.maps.Map(document.getElementById("map"), {
+                center: center,
+                zoom: 18
+            });
+            var marker = new qq.maps.Marker({
+                position: center,
+                map: map
+            });
+        }, 1000);
+    }
+});
 
 /***/ }),
 /* 73 */
@@ -41041,136 +40974,152 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0, false, false)
+  return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
+    _c("div", { staticClass: "container bg-brand" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex items-center flex-col md:flex-row py-pc-20 relative bg-white z-10 shadow-md"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex-1 flex items-center flex-col justify-center md:border-r md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
+            },
+            [
+              _c("h4", { staticClass: "text-2xl font-normal" }, [
+                _vm._v("全国服务热线")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-xl font-normal mt-pc-10" }, [
+                _vm._v(_vm._s(_vm.configs.phone))
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex-1 flex items-start justify-around flex-col h-pc-165 px-pc-50"
+            },
+            [
+              _c("h4", { staticClass: "text-xl font-normal" }, [
+                _vm._v(_vm._s(_vm.configs.site_title))
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                { staticClass: "text-sm text-grey-darker flex items-center" },
+                [
+                  _c("img", {
+                    staticClass: "mr-px",
+                    attrs: {
+                      src: "/images/phone.png",
+                      width: "16",
+                      height: "16"
+                    }
+                  }),
+                  _vm._v(_vm._s(_vm.configs.phone))
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "p",
+                { staticClass: "text-sm text-grey-darker flex items-center" },
+                [
+                  _c("img", {
+                    staticClass: "mr-px",
+                    attrs: {
+                      src: "/images/address.png",
+                      width: "16",
+                      height: "16"
+                    }
+                  }),
+                  _vm._v(_vm._s(_vm.configs.address))
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "p",
+                { staticClass: "text-sm text-grey-darker flex items-center" },
+                [
+                  _c("img", {
+                    staticClass: "mr-px",
+                    attrs: { src: "/images/e.png", width: "16", height: "16" }
+                  }),
+                  _vm._v(_vm._s(_vm.configs.url))
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "p",
+                { staticClass: "text-sm text-grey-darker flex items-center" },
+                [
+                  _c("img", {
+                    staticClass: "mr-px",
+                    attrs: {
+                      src: "/images/mail.png",
+                      width: "16",
+                      height: "16"
+                    }
+                  }),
+                  _vm._v(_vm._s(_vm.configs.mail))
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex-1 flex items-center justify-around md:border-l md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
+            },
+            [
+              _vm._m(0, false, false),
+              _vm._v(" "),
+              _c("img", { attrs: { src: _vm.configs.qrcode, alt: "" } })
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm._m(1, false, false)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center w-full flex-col" }, [
-      _c("div", { staticClass: "container bg-brand" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "flex items-center flex-col md:flex-row py-pc-20 relative bg-white z-10 shadow-md"
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "flex-1 flex items-center flex-col justify-center md:border-r md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
-              },
-              [
-                _c("h4", { staticClass: "text-2xl font-normal" }, [
-                  _vm._v("全国服务热线")
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "text-xl font-normal mt-pc-10" }, [
-                  _vm._v("400-000-000")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "flex-1 flex items-start justify-around flex-col h-pc-165 px-pc-50"
-              },
-              [
-                _c("h4", { staticClass: "text-xl font-normal" }, [
-                  _vm._v("宁波鄞州肛肠医院")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  { staticClass: "text-sm text-grey-darker flex items-center" },
-                  [
-                    _c("img", {
-                      staticClass: "mr-px",
-                      attrs: { src: "/images/phone.png", alt: "" }
-                    }),
-                    _vm._v("400-000-000")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  { staticClass: "text-sm text-grey-darker flex items-center" },
-                  [
-                    _c("img", {
-                      staticClass: "mr-px",
-                      attrs: { src: "/images/address.png", alt: "" }
-                    }),
-                    _vm._v("浙江省杭州市拱墅区乐富智慧园10栋4楼")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  { staticClass: "text-sm text-grey-darker flex items-center" },
-                  [
-                    _c("img", {
-                      staticClass: "mr-px",
-                      attrs: { src: "/images/e.png", alt: "" }
-                    }),
-                    _vm._v("www.nbyzgc.com")
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  { staticClass: "text-sm text-grey-darker flex items-center" },
-                  [
-                    _c("img", {
-                      staticClass: "mr-px",
-                      attrs: { src: "/images/mail.png", alt: "" }
-                    }),
-                    _vm._v("1231321312@qq.com")
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "flex-1 flex items-center justify-around md:border-l md:border-grey-dark h-pc-165 px-pc-50 md:px-0 w-full md:max-w-full"
-              },
-              [
-                _c(
-                  "div",
-                  { staticClass: "flex items-cetner flex-col justify-center" },
-                  [
-                    _c(
-                      "h4",
-                      { staticClass: "text-base font-normal text-grey-darker" },
-                      [_vm._v("微信添加")]
-                    ),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "text-sm mt-pc-10 text-center" }, [
-                      _vm._v("扫一扫")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("img", { attrs: { src: "/images/ewm.png", alt: "" } })
-              ]
-            )
-          ]
-        ),
+    return _c(
+      "div",
+      { staticClass: "flex items-cetner flex-col justify-center" },
+      [
+        _c("h4", { staticClass: "text-base font-normal text-grey-darker" }, [
+          _vm._v("微信添加")
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "mt-pc-40 h-pc-470 bg-white shadow-md" }, [
-          _c("img", {
-            staticClass: "py-pc-33 px-pc-50",
-            attrs: { src: "/images/slider-bg-1.png", height: "100%" }
-          })
+        _c("p", { staticClass: "text-sm mt-pc-10 text-center" }, [
+          _vm._v("扫一扫")
         ])
-      ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mt-pc-40 h-pc-470 bg-white shadow-md" }, [
+      _c("div", {
+        staticClass: "py-pc-33 px-pc-50 h-full",
+        attrs: { id: "map" }
+      })
     ])
   }
 ]

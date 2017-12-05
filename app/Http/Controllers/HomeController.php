@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dynamic;
+
 class HomeController extends Controller
 {
     /**
@@ -21,7 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $dynamics = Dynamic::latest('click_num')->take(4)->get();
+        return view('home', compact('dynamics'));
     }
 
     /**

@@ -8,42 +8,26 @@
             </div>
             <div class="mt-pc-50 flex items-center justify-between flex-col m-1 md:m-pc-50 md:flex-row md:h-pc-403">
                 <div class="h-full md:w-pc-540 flex justify-between flex-col w-full">
-                    <img src="https://lorempixel.com/540/263/?99222" alt="">
+                    <img :src="dynamics[0].image" alt="">
                     <div class="flex items-center mt-1 md:mt-0">
-                        <h4 class="hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">关于庆春院区10KV配电系统预防性试验</h4>
-                        <span class="text-grey-darkest text-xs">2017/06/08</span>
+                        <a :href="`/dynamics/${dynamics[0].id}`" class="no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">{{ dynamics[0].title }}</a>
+                        <span class="text-grey-darkest text-xs">{{ dynamics[0].created_at }}</span>
                     </div>
-                    <p class="text-grey-darker text-xs leading-loose h-m-6 overflow-hidden mt-1 md:mt-0">各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下</p>
+                    <p class="text-grey-darker text-xs leading-loose h-m-6 overflow-hidden mt-1 md:mt-0">{{ dynamics[0].desc }}</p>
                 </div>
-                <div class="h-full w-full md:w-pc-540 justify-around flex items-center md:justify-between  flex-col">
-                    <div class="h-pc-98 w-full flex items-center justify-between">
-                        <img src="https://lorempixel.com/98/98/?99222" class="w-1/4 md:w-pc-98">
+                <div class="h-full w-full md:w-pc-540 justify-around flex items-center md:justify-between flex-col">
+                    <div v-for="(dynamic, index) in dynamics" :key="index" v-if="index > 0" class="h-pc-98 w-full flex items-center justify-between">
+                        <img :src="dynamic.image" class="w-1/4 md:w-pc-98">
                         <div class="w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0">
-                            <span class="text-grey-darkest text-xs">2017/06/08</span>
-                            <h4 class="hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">关于庆春院区10KV配电系统预防性试验</h4>
-                            <p class="text-grey-darker text-xs truncate">各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下</p>
-                        </div>
-                    </div>
-                    <div class="h-pc-98 w-full flex items-center justify-between">
-                        <img src="https://lorempixel.com/98/98/?99222" class="w-1/4 md:w-pc-98">
-                        <div class="w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0">
-                            <span class="text-grey-darkest text-xs">2017/06/08</span>
-                            <h4 class="hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">关于庆春院区10KV配电系统预防性试验</h4>
-                            <p class="text-grey-darker text-xs truncate">各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下</p>
-                        </div>
-                    </div>
-                    <div class="h-pc-98 w-full flex items-center justify-between">
-                        <img src="https://lorempixel.com/98/98/?99222" class="w-1/4 md:w-pc-98">
-                        <div class="w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0">
-                            <span class="text-grey-darkest text-xs">2017/06/08</span>
-                            <h4 class="hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">关于庆春院区10KV配电系统预防性试验</h4>
-                            <p class="text-grey-darker text-xs truncate">各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，各位尊敬的客户：您好：根据国家法定假期的规定，并结合公司实际情况，现对端午节放假做出安排，具体如下</p>
+                            <span class="text-grey-darkest text-xs">{{ dynamic.created_at }}</span>
+                            <a :href="`/dynamics/${dynamic.id}`" class="no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">{{ dynamic.title }}</a>
+                            <p class="text-grey-darker text-xs truncate">{{ dynamic.desc }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mt-1 md:mt-pc-50 text-center">
-                <span class="block mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center">MORE</span>
+                <a class="more" href="/dynamics">MORE</a>
             </div>
             
         </div>
@@ -63,7 +47,7 @@
             <swiper :options="medicalOptions" class="w-11/12">
                 <swiper-slide v-for = "(medical, index) in medicals" :key="index" class="h-pc-470 flex items-center justify-center">
                     <div class="border-blue border md:w-pc-350 flex flex-col justify-between h-pc-470 rounded-4px">
-                        <img :src="`/images/i-${medical}.png`" class="w-full rounded-t-4px">
+                        <img :src="`/images/i-${medical}.png`" class="w-full rounded-t-4px h-pc-226">
                         <div class="flex flex-col items-center justify-center">
                             <img :src="`/images/icon-${medical}.png`" alt="">
                             <span class="text-blue text-lg mt-pc-10">经验</span>
@@ -80,7 +64,7 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
             <div class="mt-1 md:mt-pc-50 text-center">
-                <span class="block mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center">MORE</span>
+                <a class="more" href="/dynamics">MORE</a>
             </div>
         </div>
     </div>
@@ -91,7 +75,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 export default {
-    props: [''],
+    props: ['attributes'],
     data () {
         return {
             medicalOptions: {
@@ -103,6 +87,7 @@ export default {
                 loop : true,
             },
             medicals: [1, 2, 3],
+            dynamics: this.attributes
         }
     },
     components: {
@@ -114,5 +99,8 @@ export default {
             this.medicalOptions.slidesPerView = 1
         }
     },
+    methods: {
+
+    }
 }
 </script>

@@ -41,7 +41,8 @@ const app = new Vue({
                 },
                 loop : true,
             },
-            swiperSlides: [1, 2, 3, 4, 5],
+            swiperSlides: window.App.banners,
+            configs: window.App.configs
         }
     },
     components: {

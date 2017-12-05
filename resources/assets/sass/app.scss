@@ -95,4 +95,14 @@ table tr td, th {
         margin-bottom: 30px;
     }
 }
+
+.banner-button {
+    @apply absolute bg-blue text-white text-lg font-normal shadow p-pc-10 rounded-4px;
+    top: 60%;
+    left: 20%;
+}
+
+.more {
+    @apply mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center no-underline;
+}
  

@@ -9,8 +9,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <script>
+        window.App = <?php echo json_encode([
+            'user' => Auth::user(),
+            'signedIn' => Auth::check(),
+            'banners' => App\Models\Banner::latest()->get(),
+            'configs' => App\Models\Config::all()->pluck('contact', 'slug')
+        ]); ?>
+    </script>
     <!-- Styles -->
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=TPDBZ-6CC3P-RLDDE-VOYUL-DIKDQ-PHBS7"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-brand h-screen font-sans">
@@ -21,7 +29,7 @@
                 <div class="flex items-center justify-end md:h-pc-131 h-full">
                     <div class="md:absolute pin-l md:ml-pc-200 m-1 md:m-0 h-full flex items-center">
                         <a href="{{ url('/home') }}" class="no-underline">
-                            <img src="/images/logo-long.png" class="w-3/4">
+                            <img :src="configs.logo" class="w-3/4">
                         </a>
                         <div class="block md:hidden"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
                     </div>
@@ -49,7 +57,10 @@
         <div class="flex items-center w-full flex-col">
             <div class="w-full">
                 <swiper :options="bannerOptions">
-                    <swiper-slide v-for="(slide, index) in swiperSlides" :key="index"><img src="/images/slider-bg-1.png" alt=""></swiper-slide>
+                    <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
+                        <img src="/images/slider-bg-1.png" alt="">
+                        <button class="banner-button" type="button" v-html="slide.title"></button>
+                    </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>
             </div>
@@ -58,16 +69,15 @@
         <footer class="container mx-auto md:mt-pc-176">
             <div class="flex md:flex-row justify-between flex-col m-4 md:m-0">
                 <div class="flex flex-row md:pl-pc-50 md:w-pc-540 w-full justify-between">
-                    <img src="/images/f-1.png" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
-                    <img src="/images/f-2.png" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="configs.bottom_logo" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="configs.qrcode" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
                 </div>
                 <div class="md:w-pc-540 md:text-lg text-xs text-grey-darker leading-normal flex flex-col justify-center">
-                    <p>地址：杭州市</p>
-                    <p>电话：0571-56624893</p>
-                    <p>版权所有：XXXX</p>
-                    <p>宁波鄞州肛肠牙科医院</p>
-                    <p>传真：0571-56624893</p>
-                    <p>邮箱：xx@163.com</p>
+                    <p>@{{ configs.site_title }}</p>
+                    <p>地址：@{{ configs.address }}</p>
+                    <p>电话：@{{ configs.phone }}</p>
+                    <p>网址：@{{ configs.url }}</p>
+                    <p>邮箱：@{{ configs.mail }}</p>
                 </div>
             </div>
             <div class="mt-4 md:mt-pc-50 h-pc-60 border-t border-grey-dark text-grey-dark text-base text-center flex flex-col md:flex-row items-center justify-center">
