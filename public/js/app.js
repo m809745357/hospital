@@ -41082,7 +41082,7 @@ var render = function() {
             [
               _vm._m(0, false, false),
               _vm._v(" "),
-              _c("img", { attrs: { src: _vm.configs.qrcode, alt: "" } })
+              _c("img", { attrs: { src: "/" + _vm.configs.qrcode, alt: "" } })
             ]
           )
         ]
