@@ -59,7 +59,7 @@ var colors = {
   'white-lightest': '#f4f4f4',
 
   'blue-darkest': '#357bed',
-  'blue-darker': '#103d60',
+  'blue-darker': '#0085e0',
   'blue-dark': '#2779bd',
   'blue': '#3490dc',
   'blue-light': '#dff2ff',

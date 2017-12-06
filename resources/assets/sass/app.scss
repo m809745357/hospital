@@ -112,10 +112,11 @@ th {
 
 .user-index {
     margin: 0 0.3333rem;
+    padding-top: 0.5067rem;
     @apply max-w-full text-grey-dark text-sm;
     .from-group {
         height: 1.16rem;
-        padding: 0 0.4rem;
+        padding: 0 0.4133rem;
         margin-bottom: 0.2667rem;
         @apply bg-grey-lighter flex flex-row items-center justify-between;
 
@@ -127,9 +128,91 @@ th {
             height: 1.16rem;
             @apply bg-grey-lighter flex-1 w-full;
         }
+
+        a {
+            @apply no-underline text-blue-darker;
+        }
     }
     button {
         height: 1.16rem;
         @apply bg-blue mx-auto w-full text-white text-sm shadow;
+    }
+}
+.parcel-index {
+    font-size: 14px;
+
+    .parcel-menu {
+        height: 0.9333rem;
+        line-height: 0.9333rem;
+        @apply flex items-center justify-around border-b border-grey-lighter;
+
+        a {
+            width: 2rem;
+            @apply no-underline text-blue text-center;
+
+            &.on {
+                @apply border-b border-blue;
+            }
+        }
+    }
+
+    .parcel-date {
+        height: 0.9333rem;
+        @apply flex items-center justify-center border-b border-grey-lighter;
+    }
+
+    .parcel-contact {
+        @apply flex flex-row;
+
+        .parcel-channel {
+            width: 2.1333rem;
+            @apply border-r border-grey-lighter;
+            
+            li {
+                list-style: none;
+                height: 1.4267rem;
+                text-align: center;
+                line-height: 1.4267rem;
+                @apply bg-grey-lightest border-b border-grey-lighter;
+            }
+        }
+
+        .parcel-food {
+            @apply flex-1 flex flex-col;
+            
+            .parcel-food-channel {
+
+                @apply flex flex-col;
+
+                .parcel-food-contact {
+                    height: 2.32rem;
+                    padding: 0 0.3733rem;
+
+                    @apply flex flex-row items-center border-b border-grey-lighter;
+
+                    img {
+                        width: 1.52rem;
+                        height: 1.52rem;
+                        margin-right: 0.3733rem;
+                    }
+
+                    .parcel-food-desc {
+                        height: 2.32rem;
+                        width: 2.6667rem;
+                        @apply overflow-hidden flex flex-col items-start justify-center;
+
+                        h4 {
+                            width: 2.6667rem;
+                            @apply font-normal truncate;
+                        }
+                        p {
+                            height: 2em;
+                            line-height: 1em;
+                            overflow: hidden;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

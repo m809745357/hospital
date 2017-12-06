@@ -9,6 +9,28 @@ require('./bootstrap');
 
 require('amfe-flexible');
 
+window.moment = require('moment');
+window.moment.locale('zh-cn');
+// moment.updateLocale('en', {
+//     relativeTime: {
+//         future: "在 %s",
+//         past: "%s 前",
+//         s: '1 秒',
+//         ss: '%d 秒',
+//         m: "1 分钟",
+//         mm: "%d 分钟",
+//         h: "1 小时",
+//         hh: "%d 小时",
+//         d: "1 天",
+//         dd: "%d 天",
+//         M: "1 月",
+//         MM: "%d 月",
+//         y: "1 年",
+//         yy: "%d 年"
+//     }
+// });
+
+
 window.Vue = require('vue');
 
 /**
@@ -16,7 +38,8 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('UserIndex', require('./pages/UserIndex.vue'));
+Vue.component('user-index', require('./pages/UserIndex.vue'));
+Vue.component('parcel-index', require('./pages/ParcelIndex.vue'));
 
 const app = new Vue({
     el: '#app',

@@ -620,7 +620,7 @@ button,
 }
 
 .bg-blue-darker {
-  background-color: #103d60;
+  background-color: #0085e0;
 }
 
 .bg-blue-dark {
@@ -756,7 +756,7 @@ button,
 }
 
 .hover\:bg-blue-darker:hover {
-  background-color: #103d60;
+  background-color: #0085e0;
 }
 
 .hover\:bg-blue-dark:hover {
@@ -952,7 +952,7 @@ button,
 }
 
 .border-blue-darker {
-  border-color: #103d60;
+  border-color: #0085e0;
 }
 
 .border-blue-dark {
@@ -1088,7 +1088,7 @@ button,
 }
 
 .hover\:border-blue-darker:hover {
-  border-color: #103d60;
+  border-color: #0085e0;
 }
 
 .hover\:border-blue-dark:hover {
@@ -3701,7 +3701,7 @@ button,
 }
 
 .text-blue-darker {
-  color: #103d60;
+  color: #0085e0;
 }
 
 .text-blue-dark {
@@ -3837,7 +3837,7 @@ button,
 }
 
 .hover\:text-blue-darker:hover {
-  color: #103d60;
+  color: #0085e0;
 }
 
 .hover\:text-blue-dark:hover {
@@ -4449,6 +4449,7 @@ th {
 
 .user-index {
   margin: 0 0.3333rem;
+  padding-top: 0.5067rem;
   max-width: 100%;
   color: #a9a9a9;
   font-size: 14px;
@@ -4456,7 +4457,7 @@ th {
 
 .user-index .from-group {
   height: 1.16rem;
-  padding: 0 0.4rem;
+  padding: 0 0.4133rem;
   margin-bottom: 0.2667rem;
   background-color: #ececec;
   display: -webkit-box;
@@ -4487,6 +4488,11 @@ th {
   width: 100%;
 }
 
+.user-index .from-group a {
+  text-decoration: none;
+  color: #0085e0;
+}
+
 .user-index button {
   height: 1.16rem;
   background-color: #3490dc;
@@ -4497,6 +4503,157 @@ th {
   font-size: 14px;
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+}
+
+.parcel-index {
+  font-size: 14px;
+}
+
+.parcel-index .parcel-menu {
+  height: 0.9333rem;
+  line-height: 0.9333rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.parcel-index .parcel-menu a {
+  width: 2rem;
+  text-decoration: none;
+  color: #3490dc;
+  text-align: center;
+}
+
+.parcel-index .parcel-menu a.on {
+  border-bottom-width: 1px;
+  border-color: #3490dc;
+}
+
+.parcel-index .parcel-date {
+  height: 0.9333rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.parcel-index .parcel-contact {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.parcel-index .parcel-contact .parcel-channel {
+  width: 2.1333rem;
+  border-right-width: 1px;
+  border-color: #ececec;
+}
+
+.parcel-index .parcel-contact .parcel-channel li {
+  list-style: none;
+  height: 1.4267rem;
+  text-align: center;
+  line-height: 1.4267rem;
+  background-color: #f5f5f5;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.parcel-index .parcel-contact .parcel-food {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel .parcel-food-contact {
+  height: 2.32rem;
+  padding: 0 0.3733rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel .parcel-food-contact img {
+  width: 1.52rem;
+  height: 1.52rem;
+  margin-right: 0.3733rem;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel .parcel-food-contact .parcel-food-desc {
+  height: 2.32rem;
+  width: 2.6667rem;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel .parcel-food-contact .parcel-food-desc h4 {
+  width: 2.6667rem;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.parcel-index .parcel-contact .parcel-food .parcel-food-channel .parcel-food-contact .parcel-food-desc p {
+  height: 2em;
+  line-height: 1em;
+  overflow: hidden;
 }
 
 @media (min-width: 576px) {
@@ -4572,7 +4729,7 @@ th {
   }
 
   .sm\:bg-blue-darker {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .sm\:bg-blue-dark {
@@ -4708,7 +4865,7 @@ th {
   }
 
   .sm\:hover\:bg-blue-darker:hover {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .sm\:hover\:bg-blue-dark:hover {
@@ -4904,7 +5061,7 @@ th {
   }
 
   .sm\:border-blue-darker {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .sm\:border-blue-dark {
@@ -5040,7 +5197,7 @@ th {
   }
 
   .sm\:hover\:border-blue-darker:hover {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .sm\:hover\:border-blue-dark:hover {
@@ -7645,7 +7802,7 @@ th {
   }
 
   .sm\:text-blue-darker {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .sm\:text-blue-dark {
@@ -7781,7 +7938,7 @@ th {
   }
 
   .sm\:hover\:text-blue-darker:hover {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .sm\:hover\:text-blue-dark:hover {
@@ -8350,7 +8507,7 @@ th {
   }
 
   .md\:bg-blue-darker {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .md\:bg-blue-dark {
@@ -8486,7 +8643,7 @@ th {
   }
 
   .md\:hover\:bg-blue-darker:hover {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .md\:hover\:bg-blue-dark:hover {
@@ -8682,7 +8839,7 @@ th {
   }
 
   .md\:border-blue-darker {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .md\:border-blue-dark {
@@ -8818,7 +8975,7 @@ th {
   }
 
   .md\:hover\:border-blue-darker:hover {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .md\:hover\:border-blue-dark:hover {
@@ -11423,7 +11580,7 @@ th {
   }
 
   .md\:text-blue-darker {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .md\:text-blue-dark {
@@ -11559,7 +11716,7 @@ th {
   }
 
   .md\:hover\:text-blue-darker:hover {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .md\:hover\:text-blue-dark:hover {
@@ -12128,7 +12285,7 @@ th {
   }
 
   .lg\:bg-blue-darker {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .lg\:bg-blue-dark {
@@ -12264,7 +12421,7 @@ th {
   }
 
   .lg\:hover\:bg-blue-darker:hover {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .lg\:hover\:bg-blue-dark:hover {
@@ -12460,7 +12617,7 @@ th {
   }
 
   .lg\:border-blue-darker {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .lg\:border-blue-dark {
@@ -12596,7 +12753,7 @@ th {
   }
 
   .lg\:hover\:border-blue-darker:hover {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .lg\:hover\:border-blue-dark:hover {
@@ -15201,7 +15358,7 @@ th {
   }
 
   .lg\:text-blue-darker {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .lg\:text-blue-dark {
@@ -15337,7 +15494,7 @@ th {
   }
 
   .lg\:hover\:text-blue-darker:hover {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .lg\:hover\:text-blue-dark:hover {
@@ -15906,7 +16063,7 @@ th {
   }
 
   .xl\:bg-blue-darker {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .xl\:bg-blue-dark {
@@ -16042,7 +16199,7 @@ th {
   }
 
   .xl\:hover\:bg-blue-darker:hover {
-    background-color: #103d60;
+    background-color: #0085e0;
   }
 
   .xl\:hover\:bg-blue-dark:hover {
@@ -16238,7 +16395,7 @@ th {
   }
 
   .xl\:border-blue-darker {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .xl\:border-blue-dark {
@@ -16374,7 +16531,7 @@ th {
   }
 
   .xl\:hover\:border-blue-darker:hover {
-    border-color: #103d60;
+    border-color: #0085e0;
   }
 
   .xl\:hover\:border-blue-dark:hover {
@@ -18979,7 +19136,7 @@ th {
   }
 
   .xl\:text-blue-darker {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .xl\:text-blue-dark {
@@ -19115,7 +19272,7 @@ th {
   }
 
   .xl\:hover\:text-blue-darker:hover {
-    color: #103d60;
+    color: #0085e0;
   }
 
   .xl\:hover\:text-blue-dark:hover {

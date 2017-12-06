@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
+    "moment": "^2.19.3",
     "tailwindcss": "^0.3.0",
     "vue-awesome-swiper": "^3.0.2"
   }

@@ -27,3 +27,8 @@ Route::get('/report', 'HomeController@report')->name('report');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/user', 'UserController@index')->name('user.index');
+Route::post('/user', 'UserController@update')->name('user.update');
+Route::post('/sms', 'MobileController@store')->name('sms.store');
+Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
+
+Route::get('/parcels', 'ParcelController@index')->name('parcel.index');
