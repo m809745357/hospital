@@ -144,7 +144,7 @@ th {
     .parcel-menu {
         height: 0.9333rem;
         line-height: 0.9333rem;
-        @apply flex items-center justify-around border-b border-grey-lighter;
+        @apply flex items-center justify-around border-b border-grey-lighter bg-white relative z-10;
 
         a {
             width: 2rem;
@@ -158,7 +158,7 @@ th {
 
     .parcel-date {
         height: 0.9333rem;
-        @apply flex items-center justify-center border-b border-grey-lighter;
+        @apply flex items-center justify-center border-b border-grey-lighter bg-white relative z-10;
     }
 
     .parcel-contact {
@@ -166,6 +166,7 @@ th {
 
         .parcel-channel {
             width: 2.1333rem;
+            height: calc(100vh - 3.1199rem);
             @apply border-r border-grey-lighter;
             
             li {
@@ -178,17 +179,26 @@ th {
         }
 
         .parcel-food {
+            height: calc(100vh - 3.1199rem);
             @apply flex-1 flex flex-col;
             
             .parcel-food-channel {
 
                 @apply flex flex-col;
 
+                .parcel-food-title {
+                    margin: 0 0.3733rem;
+                    @apply border-b border-grey-lighter;
+
+                    strong {
+                        margin-right: 0.1333rem;
+                    }
+                }
+
                 .parcel-food-contact {
                     height: 2.32rem;
                     padding: 0 0.3733rem;
-
-                    @apply flex flex-row items-center border-b border-grey-lighter;
+                    @apply flex flex-row items-center;
 
                     img {
                         width: 1.52rem;
@@ -198,21 +208,197 @@ th {
 
                     .parcel-food-desc {
                         height: 2.32rem;
-                        width: 2.6667rem;
-                        @apply overflow-hidden flex flex-col items-start justify-center;
+                        // width: 2.6667rem;
+                        @apply flex-1 overflow-hidden flex flex-col items-start justify-center;
 
                         h4 {
                             width: 2.6667rem;
-                            @apply font-normal truncate;
+                            @apply truncate;
                         }
                         p {
                             height: 2em;
                             line-height: 1em;
                             overflow: hidden;
                         }
+                        .parcel-food-footer {
+                            @apply w-full flex flex-row justify-between items-center;
+
+                            span {
+                                @apply text-orange-dark font-normal;
+                            }
+
+                            .parcel-food-options {
+                                @apply flex flex-row items-center justify-center;
+        
+                                .plus, .reduce {
+                                    width: 0.5867rem;
+                                    height: 0.5867rem;
+                                    margin: 0;
+                                }
+        
+                                span {
+                                    width: 1.1467rem;
+                                    @apply inline-block text-center text-grey-dark;
+                                }
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
+
+    .parcel-footer {
+        height: 1.2533rem;
+        @apply fixed pin-b bg-white flex flex-row items-center justify-between z-30;
+
+        .parcel-cart {
+            @apply flex flex-row items-center justify-between;
+            
+            .parcel-cart-img {
+                left: 0.2267rem;
+                bottom: 0.1733rem;
+                @apply relative;
+
+                &::after {
+                    content: attr(data-count);
+                    width: 0.4rem;
+                    height: 0.4rem;
+                    top: 0.1rem;
+                    right: 0.1rem;
+                    font-size: 10px;
+                    @apply absolute block rounded bg-orange-dark text-white flex items-center justify-center;
+                }
+
+                img {
+                    width: 1.4133rem;
+                    height: 1.4133rem;
+                }
+            }
+
+            span {
+                margin-left: 0.44rem;
+                @apply text-orange-dark font-normal text-lg;
+            }
+        }
+
+        button {
+            width: 3.3333rem;
+            @apply bg-blue text-white h-full;
+        }
+    }
+}
+.parcel-detail {
+    background: rgba(95, 95, 95, 0.5);
+    @apply fixed flex items-center justify-center pin z-40;
+
+    .food-detail {
+        width: 8.4rem;
+        max-height: calc(100vh - 4.7333rem);
+        @apply bg-white flex flex-col justify-between rounded-4px;
+
+        .food-image {
+            width: 8.4rem;
+            height: 8.4rem;
+            @apply rounded-t-4px;
+        }
+
+        .food-close {
+            @apply absolute pin-r pin-t;
+        }
+
+        h4 {
+            margin: 0 0.4rem;
+            margin-top: 0.4rem;
+            @apply font-normal text-lg truncate;
+        }
+
+        p {
+            margin: 0 0.4rem;
+            margin-top: 0.4rem;
+            height: 2em;
+            line-height: 1em;
+            overflow: hidden;
+            @apply text-sm;
+        }
+
+        .food-footer {
+            margin: 0 0.4rem;
+            margin-bottom: 0.4rem;
+            margin-top: 0.1067rem;
+            @apply flex flex-row justify-between items-center;
+
+            span {
+                @apply text-lg text-orange-dark;
+            }
+
+            button {
+                padding: 0.2667rem 0.32rem;
+                @apply bg-blue text-white text-lg rounded-4px;
+            }
+        }
+    }
+}
+.cart {
+    background: rgba(95, 95, 95, 0.5);
+    @apply fixed flex items-end justify-center pin z-20;
+
+    .cart-detail {
+        margin-bottom: 1.2533rem;
+        @apply bg-white w-full;
+
+        .cart-top {
+            padding: 0 0.4rem;
+            height: 1.0667rem;
+            @apply flex flex-row justify-between items-center bg-grey-lighter;
+
+            h4 {
+                padding-left: 0.2667rem;
+                @apply border-l-4 border-blue text-lg font-normal;
+            }
+
+            span {
+                img {
+                    margin-right: 0.24rem;
+                }
+                @apply text-xs flex flex-row text-grey items-center justify-center;
+            }
+
+        }
+
+        .cart-bottom {
+            height: 0.5333rem;
+            @apply text-1xs text-center bg-grey-lighter flex items-center justify-center text-grey;
+        }
+    }
+}
+
+.cart-food-item {
+    height: 1.28rem;
+    margin: 0 0.4rem;
+    @apply flex flex-row text-sm items-center justify-between;
+
+    h4 {
+        width: 5.3333rem;
+        @apply truncate;
+    }
+
+    span {
+        @apply text-lg text-orange-dark;
+    }
+
+    .cart-food-options {
+        @apply flex flex-row items-center justify-center;
+        
+        .plus, .reduce {
+            width: 0.5867rem;
+            height: 0.5867rem;
+            margin: 0;
+        }
+        
+        span {
+            width: 1.1467rem;
+            @apply inline-block text-center text-grey-dark;
         }
     }
 }

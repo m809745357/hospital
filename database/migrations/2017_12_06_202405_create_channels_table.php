@@ -17,6 +17,7 @@ class CreateChannelsTable extends Migration
             $table->increments('id');
             $table->string('slug');
             $table->string('name');
+            $table->string('describe');
             $table->timestamps();
         });
     }

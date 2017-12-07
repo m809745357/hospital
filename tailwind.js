@@ -74,6 +74,7 @@ var colors = {
   'red-lighter': '#4ba3ea',
   'red-lightest': '#eff8ff',
 
+  'orange-dark': '#ec6a2c',
   'orange': '#fd995b',
 
   'green': '#79b668',
