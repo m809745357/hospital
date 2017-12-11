@@ -32,3 +32,6 @@ Route::post('/sms', 'MobileController@store')->name('sms.store');
 Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
 
 Route::get('/parcels', 'ParcelController@index')->name('parcel.index');
+Route::post('/orders', 'OrderController@store')->name('order.store');
+Route::get('/orders/{order}', 'OrderController@show')->name('order.show');
+Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');

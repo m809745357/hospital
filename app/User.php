@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return \App\User::where('mobile', request()->mobile)->where('id', '<>', $this->id)->exists();
     }
+
+    public function order()
+    {
+        return $this->hasMany(Models\Order::class, 'user_id');
+    }
 }

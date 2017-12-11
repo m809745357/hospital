@@ -12,8 +12,8 @@ class Food extends Model
 
     const TYPES = ['am', 'pm', 'all'];
 
-    protected function getNumAttribute()
+    protected function getNumAttribute($num)
     {
-        return '0';
+        return $num ?? 0;
     }
 }

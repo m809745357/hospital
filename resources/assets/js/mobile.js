@@ -40,6 +40,7 @@ window.Vue = require('vue');
  */
 Vue.component('user-index', require('./pages/UserIndex.vue'));
 Vue.component('parcel-index', require('./pages/ParcelIndex.vue'));
+Vue.component('order-show', require('./pages/OrderShow.vue'));
 
 const app = new Vue({
     el: '#app',

@@ -124,7 +124,7 @@ th {
             width: 1.8667rem;
         }
         
-        input {
+        input, select {
             height: 1.16rem;
             @apply bg-grey-lighter flex-1 w-full;
         }
@@ -250,7 +250,7 @@ th {
 
     .parcel-footer {
         height: 1.2533rem;
-        @apply fixed pin-b bg-white flex flex-row items-center justify-between z-30;
+        @apply fixed pin-b bg-white flex flex-row items-center justify-between z-30 border-t border-grey-lighter;
 
         .parcel-cart {
             @apply flex flex-row items-center justify-between;
@@ -310,15 +310,16 @@ th {
         h4 {
             margin: 0 0.4rem;
             margin-top: 0.4rem;
+            height: 2em;
             @apply font-normal text-lg truncate;
         }
 
         p {
             margin: 0 0.4rem;
-            margin-top: 0.4rem;
             height: 2em;
             line-height: 1em;
             overflow: hidden;
+            height: 3em;
             @apply text-sm;
         }
 
@@ -399,6 +400,86 @@ th {
         span {
             width: 1.1467rem;
             @apply inline-block text-center text-grey-dark;
+        }
+    }
+}
+.order-show {
+    margin-top: 0.5333rem;
+    @apply border-t border-grey-lighter text-sm;
+
+    h4 {
+        margin: 0 0.4rem;
+        height: 1.1067rem;
+        line-height: 1.1067rem;
+        @apply border-b border-grey-lighter;
+    }
+
+    .food-item {
+        margin: 0 0.4rem;
+        @apply flex flex-row text-sm text-grey items-center justify-between;
+
+        h4 {
+            width: 5.3333rem;
+            @apply font-normal truncate border-0 m-0;
+        }
+
+        span {
+            @apply text-grey-darkest;
+        }
+    }
+
+    .sum {
+        margin: 0 0.4rem;
+        height: 1.0933rem;
+        line-height: 1.0933rem;
+        @apply border-t border-b border-grey-lighter text-blue block text-right;
+    }
+}
+.pays {
+    padding: 0 0.4rem;
+    @apply text-sm text-grey-darkest border-b border-grey-lighter;
+
+    .pay {
+        height: 1.4133rem;
+        @apply flex flex-row justify-between items-center;
+        
+        p {
+            margin-left: 0.4rem;
+            @apply flex-1 text-left;
+        }
+    }
+
+    img {
+        width: 0.48rem;
+        height: 0.48rem;
+    }
+}
+
+.topay {
+    @apply text-center;
+    
+    button {
+        margin-top: 0.8667rem;
+        width: 3.3333rem;
+        height: 0.72rem;
+        @apply bg-blue shadow text-white text-sm;
+    }
+}
+
+.pay-model {
+    background: rgba(95, 95, 95, 0.5);
+    @apply fixed flex items-center justify-center pin z-20 text-sm;
+
+    .model-desc {
+        width: 6.6667rem;
+        height: 6.6667rem;
+        @apply bg-white shadow rounded-4px flex flex-col items-center justify-center;
+
+        button {
+            margin-top: 0.8667rem;
+            width: 3.3333rem;
+            height: 0.72rem;
+            @apply bg-blue shadow text-white text-sm;
         }
     }
 }

@@ -1,9 +1,9 @@
 <template>
-    <div class="conatiner mx-auto">
+    <div class="container mx-auto">
         <div class="parcel-index">
             <div class="parcel-menu" @touchmove="touch">
-                <a class="on" href="">午餐</a>
-                <a href="">晚餐</a>
+                <a :class="menu == 'am' ? 'on' : ''" @click="changeMenu('am')">午餐</a>
+                <a :class="menu == 'pm' ? 'on' : ''" @click="changeMenu('pm')">晚餐</a>
             </div>
             <div class="parcel-date" @touchmove="touch">{{ date }}</div>
             <div class="parcel-contact">
@@ -16,7 +16,11 @@
                     <div class="content">
                         <div class="parcel-food-channel" v-for="(channel, channel_index) in channels" :key="channel_index">
                             <div class="parcel-food-title" :id="channel.slug"><strong>{{ channel.name }}</strong>{{ channel.describe }}</div>
-                            <div class="parcel-food-contact" @click="detail(channel_index, food_index)" v-for="(food, food_index) in channel.food" :key="food_index">
+                            <div class="parcel-food-contact" 
+                                @click="detail(channel_index, food_index)" 
+                                v-for="(food, food_index) in channel.food" 
+                                v-if="food.type == menu || food.type == 'all'"
+                                :key="food_index">
                                 <img :src="food.image" alt="">
                                 <div class="parcel-food-desc">
                                     <h4>{{ food.title }}</h4>
@@ -37,12 +41,12 @@
             </div>
             <div class="parcel-footer container" @touchmove="touch">
                 <div class="parcel-cart">
-                    <div class="parcel-cart-img" :data-count="count" @click="lookCart">
+                    <div class="parcel-cart-img" :data-count="count" @click="cart = true">
                         <img src="/images/cart.png" alt="">
                     </div>
                     <span>￥ {{ money }}</span>
                 </div>
-                <button type="button">去结算</button>
+                <button type="button" @click="settle">去结算</button>
             </div>
         </div>
         <div class="parcel-detail" v-show="show" @click="show = false" @touchmove="touch">
@@ -67,7 +71,10 @@
                     </span>
                 </div>
                 <div v-for="(channel, channel_index) in channels" :key="channel_index">
-                    <div class="cart-food-item" v-for="(food, food_index) in channel.food" :key="food_index" v-if="food.num > 0">
+                    <div class="cart-food-item" 
+                        v-for="(food, food_index) in channel.food" 
+                        :key="food_index" 
+                        v-if="food.num > 0 && (food.type == menu || food.type == 'all')">
                         <h4>{{ food.title }}</h4>
                         <span>￥ {{ food.money }}</span>
                         <div class="cart-food-options">
@@ -99,7 +106,9 @@ export default {
             cart: false,
             food: {},
             channel_index: '',
-            food_index: ''
+            food_index: '',
+            menu: 'am',
+            foods: []
         }
     },
     components: {
@@ -132,12 +141,41 @@ export default {
         },
         touch() {
             event.preventDefault();
-        },
-        lookCart() {
-            this.cart = true;
+        }, 
+        changeMenu(menu) {
+            this.menu = menu;
+            this.clear();
         },
         clear() {
-            window.location.reload();
+            this.channels.map((channel, channel_index) => {
+                channel.food.map((food, food_index) => {
+                    food.num = 0;
+                })
+            })
+            this.count = 0;
+            this.money = 0;
+            this.cart = false;
+        },
+        settle() {
+            this.foods = [];
+            this.channels.map((channel, channel_index) => {
+                channel.food.map((food, food_index) => {
+                    if (food.num > 0) {
+                        this.foods.push(food);
+                    }
+                })
+            });
+            axios.post('/orders', {
+                    foods: this.foods,
+                    menu: this.menu
+                })
+                .then(response => {
+                    console.log(response);
+                    window.location.href = `/orders/${response.data.data.id}`;
+                })
+                .catch(error => {
+                    console.log(error.reponse);
+                })
         }
     }
 }

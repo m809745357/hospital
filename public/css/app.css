@@ -4503,7 +4503,8 @@ th {
   width: 1.8667rem;
 }
 
-.user-index .from-group input {
+.user-index .from-group input,
+.user-index .from-group select {
   height: 1.16rem;
   background-color: #ececec;
   -webkit-box-flex: 1;
@@ -4768,6 +4769,8 @@ th {
       -ms-flex-pack: justify;
           justify-content: space-between;
   z-index: 30;
+  border-top-width: 1px;
+  border-color: #ececec;
 }
 
 .parcel-index .parcel-footer .parcel-cart {
@@ -4886,6 +4889,7 @@ th {
 .parcel-detail .food-detail h4 {
   margin: 0 0.4rem;
   margin-top: 0.4rem;
+  height: 2em;
   font-weight: 400;
   font-size: 18px;
   overflow: hidden;
@@ -4895,10 +4899,10 @@ th {
 
 .parcel-detail .food-detail p {
   margin: 0 0.4rem;
-  margin-top: 0.4rem;
   height: 2em;
   line-height: 1em;
   overflow: hidden;
+  height: 3em;
   font-size: 14px;
 }
 
@@ -5084,6 +5088,172 @@ th {
   display: inline-block;
   text-align: center;
   color: #a9a9a9;
+}
+
+.order-show {
+  margin-top: 0.5333rem;
+  border-top-width: 1px;
+  border-color: #ececec;
+  font-size: 14px;
+}
+
+.order-show h4 {
+  margin: 0 0.4rem;
+  height: 1.1067rem;
+  line-height: 1.1067rem;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.order-show .food-item {
+  margin: 0 0.4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  font-size: 14px;
+  color: #cdcdcd;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.order-show .food-item h4 {
+  width: 5.3333rem;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-width: 0;
+  margin: 0;
+}
+
+.order-show .food-item span {
+  color: #333333;
+}
+
+.order-show .sum {
+  margin: 0 0.4rem;
+  height: 1.0933rem;
+  line-height: 1.0933rem;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+  color: #3490dc;
+  display: block;
+  text-align: right;
+}
+
+.pays {
+  padding: 0 0.4rem;
+  font-size: 14px;
+  color: #333333;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.pays .pay {
+  height: 1.4133rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.pays .pay p {
+  margin-left: 0.4rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: left;
+}
+
+.pays img {
+  width: 0.48rem;
+  height: 0.48rem;
+}
+
+.topay {
+  text-align: center;
+}
+
+.topay button {
+  margin-top: 0.8667rem;
+  width: 3.3333rem;
+  height: 0.72rem;
+  background-color: #3490dc;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.pay-model {
+  background: rgba(95, 95, 95, 0.5);
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  font-size: 14px;
+}
+
+.pay-model .model-desc {
+  width: 6.6667rem;
+  height: 6.6667rem;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  border-radius: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.pay-model .model-desc button {
+  margin-top: 0.8667rem;
+  width: 3.3333rem;
+  height: 0.72rem;
+  background-color: #3490dc;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  color: #ffffff;
+  font-size: 14px;
 }
 
 @media (min-width: 576px) {
