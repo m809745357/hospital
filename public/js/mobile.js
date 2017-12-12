@@ -48297,6 +48297,9 @@ window.Vue = __webpack_require__(34);
 Vue.component('user-index', __webpack_require__(198));
 Vue.component('parcel-index', __webpack_require__(203));
 Vue.component('order-show', __webpack_require__(213));
+Vue.component('physical-index', __webpack_require__(217));
+Vue.component('package-index', __webpack_require__(220));
+Vue.component('package-show', __webpack_require__(223));
 
 var app = new Vue({
   el: '#app'
@@ -49412,7 +49415,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
             axios.post('/orders', {
-                foods: this.foods,
+                order_details: this.foods,
+                order_details_type: 'App\\Models\\Food',
                 menu: this.menu
             }).then(function (response) {
                 console.log(response);
@@ -50494,6 +50498,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['attributes'],
@@ -50502,11 +50535,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             order: this.attributes,
             payway: this.attributes.pay_way ? this.attributes.pay_way : 'wechat',
             show: false,
-            secret: ''
+            secret: '',
+            days: [],
+            day: '',
+            time: ''
         };
+    },
+    created: function created() {
+        for (var index = 0; index < 7; index++) {
+            this.days[index] = moment().add(index, 'days').format('L');
+        }
     },
 
     methods: {
+        cancelCardPay: function cancelCardPay() {
+            this.show = false;
+            this.secret = '';
+        },
         change: function change(payway) {
             this.payway = payway;
             this.show = false;
@@ -50514,9 +50559,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         pay: function pay() {
             var _this = this;
 
-            if (this.order.order_time === '') {
+            if (this.order.order_time === '' && this.order.order_details_type == 'App\\Models\\Food') {
                 alert('请选择送餐时间');
                 return;
+            }
+            if (this.order.order_details_type == 'App\\Models\\Physical') {
+                if (this.day === '' || this.time === '') {
+                    alert('请选择体检时间');
+                    return;
+                }
+                this.order.order_time = this.day + ' ' + this.time;
             }
             if (this.payway === 'card' && this.secret === '') {
                 this.show = true;
@@ -50527,17 +50579,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 pay_way: this.payway,
                 secret: this.secret
             }).then(function (response) {
-                if (response.status === 400) {
-                    alert(response.data.data);
-                    return;
-                }
                 if (response.status === 201) {
                     _this.order = response.data.data;
                     _this.show = false;
                     return;
                 }
-                console.log(response);
+                console.log(response.status);
             }).catch(function (error) {
+                _this.cancelCardPay();
+                if (error.response.status === 400) {
+                    alert(error.response.data.data);
+                    return;
+                }
                 console.log(error.response);
             });
         }
@@ -50553,166 +50606,358 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mx-auto" }, [
-    _c("div", { staticClass: "user-index" }, [
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("订单号")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.order.out_trade_no,
-              expression: "order.out_trade_no"
-            }
-          ],
-          attrs: { type: "text", name: "out_trade_no", disabled: "" },
-          domProps: { value: _vm.order.out_trade_no },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.order, "out_trade_no", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("订餐时间")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.order.created_at,
-              expression: "order.created_at"
-            }
-          ],
-          attrs: { type: "text", name: "created_at", disabled: "" },
-          domProps: { value: _vm.order.created_at },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.order, "created_at", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("餐次")]),
-        _vm._v(" "),
-        _c("input", {
-          attrs: { type: "text", name: "remark", disabled: "" },
-          domProps: { value: _vm.order.remark == "am" ? "午餐" : "晚餐" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("送餐时间")]),
-        _vm._v(" "),
-        _vm.order.status == 1
-          ? _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.order.order_time,
-                    expression: "order.order_time"
-                  }
-                ],
-                attrs: { name: "order_time", id: "" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.order,
-                      "order_time",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "" } }, [
-                  _vm._v("请选择送餐时间")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "11:00-11:30" } }, [
-                  _vm._v("11:00-11:30")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "11:30-12:00" } }, [
-                  _vm._v("11:30-12:00")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "12:00-12:30" } }, [
-                  _vm._v("12:00-12:30")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "12:30-13:00" } }, [
-                  _vm._v("12:30-13:00")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "13:00-13:30" } }, [
-                  _vm._v("13:00-13:30")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "13:30-14:00" } }, [
-                  _vm._v("13:30-14:00")
-                ])
-              ]
-            )
-          : _c("input", {
+    _vm.order.order_details_type == "App\\Models\\Food"
+      ? _c("div", { staticClass: "user-index" }, [
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("订单号")]),
+            _vm._v(" "),
+            _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.order.order_time,
-                  expression: "order.order_time"
+                  value: _vm.order.out_trade_no,
+                  expression: "order.out_trade_no"
                 }
               ],
-              attrs: { type: "text", name: "order_time", disabled: "" },
-              domProps: { value: _vm.order.order_time },
+              attrs: { type: "text", name: "out_trade_no", disabled: "" },
+              domProps: { value: _vm.order.out_trade_no },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.order, "order_time", $event.target.value)
+                  _vm.$set(_vm.order, "out_trade_no", $event.target.value)
                 }
               }
             })
-      ])
-    ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("订餐时间")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.order.created_at,
+                  expression: "order.created_at"
+                }
+              ],
+              attrs: { type: "text", name: "created_at", disabled: "" },
+              domProps: { value: _vm.order.created_at },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.order, "created_at", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("餐次")]),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { type: "text", name: "remark", disabled: "" },
+              domProps: { value: _vm.order.remark == "am" ? "午餐" : "晚餐" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("送餐时间")]),
+            _vm._v(" "),
+            _vm.order.status == 1
+              ? _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.order.order_time,
+                        expression: "order.order_time"
+                      }
+                    ],
+                    attrs: { name: "order_time", id: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.order,
+                          "order_time",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "11:00-11:30" } }, [
+                      _vm._v("11:00-11:30")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "11:30-12:00" } }, [
+                      _vm._v("11:30-12:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "12:00-12:30" } }, [
+                      _vm._v("12:00-12:30")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "12:30-13:00" } }, [
+                      _vm._v("12:30-13:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "13:00-13:30" } }, [
+                      _vm._v("13:00-13:30")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "13:30-14:00" } }, [
+                      _vm._v("13:30-14:00")
+                    ])
+                  ]
+                )
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.order.order_time,
+                      expression: "order.order_time"
+                    }
+                  ],
+                  attrs: { type: "text", name: "order_time", disabled: "" },
+                  domProps: { value: _vm.order.order_time },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.order, "order_time", $event.target.value)
+                    }
+                  }
+                })
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.order.order_details_type == "App\\Models\\Physical"
+      ? _c("div", { staticClass: "user-index" }, [
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("订单号")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.order.out_trade_no,
+                  expression: "order.out_trade_no"
+                }
+              ],
+              attrs: { type: "text", name: "out_trade_no", disabled: "" },
+              domProps: { value: _vm.order.out_trade_no },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.order, "out_trade_no", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("订单时间")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.order.created_at,
+                  expression: "order.created_at"
+                }
+              ],
+              attrs: { type: "text", name: "created_at", disabled: "" },
+              domProps: { value: _vm.order.created_at },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.order, "created_at", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("体检时间")]),
+            _vm._v(" "),
+            _vm.order.status == 1
+              ? _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.day,
+                        expression: "day"
+                      }
+                    ],
+                    attrs: { name: "order_time", id: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.day = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.days, function(day, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: day } },
+                        [_vm._v(_vm._s(day))]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.order.status == 1
+              ? _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.time,
+                        expression: "time"
+                      }
+                    ],
+                    attrs: { name: "order_time", id: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.time = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "9:00-10:00" } }, [
+                      _vm._v("9:00-10:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "10:00-11:00" } }, [
+                      _vm._v("10:00-11:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "11:00-12:00" } }, [
+                      _vm._v("11:00-12:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "12:00-13:00" } }, [
+                      _vm._v("12:00-13:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "13:00-14:00" } }, [
+                      _vm._v("13:00-14:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "14:00-15:00" } }, [
+                      _vm._v("14:00-15:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "15:00-16:00" } }, [
+                      _vm._v("15:00-16:00")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "16:00-17:00" } }, [
+                      _vm._v("16:00-17:00")
+                    ])
+                  ]
+                )
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.order.order_time,
+                      expression: "order.order_time"
+                    }
+                  ],
+                  attrs: { type: "text", name: "order_time", disabled: "" },
+                  domProps: { value: _vm.order.order_time },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.order, "order_time", $event.target.value)
+                    }
+                  }
+                })
+          ])
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
       { staticClass: "order-show" },
       [
-        _c("h4", [_vm._v("餐品")]),
+        _c("h4", [_vm._v("订单详情")]),
         _vm._v(" "),
-        _vm._l(_vm.order.foods, function(food, index) {
+        _vm._l(_vm.order.order_details, function(detail, index) {
           return _c("div", { key: index, staticClass: "food-item" }, [
-            _c("h4", [_vm._v(_vm._s(food.title))]),
+            _c("h4", [_vm._v(_vm._s(detail.title))]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(food.num))]),
+            _c("p", [_vm._v(_vm._s(detail.num))]),
             _vm._v(" "),
-            _c("span", [_vm._v("￥ " + _vm._s(food.num * food.money) + " ")])
+            _c("span", [
+              _vm._v("￥ " + _vm._s(detail.num * detail.money) + " ")
+            ])
           ])
         }),
         _vm._v(" "),
@@ -50828,11 +51073,7 @@ var render = function() {
           }
         ],
         staticClass: "pay-model",
-        on: {
-          click: function($event) {
-            _vm.show = false
-          }
-        }
+        on: { click: _vm.cancelCardPay }
       },
       [
         _vm.payway === "card"
@@ -50906,6 +51147,1189 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-f2af5704", module.exports)
+  }
+}
+
+/***/ }),
+/* 216 */,
+/* 217 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(218)
+/* template */
+var __vue_template__ = __webpack_require__(219)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/PhysicalIndex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7e6bbdce", Component.options)
+  } else {
+    hotAPI.reload("data-v-7e6bbdce", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 218 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            departments: this.attributes,
+            date: moment().format('L'),
+            count: 0,
+            money: 0,
+            show: false,
+            cart: false,
+            physical: {},
+            department_index: '',
+            physical_index: '',
+            menu: 'am',
+            physicals: []
+        };
+    },
+
+    components: {
+        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
+    },
+    created: function created() {},
+
+    methods: {
+        changeChannel: function changeChannel(slug) {
+            this.$children[1].scrollToElement('#' + slug, 1000);
+        },
+        plus: function plus(department, physical) {
+            if (this.departments[department].physical[physical].num == 1) {
+                this.show = false;
+                return;
+            }
+            this.departments[department].physical[physical].num++;
+            this.money = this.money + this.departments[department].physical[physical].money;
+            this.count++;
+            this.show = false;
+        },
+        reduce: function reduce(department, physical) {
+            this.departments[department].physical[physical].num--;
+            this.money = this.money - this.departments[department].physical[physical].money;
+            this.count--;
+            this.show = false;
+        },
+        detail: function detail(department, physical) {
+            this.physical = this.departments[department].physical[physical];
+            this.department_index = department;
+            this.physical_index = physical;
+            this.show = true;
+        },
+        touch: function touch() {
+            event.preventDefault();
+        },
+        clear: function clear() {
+            this.departments.map(function (department, department_index) {
+                department.physical.map(function (physical, physical_index) {
+                    physical.num = 0;
+                });
+            });
+            this.count = 0;
+            this.money = 0;
+            this.cart = false;
+        },
+        settle: function settle() {
+            var _this = this;
+
+            this.physicals = [];
+            this.departments.map(function (department, department_index) {
+                department.physical.map(function (physical, physical_index) {
+                    if (physical.num > 0) {
+                        _this.physicals.push(physical);
+                    }
+                });
+            });
+            axios.post('/orders', {
+                order_details: this.physicals,
+                order_details_type: 'App\\Models\\Physical'
+            }).then(function (response) {
+                console.log(response);
+                window.location.href = '/orders/' + response.data.data.id;
+            }).catch(function (error) {
+                console.log(error.reponse);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container mx-auto" }, [
+    _c("div", { staticClass: "parcel-index" }, [
+      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
+        _c("a", { attrs: { href: "/physicals/packages" } }, [
+          _vm._v("套餐体检")
+        ]),
+        _vm._v(" "),
+        _c("a", { staticClass: "on", attrs: { href: "/physicals/single" } }, [
+          _vm._v("单列体检")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "parcel-date", on: { touchmove: _vm.touch } }, [
+        _vm._v(_vm._s(_vm.date))
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "parcel-contact" },
+        [
+          _c(
+            "scroll",
+            {
+              staticClass: "parcel-channel warpper",
+              attrs: { data: _vm.departments }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "content" },
+                _vm._l(_vm.departments, function(department, index) {
+                  return _c(
+                    "li",
+                    {
+                      key: index,
+                      on: {
+                        click: function($event) {
+                          _vm.changeChannel(department.slug)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(department.name))]
+                  )
+                })
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "scroll",
+            {
+              staticClass: "parcel-food wrapper",
+              attrs: { data: _vm.departments }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "content" },
+                _vm._l(_vm.departments, function(department, department_index) {
+                  return _c(
+                    "div",
+                    {
+                      key: department_index,
+                      staticClass: "parcel-food-channel"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "parcel-food-title",
+                          attrs: { id: department.slug }
+                        },
+                        [
+                          _c("strong", [_vm._v(_vm._s(department.name))]),
+                          _vm._v(_vm._s(department.describe))
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(department.physical, function(
+                        physical,
+                        physical_index
+                      ) {
+                        return _c(
+                          "div",
+                          {
+                            key: physical_index,
+                            staticClass: "parcel-food-contact",
+                            on: {
+                              click: function($event) {
+                                _vm.detail(department_index, physical_index)
+                              }
+                            }
+                          },
+                          [
+                            _c("img", {
+                              attrs: { src: physical.image, alt: "" }
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "parcel-food-desc" }, [
+                              _c("h4", [_vm._v(_vm._s(physical.title))]),
+                              _vm._v(" "),
+                              _c("p", [_vm._v(_vm._s(physical.desc))]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "parcel-food-footer" }, [
+                                _c("span", [
+                                  _vm._v("￥ " + _vm._s(physical.money))
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "parcel-food-options" },
+                                  [
+                                    physical.num > 0
+                                      ? _c("img", {
+                                          staticClass: "reduce",
+                                          attrs: {
+                                            src: "/images/reduce.png",
+                                            alt: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              $event.stopPropagation()
+                                              _vm.reduce(
+                                                department_index,
+                                                physical_index
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    physical.num > 0
+                                      ? _c("span", [
+                                          _vm._v(_vm._s(physical.num))
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c("img", {
+                                      staticClass: "plus",
+                                      attrs: {
+                                        src: "/images/plus.png",
+                                        alt: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          $event.stopPropagation()
+                                          _vm.plus(
+                                            department_index,
+                                            physical_index
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                })
+              )
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "parcel-footer container",
+          on: { touchmove: _vm.touch }
+        },
+        [
+          _c("div", { staticClass: "parcel-cart" }, [
+            _c(
+              "div",
+              {
+                staticClass: "parcel-cart-img",
+                attrs: { "data-count": _vm.count },
+                on: {
+                  click: function($event) {
+                    _vm.cart = true
+                  }
+                }
+              },
+              [_c("img", { attrs: { src: "/images/cart.png", alt: "" } })]
+            ),
+            _vm._v(" "),
+            _c("span", [_vm._v("￥ " + _vm._s(_vm.money))])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { attrs: { type: "button" }, on: { click: _vm.settle } },
+            [_vm._v("去结算")]
+          )
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.show,
+            expression: "show"
+          }
+        ],
+        staticClass: "parcel-detail",
+        on: {
+          click: function($event) {
+            _vm.show = false
+          },
+          touchmove: _vm.touch
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "food-detail",
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+              }
+            }
+          },
+          [
+            _c("img", {
+              staticClass: "food-close",
+              attrs: { src: "", alt: "" }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "food-image",
+              attrs: { src: _vm.physical.image, alt: "" }
+            }),
+            _vm._v(" "),
+            _c("h4", [_vm._v(_vm._s(_vm.physical.title))]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.physical.desc))]),
+            _vm._v(" "),
+            _c("div", { staticClass: "food-footer" }, [
+              _c("span", [_vm._v("￥ " + _vm._s(_vm.physical.money))]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.plus(_vm.department_index, _vm.physical_index)
+                    }
+                  }
+                },
+                [_vm._v("加入购物车")]
+              )
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.cart,
+            expression: "cart"
+          }
+        ],
+        staticClass: "cart",
+        on: {
+          click: function($event) {
+            _vm.cart = false
+          },
+          touchmove: _vm.touch
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "cart-detail",
+            on: {
+              click: function($event) {
+                $event.stopPropagation()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "cart-top" }, [
+              _c("h4", [_vm._v("购物车")]),
+              _vm._v(" "),
+              _c("span", { on: { click: _vm.clear } }, [
+                _c("img", { attrs: { src: "/images/delete.png", alt: "" } }),
+                _vm._v("\n                    清空\n                ")
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.departments, function(department, department_index) {
+              return _c(
+                "div",
+                { key: department_index },
+                _vm._l(department.physical, function(physical, physical_index) {
+                  return physical.num > 0
+                    ? _c(
+                        "div",
+                        { key: physical_index, staticClass: "cart-food-item" },
+                        [
+                          _c("h4", [_vm._v(_vm._s(physical.title))]),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("￥ " + _vm._s(physical.money))]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "cart-food-options" }, [
+                            physical.num > 0
+                              ? _c("img", {
+                                  staticClass: "reduce",
+                                  attrs: { src: "/images/reduce.png", alt: "" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.stopPropagation()
+                                      _vm.reduce(
+                                        department_index,
+                                        physical_index
+                                      )
+                                    }
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            physical.num > 0
+                              ? _c("span", [_vm._v(_vm._s(physical.num))])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("img", {
+                              staticClass: "plus",
+                              attrs: { src: "/images/plus.png", alt: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.stopPropagation()
+                                  _vm.plus(department_index, physical_index)
+                                }
+                              }
+                            })
+                          ])
+                        ]
+                      )
+                    : _vm._e()
+                })
+              )
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "cart-bottom" }, [
+              _vm._v("\n                已选餐品\n            ")
+            ])
+          ],
+          2
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-7e6bbdce", module.exports)
+  }
+}
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(221)
+/* template */
+var __vue_template__ = __webpack_require__(222)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/PackageIndex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fa8f322e", Component.options)
+  } else {
+    hotAPI.reload("data-v-fa8f322e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 221 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            packages: this.attributes,
+            date: moment().format('L')
+        };
+    },
+
+    components: {
+        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
+    },
+    methods: {
+        touch: function touch() {
+            event.preventDefault();
+        }
+    }
+});
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container mx-auto" }, [
+    _c("div", { staticClass: "parcel-index" }, [
+      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
+        _c("a", { staticClass: "on", attrs: { href: "/physicals/packages" } }, [
+          _vm._v("套餐体检")
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "/physicals/single" } }, [_vm._v("单列体检")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "parcel-date", on: { touchmove: _vm.touch } }, [
+        _vm._v(_vm._s(_vm.date))
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "parcel-contact" },
+        [
+          _c(
+            "scroll",
+            {
+              staticClass: "parcel-package warpper",
+              attrs: { data: _vm.packages }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "content" },
+                _vm._l(_vm.packages, function(pack, index) {
+                  return _c(
+                    "div",
+                    { key: index, staticClass: "package-item" },
+                    [
+                      _c("img", { attrs: { src: pack.image, alt: "" } }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "package-item-desc" }, [
+                        _c("h4", [_vm._v(_vm._s(pack.title))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("男：￥" + _vm._s(pack.men_money))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("女：￥" + _vm._s(pack.women_money))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { attrs: { href: "/physicals/packages/" + pack.id } },
+                        [_vm._v("预约")]
+                      )
+                    ]
+                  )
+                })
+              )
+            ]
+          )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-fa8f322e", module.exports)
+  }
+}
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(224)
+/* template */
+var __vue_template__ = __webpack_require__(225)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/PackageShow.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f3b11294", Component.options)
+  } else {
+    hotAPI.reload("data-v-f3b11294", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 224 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            pack: this.attributes,
+            date: moment().format('L'),
+            payway: 'wechat',
+            money: this.attributes.men_money,
+            witch_money: 'men',
+            days: [],
+            day: '',
+            time: ''
+        };
+    },
+
+    components: {
+        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
+    },
+    created: function created() {
+        for (var index = 0; index < 7; index++) {
+            this.days[index] = moment().add(index, 'days').format('L');
+        }
+    },
+
+    methods: {
+        touch: function touch() {
+            event.preventDefault();
+        },
+        changeMoney: function changeMoney(witch_money) {
+            this.witch_money = witch_money;
+            this.money = witch_money === 'men' ? this.pack.men_money : this.pack.women_money;
+        }
+    }
+});
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container mx-auto" }, [
+    _c("div", { staticClass: "package-detail" }, [
+      _c("img", {
+        staticClass: "image",
+        attrs: { src: _vm.pack.image, alt: "" }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "title" }, [
+        _c("h4", [_vm._v(_vm._s(_vm.pack.title))])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "gender men",
+          on: {
+            click: function($event) {
+              _vm.changeMoney("men")
+            }
+          }
+        },
+        [
+          _c("p", [_vm._v("男")]),
+          _vm._v(" "),
+          _c("span", [_vm._v("￥" + _vm._s(_vm.pack.men_money))]),
+          _vm._v(" "),
+          _c("img", {
+            attrs: {
+              src:
+                _vm.witch_money == "men"
+                  ? "/images/choosed.png"
+                  : "/images/choose.png",
+              alt: ""
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "gender women",
+          on: {
+            click: function($event) {
+              _vm.changeMoney("women")
+            }
+          }
+        },
+        [
+          _c("p", [_vm._v("女")]),
+          _vm._v(" "),
+          _c("span", [_vm._v("￥" + _vm._s(_vm.pack.women_money))]),
+          _vm._v(" "),
+          _c("img", {
+            attrs: {
+              src:
+                _vm.witch_money == "women"
+                  ? "/images/choosed.png"
+                  : "/images/choose.png",
+              alt: ""
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "gender time" }, [
+        _c("p", [_vm._v("体检时间")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.day,
+                expression: "day"
+              }
+            ],
+            attrs: { name: "order_time", id: "" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.day = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+            _vm._v(" "),
+            _vm._l(_vm.days, function(day, index) {
+              return _c("option", { key: index, domProps: { value: day } }, [
+                _vm._v(_vm._s(day))
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.time,
+                expression: "time"
+              }
+            ],
+            attrs: { name: "order_time", id: "" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.time = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "" } }, [_vm._v("请选择")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "9:00-10:00" } }, [
+              _vm._v("9:00-10:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "10:00-11:00" } }, [
+              _vm._v("10:00-11:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "11:00-12:00" } }, [
+              _vm._v("11:00-12:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "12:00-13:00" } }, [
+              _vm._v("12:00-13:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "13:00-14:00" } }, [
+              _vm._v("13:00-14:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "14:00-15:00" } }, [
+              _vm._v("14:00-15:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "15:00-16:00" } }, [
+              _vm._v("15:00-16:00")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "16:00-17:00" } }, [
+              _vm._v("16:00-17:00")
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "contact",
+        domProps: { innerHTML: _vm._s(_vm.pack.body) }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "pays" }, [
+        _c("div", { staticClass: "pay" }, [
+          _c("img", { attrs: { src: "/images/wechat.png", alt: "" } }),
+          _vm._v(" "),
+          _c("p", [_vm._v("微信支付")]),
+          _vm._v(" "),
+          _c("img", {
+            attrs: {
+              src:
+                _vm.payway == "wechat"
+                  ? "/images/choosed.png"
+                  : "/images/choose.png",
+              alt: ""
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container pack-pay" }, [
+        _c("span", [_vm._v("￥" + _vm._s(_vm.money))]),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "button" } }, [_vm._v("立即支付")])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-f3b11294", module.exports)
   }
 }
 

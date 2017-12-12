@@ -24,7 +24,7 @@ class CreateOrderPost extends FormRequest
     public function rules()
     {
         return [
-            'foods' => 'array|required'
+            'order_details' => 'array|required'
         ];
     }
 }

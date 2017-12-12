@@ -166,7 +166,8 @@ export default {
                 })
             });
             axios.post('/orders', {
-                    foods: this.foods,
+                    order_details: this.foods,
+                    order_details_type: 'App\\Models\\Food',
                     menu: this.menu
                 })
                 .then(response => {

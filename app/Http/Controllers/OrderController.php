@@ -11,18 +11,19 @@ class OrderController extends Controller
 {
     public function store(CreateOrderPost $request)
     {
-        $money = collect($request->foods)->sum(function ($food) {
-            return $food['money'] * $food['num'];
+        $money = collect($request->order_details)->sum(function ($detail) {
+            return $detail['money'] * $detail['num'];
         });
 
         $out_trade_no = $this->getOutTradeNo();
 
-        $foods = serialize($request->foods);
+        $order_details = serialize($request->order_details);
 
         $order = auth()->user()->order()->create([
             'money' => $money,
             'out_trade_no' => $out_trade_no,
-            'foods' => $foods,
+            'order_details' => $order_details,
+            'order_details_type' => $request->order_details_type,
             'order_time' => '',
             'remark' => $request->menu
         ]);

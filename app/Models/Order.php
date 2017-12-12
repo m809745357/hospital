@@ -26,9 +26,9 @@ class Order extends Model
         return $this->belongsTo(\App\User::class, 'user_id');
     }
 
-    public function getFoodsAttribute($foods)
+    public function getOrderDetailsAttribute($order_details)
     {
-        return $this->attributes['foods'] = unserialize($foods);
+        return $this->attributes['order_details'] = unserialize($order_details);
     }
 
     public function wechat()
