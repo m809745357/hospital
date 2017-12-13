@@ -39,3 +39,5 @@ Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
 Route::get('/physicals/single', 'PhysicalController@index')->name('physical.index');
 Route::get('/physicals/packages', 'PackageController@index')->name('package.index');
 Route::get('/physicals/packages/{package}', 'PackageController@show')->name('package.show');
+
+Route::get('/advances', 'AdvanceController@index')->name('advance.index');

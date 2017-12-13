@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function store(CreateOrderPost $request)
     {
-        $money = collect($request->order_details)->sum(function ($detail) {
+        $money = $request->money ?? collect($request->order_details)->sum(function ($detail) {
             return $detail['money'] * $detail['num'];
         });
 

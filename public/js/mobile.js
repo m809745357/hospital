@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 195);
+/******/ 	return __webpack_require__(__webpack_require__.s = 196);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1911,7 +1911,7 @@ function loadLocale(name) {
         try {
             oldLocale = globalLocale._abbr;
             var aliasedRequire = require;
-            __webpack_require__(197)("./" + name);
+            __webpack_require__(198)("./" + name);
             getSetGlobalLocale(oldLocale);
         } catch (e) {}
     }
@@ -4583,7 +4583,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)(module)))
 
 /***/ }),
 /* 1 */
@@ -4592,8 +4592,8 @@ return hooks;
 "use strict";
 
 
-var bind = __webpack_require__(5);
-var isBuffer = __webpack_require__(16);
+var bind = __webpack_require__(6);
+var isBuffer = __webpack_require__(18);
 
 /*global toString:true*/
 
@@ -5039,7 +5039,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(18);
+var normalizeHeaderName = __webpack_require__(20);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -5055,10 +5055,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(8);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(7);
+    adapter = __webpack_require__(8);
   }
   return adapter;
 }
@@ -5129,10 +5129,2049 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/*!
+ * better-normal-scroll v1.5.5
+ * (c) 2016-2017 ustbhuangyi
+ * Released under the MIT License.
+ */
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
+function eventMixin(BScroll) {
+  BScroll.prototype.on = function (type, fn) {
+    var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+
+    if (!this._events[type]) {
+      this._events[type] = [];
+    }
+
+    this._events[type].push([fn, context]);
+  };
+
+  BScroll.prototype.once = function (type, fn) {
+    var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+
+    var fired = false;
+
+    function magic() {
+      this.off(type, magic);
+
+      if (!fired) {
+        fired = true;
+        fn.apply(context, arguments);
+      }
+    }
+    // 将参数中的回调函数挂载在magic对象的fn属性上,为了执行off方法的时候，暴露对应的函数方法
+    magic.fn = fn;
+
+    this.on(type, magic);
+  };
+
+  BScroll.prototype.off = function (type, fn) {
+    var _events = this._events[type];
+    if (!_events) {
+      return;
+    }
+
+    var count = _events.length;
+    while (count--) {
+      // 移除通过on或者once绑定的回调函数
+      if (_events[count][0] === fn || _events[count][0] && _events[count][0].fn === fn) {
+        _events[count][0] = undefined;
+      }
+    }
+  };
+
+  BScroll.prototype.trigger = function (type) {
+    var events = this._events[type];
+    if (!events) {
+      return;
+    }
+
+    var len = events.length;
+    var eventsCopy = [].concat(toConsumableArray(events));
+    for (var i = 0; i < len; i++) {
+      var event = eventsCopy[i];
+
+      var _event = slicedToArray(event, 2),
+          fn = _event[0],
+          context = _event[1];
+
+      if (fn) {
+        fn.apply(context, [].slice.call(arguments, 1));
+      }
+    }
+  };
+}
+
+var ua = navigator.userAgent;
+
+var isWeChatDevTools = /wechatdevtools/.test(ua);
+
+var elementStyle = document.createElement('div').style;
+
+var vendor = function () {
+  var transformNames = {
+    webkit: 'webkitTransform',
+    Moz: 'MozTransform',
+    O: 'OTransform',
+    ms: 'msTransform',
+    standard: 'transform'
+  };
+
+  for (var key in transformNames) {
+    if (elementStyle[transformNames[key]] !== undefined) {
+      return key;
+    }
+  }
+
+  return false;
+}();
+
+function prefixStyle(style) {
+  if (vendor === false) {
+    return false;
+  }
+
+  if (vendor === 'standard') {
+    return style;
+  }
+
+  return vendor + style.charAt(0).toUpperCase() + style.substr(1);
+}
+
+function addEvent(el, type, fn, capture) {
+  el.addEventListener(type, fn, { passive: false, capture: !!capture });
+}
+
+function removeEvent(el, type, fn, capture) {
+  el.removeEventListener(type, fn, { passive: false, capture: !!capture });
+}
+
+function offset(el) {
+  var left = 0;
+  var top = 0;
+
+  while (el) {
+    left -= el.offsetLeft;
+    top -= el.offsetTop;
+    el = el.offsetParent;
+  }
+
+  return {
+    left: left,
+    top: top
+  };
+}
+
+var transform = prefixStyle('transform');
+
+var hasPerspective = prefixStyle('perspective') in elementStyle;
+// fix issue #361
+var hasTouch = 'ontouchstart' in window || isWeChatDevTools;
+var hasTransform = transform !== false;
+var hasTransition = prefixStyle('transition') in elementStyle;
+
+var style = {
+  transform: transform,
+  transitionTimingFunction: prefixStyle('transitionTimingFunction'),
+  transitionDuration: prefixStyle('transitionDuration'),
+  transitionProperty: prefixStyle('transitionProperty'),
+  transitionDelay: prefixStyle('transitionDelay'),
+  transformOrigin: prefixStyle('transformOrigin'),
+  transitionEnd: prefixStyle('transitionEnd')
+};
+
+var TOUCH_EVENT = 1;
+var MOUSE_EVENT = 2;
+
+var eventType = {
+  touchstart: TOUCH_EVENT,
+  touchmove: TOUCH_EVENT,
+  touchend: TOUCH_EVENT,
+
+  mousedown: MOUSE_EVENT,
+  mousemove: MOUSE_EVENT,
+  mouseup: MOUSE_EVENT
+};
+
+function getRect(el) {
+  if (el instanceof window.SVGElement) {
+    var rect = el.getBoundingClientRect();
+    return {
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height
+    };
+  } else {
+    return {
+      top: el.offsetTop,
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    };
+  }
+}
+
+function preventDefaultException(el, exceptions) {
+  for (var i in exceptions) {
+    if (exceptions[i].test(el[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function tap(e, eventName) {
+  var ev = document.createEvent('Event');
+  ev.initEvent(eventName, true, true);
+  ev.pageX = e.pageX;
+  ev.pageY = e.pageY;
+  e.target.dispatchEvent(ev);
+}
+
+function click(e) {
+  var target = e.target;
+
+  if (!/(SELECT|INPUT|TEXTAREA)/i.test(target.tagName)) {
+    var ev = document.createEvent(window.MouseEvent ? 'MouseEvents' : 'Event');
+    // cancelable 设置为 false 是为了解决和 fastclick 冲突问题
+    ev.initEvent('click', true, false);
+    ev._constructed = true;
+    target.dispatchEvent(ev);
+  }
+}
+
+function prepend(el, target) {
+  if (target.firstChild) {
+    before(el, target.firstChild);
+  } else {
+    target.appendChild(el);
+  }
+}
+
+function before(el, target) {
+  target.parentNode.insertBefore(el, target);
+}
+
+function removeChild(el, child) {
+  el.removeChild(child);
+}
+
+function getNow() {
+  return window.performance && window.performance.now ? window.performance.now() + window.performance.timing.navigationStart : +new Date();
+}
+
+function extend(target) {
+  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    rest[_key - 1] = arguments[_key];
+  }
+
+  for (var i = 0; i < rest.length; i++) {
+    var source = rest[i];
+    for (var key in source) {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
+var DEFAULT_OPTIONS = {
+  startX: 0,
+  startY: 0,
+  scrollX: false,
+  scrollY: true,
+  freeScroll: false,
+  directionLockThreshold: 5,
+  eventPassthrough: '',
+  click: false,
+  tap: false,
+  bounce: true,
+  bounceTime: 700,
+  momentum: true,
+  momentumLimitTime: 300,
+  momentumLimitDistance: 15,
+  swipeTime: 2500,
+  swipeBounceTime: 500,
+  deceleration: 0.001,
+  flickLimitTime: 200,
+  flickLimitDistance: 100,
+  resizePolling: 60,
+  probeType: 0,
+  preventDefault: true,
+  preventDefaultException: {
+    tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/
+  },
+  HWCompositing: true,
+  useTransition: true,
+  useTransform: true,
+  bindToWrapper: false,
+  disableMouse: hasTouch,
+  disableTouch: !hasTouch,
+  observeDOM: true,
+  /**
+   * for picker
+   * wheel: {
+   *   selectedIndex: 0,
+   *   rotate: 25,
+   *   adjustTime: 400
+   *   wheelWrapperClass: 'wheel-scroll',
+   *   wheelItemClass: 'wheel-item'
+   * }
+   */
+  wheel: false,
+  /**
+   * for slide
+   * snap: {
+   *   loop: false,
+   *   el: domEl,
+   *   threshold: 0.1,
+   *   stepX: 100,
+   *   stepY: 100,
+   *   listenFlick: true
+   * }
+   */
+  snap: false,
+  /**
+   * for scrollbar
+   * scrollbar: {
+   *   fade: true
+   * }
+   */
+  scrollbar: false,
+  /**
+   * for pull down and refresh
+   * pullDownRefresh: {
+   *   threshold: 50,
+   *   stop: 20
+   * }
+   */
+  pullDownRefresh: false,
+  /**
+   * for pull up and load
+   * pullUpLoad: {
+   *   threshold: 50
+   * }
+   */
+  pullUpLoad: false
+};
+
+function initMixin(BScroll) {
+  BScroll.prototype._init = function (el, options) {
+    this._handleOptions(options);
+
+    // init private custom events
+    this._events = {};
+
+    this.x = 0;
+    this.y = 0;
+    this.directionX = 0;
+    this.directionY = 0;
+
+    this._addDOMEvents();
+
+    this._initExtFeatures();
+
+    this._watchTransition();
+
+    if (this.options.observeDOM) {
+      this._initDOMObserver();
+    }
+
+    this.refresh();
+
+    if (!this.options.snap) {
+      this.scrollTo(this.options.startX, this.options.startY);
+    }
+
+    this.enable();
+  };
+
+  BScroll.prototype._handleOptions = function (options) {
+    this.options = extend({}, DEFAULT_OPTIONS, options);
+
+    this.translateZ = this.options.HWCompositing && hasPerspective ? ' translateZ(0)' : '';
+
+    this.options.useTransition = this.options.useTransition && hasTransition;
+    this.options.useTransform = this.options.useTransform && hasTransform;
+
+    this.options.preventDefault = !this.options.eventPassthrough && this.options.preventDefault;
+
+    // If you want eventPassthrough I have to lock one of the axes
+    this.options.scrollX = this.options.eventPassthrough === 'horizontal' ? false : this.options.scrollX;
+    this.options.scrollY = this.options.eventPassthrough === 'vertical' ? false : this.options.scrollY;
+
+    // With eventPassthrough we also need lockDirection mechanism
+    this.options.freeScroll = this.options.freeScroll && !this.options.eventPassthrough;
+    this.options.directionLockThreshold = this.options.eventPassthrough ? 0 : this.options.directionLockThreshold;
+
+    if (this.options.tap === true) {
+      this.options.tap = 'tap';
+    }
+  };
+
+  BScroll.prototype._addDOMEvents = function () {
+    var eventOperation = addEvent;
+    this._handleDOMEvents(eventOperation);
+  };
+
+  BScroll.prototype._removeDOMEvents = function () {
+    var eventOperation = removeEvent;
+    this._handleDOMEvents(eventOperation);
+  };
+
+  BScroll.prototype._handleDOMEvents = function (eventOperation) {
+    var target = this.options.bindToWrapper ? this.wrapper : window;
+    eventOperation(window, 'orientationchange', this);
+    eventOperation(window, 'resize', this);
+
+    if (this.options.click) {
+      eventOperation(this.wrapper, 'click', this, true);
+    }
+
+    if (!this.options.disableMouse) {
+      eventOperation(this.wrapper, 'mousedown', this);
+      eventOperation(target, 'mousemove', this);
+      eventOperation(target, 'mousecancel', this);
+      eventOperation(target, 'mouseup', this);
+    }
+
+    if (hasTouch && !this.options.disableTouch) {
+      eventOperation(this.wrapper, 'touchstart', this);
+      eventOperation(target, 'touchmove', this);
+      eventOperation(target, 'touchcancel', this);
+      eventOperation(target, 'touchend', this);
+    }
+
+    eventOperation(this.scroller, style.transitionEnd, this);
+  };
+
+  BScroll.prototype._initExtFeatures = function () {
+    if (this.options.snap) {
+      this._initSnap();
+    }
+    if (this.options.scrollbar) {
+      this._initScrollbar();
+    }
+    if (this.options.pullUpLoad) {
+      this._initPullUp();
+    }
+    if (this.options.pullDownRefresh) {
+      this._initPullDown();
+    }
+    if (this.options.wheel) {
+      this._initWheel();
+    }
+  };
+
+  BScroll.prototype._watchTransition = function () {
+    if (typeof Object.defineProperty !== 'function') {
+      return;
+    }
+    var me = this;
+    var isInTransition = false;
+    Object.defineProperty(this, 'isInTransition', {
+      get: function get() {
+        return isInTransition;
+      },
+      set: function set(newVal) {
+        isInTransition = newVal;
+        // fix issue #359
+        var el = me.scroller.children.length ? me.scroller.children : [me.scroller];
+        var pointerEvents = isInTransition ? 'none' : 'auto';
+        for (var i = 0; i < el.length; i++) {
+          el[i].style.pointerEvents = pointerEvents;
+        }
+      }
+    });
+  };
+
+  BScroll.prototype._initDOMObserver = function () {
+    var _this = this;
+
+    if (typeof MutationObserver !== 'undefined') {
+      var timer = void 0;
+      var observer = new MutationObserver(function (mutations) {
+        // don't do any refresh during the transition, or outside of the boundaries
+        if (_this._shouldNotRefresh()) {
+          return;
+        }
+        var immediateRefresh = false;
+        var deferredRefresh = false;
+        for (var i = 0; i < mutations.length; i++) {
+          var mutation = mutations[i];
+          if (mutation.type !== 'attributes') {
+            immediateRefresh = true;
+            break;
+          } else {
+            if (mutation.target !== _this.scroller) {
+              deferredRefresh = true;
+              break;
+            }
+          }
+        }
+        if (immediateRefresh) {
+          _this.refresh();
+        } else if (deferredRefresh) {
+          // attributes changes too often
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            _this.refresh();
+          }, 60);
+        }
+      });
+      var config = {
+        attributes: true,
+        childList: true,
+        subtree: true
+      };
+      observer.observe(this.scroller, config);
+
+      this.on('destroy', function () {
+        observer.disconnect();
+      });
+    } else {
+      this._checkDOMUpdate();
+    }
+  };
+
+  BScroll.prototype._shouldNotRefresh = function () {
+    var outsideBoundaries = this.x > 0 || this.x < this.maxScrollX || this.y > 0 || this.y < this.maxScrollY;
+
+    return this.isInTransition || this.stopFromTransition || outsideBoundaries;
+  };
+
+  BScroll.prototype._checkDOMUpdate = function () {
+    var scrollerRect = getRect(this.scroller);
+    var oldWidth = scrollerRect.width;
+    var oldHeight = scrollerRect.height;
+
+    function check() {
+      if (this.destroyed) {
+        return;
+      }
+      scrollerRect = getRect(this.scroller);
+      var newWidth = scrollerRect.width;
+      var newHeight = scrollerRect.height;
+
+      if (oldWidth !== newWidth || oldHeight !== newHeight) {
+        this.refresh();
+      }
+      oldWidth = newWidth;
+      oldHeight = newHeight;
+
+      next.call(this);
+    }
+
+    function next() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        check.call(_this2);
+      }, 1000);
+    }
+
+    next.call(this);
+  };
+
+  BScroll.prototype.handleEvent = function (e) {
+    switch (e.type) {
+      case 'touchstart':
+      case 'mousedown':
+        this._start(e);
+        break;
+      case 'touchmove':
+      case 'mousemove':
+        this._move(e);
+        break;
+      case 'touchend':
+      case 'mouseup':
+      case 'touchcancel':
+      case 'mousecancel':
+        this._end(e);
+        break;
+      case 'orientationchange':
+      case 'resize':
+        this._resize();
+        break;
+      case 'transitionend':
+      case 'webkitTransitionEnd':
+      case 'oTransitionEnd':
+      case 'MSTransitionEnd':
+        this._transitionEnd(e);
+        break;
+      case 'click':
+        if (this.enabled && !e._constructed) {
+          if (!preventDefaultException(e.target, this.options.preventDefaultException)) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }
+        break;
+    }
+  };
+
+  BScroll.prototype.refresh = function () {
+    var wrapperRect = getRect(this.wrapper);
+    this.wrapperWidth = wrapperRect.width;
+    this.wrapperHeight = wrapperRect.height;
+
+    var scrollerRect = getRect(this.scroller);
+    this.scrollerWidth = scrollerRect.width;
+    this.scrollerHeight = scrollerRect.height;
+
+    var wheel = this.options.wheel;
+    if (wheel) {
+      this.items = this.scroller.children;
+      this.options.itemHeight = this.itemHeight = this.items.length ? this.scrollerHeight / this.items.length : 0;
+      if (this.selectedIndex === undefined) {
+        this.selectedIndex = wheel.selectedIndex || 0;
+      }
+      this.options.startY = -this.selectedIndex * this.itemHeight;
+      this.maxScrollX = 0;
+      this.maxScrollY = -this.itemHeight * (this.items.length - 1);
+    } else {
+      this.maxScrollX = this.wrapperWidth - this.scrollerWidth;
+      this.maxScrollY = this.wrapperHeight - this.scrollerHeight;
+    }
+
+    this.hasHorizontalScroll = this.options.scrollX && this.maxScrollX < 0;
+    this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
+
+    if (!this.hasHorizontalScroll) {
+      this.maxScrollX = 0;
+      this.scrollerWidth = this.wrapperWidth;
+    }
+
+    if (!this.hasVerticalScroll) {
+      this.maxScrollY = 0;
+      this.scrollerHeight = this.wrapperHeight;
+    }
+
+    this.endTime = 0;
+    this.directionX = 0;
+    this.directionY = 0;
+    this.wrapperOffset = offset(this.wrapper);
+
+    this.trigger('refresh');
+
+    this.resetPosition();
+  };
+
+  BScroll.prototype.enable = function () {
+    this.enabled = true;
+  };
+
+  BScroll.prototype.disable = function () {
+    this.enabled = false;
+  };
+}
+
+var ease = {
+	// easeOutQuint
+	swipe: {
+		style: 'cubic-bezier(0.23, 1, 0.32, 1)',
+		fn: function fn(t) {
+			return 1 + --t * t * t * t * t;
+		}
+	},
+	// easeOutQuard
+	swipeBounce: {
+		style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+		fn: function fn(t) {
+			return t * (2 - t);
+		}
+	},
+	// easeOutQuart
+	bounce: {
+		style: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+		fn: function fn(t) {
+			return 1 - --t * t * t * t;
+		}
+	}
+};
+
+function momentum(current, start, time, lowerMargin, wrapperSize, options) {
+  var distance = current - start;
+  var speed = Math.abs(distance) / time;
+
+  var deceleration = options.deceleration,
+      itemHeight = options.itemHeight,
+      swipeBounceTime = options.swipeBounceTime,
+      wheel = options.wheel,
+      swipeTime = options.swipeTime;
+
+  var duration = swipeTime;
+  var rate = wheel ? 4 : 15;
+
+  var destination = current + speed / deceleration * (distance < 0 ? -1 : 1);
+
+  if (wheel && itemHeight) {
+    destination = Math.round(destination / itemHeight) * itemHeight;
+  }
+
+  if (destination < lowerMargin) {
+    destination = wrapperSize ? lowerMargin - wrapperSize / rate * speed : lowerMargin;
+    duration = swipeBounceTime;
+  } else if (destination > 0) {
+    destination = wrapperSize ? wrapperSize / rate * speed : 0;
+    duration = swipeBounceTime;
+  }
+
+  return {
+    destination: Math.round(destination),
+    duration: duration
+  };
+}
+
+var DEFAULT_INTERVAL = 100 / 60;
+
+var requestAnimationFrame = function () {
+  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
+  // if all else fails, use setTimeout
+  function (callback) {
+    return window.setTimeout(callback, (callback.interval || DEFAULT_INTERVAL) / 2); // make interval as precise as possible.
+  };
+}();
+
+var cancelAnimationFrame = function () {
+  return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || function (id) {
+    window.clearTimeout(id);
+  };
+}();
+
+var DIRECTION_UP = 1;
+var DIRECTION_DOWN = -1;
+var DIRECTION_LEFT = 1;
+var DIRECTION_RIGHT = -1;
+
+function coreMixin(BScroll) {
+  BScroll.prototype._start = function (e) {
+    var _eventType = eventType[e.type];
+    if (_eventType !== TOUCH_EVENT) {
+      if (e.button !== 0) {
+        return;
+      }
+    }
+    if (!this.enabled || this.destroyed || this.initiated && this.initiated !== _eventType) {
+      return;
+    }
+    this.initiated = _eventType;
+
+    if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+      e.preventDefault();
+    }
+
+    this.moved = false;
+    this.distX = 0;
+    this.distY = 0;
+    this.directionX = 0;
+    this.directionY = 0;
+    this.movingDirectionX = 0;
+    this.movingDirectionY = 0;
+    this.directionLocked = 0;
+
+    this._transitionTime();
+    this.startTime = getNow();
+
+    if (this.options.wheel) {
+      this.target = e.target;
+    }
+
+    this.stop();
+
+    var point = e.touches ? e.touches[0] : e;
+
+    this.startX = this.x;
+    this.startY = this.y;
+    this.absStartX = this.x;
+    this.absStartY = this.y;
+    this.pointX = point.pageX;
+    this.pointY = point.pageY;
+
+    this.trigger('beforeScrollStart');
+  };
+
+  BScroll.prototype._move = function (e) {
+    if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
+      return;
+    }
+
+    if (this.options.preventDefault) {
+      e.preventDefault();
+    }
+
+    var point = e.touches ? e.touches[0] : e;
+    var deltaX = point.pageX - this.pointX;
+    var deltaY = point.pageY - this.pointY;
+
+    this.pointX = point.pageX;
+    this.pointY = point.pageY;
+
+    this.distX += deltaX;
+    this.distY += deltaY;
+
+    var absDistX = Math.abs(this.distX);
+    var absDistY = Math.abs(this.distY);
+
+    var timestamp = getNow();
+
+    // We need to move at least momentumLimitDistance pixels for the scrolling to initiate
+    if (timestamp - this.endTime > this.options.momentumLimitTime && absDistY < this.options.momentumLimitDistance && absDistX < this.options.momentumLimitDistance) {
+      return;
+    }
+
+    // If you are scrolling in one direction lock the other
+    if (!this.directionLocked && !this.options.freeScroll) {
+      if (absDistX > absDistY + this.options.directionLockThreshold) {
+        this.directionLocked = 'h'; // lock horizontally
+      } else if (absDistY >= absDistX + this.options.directionLockThreshold) {
+        this.directionLocked = 'v'; // lock vertically
+      } else {
+        this.directionLocked = 'n'; // no lock
+      }
+    }
+
+    if (this.directionLocked === 'h') {
+      if (this.options.eventPassthrough === 'vertical') {
+        e.preventDefault();
+      } else if (this.options.eventPassthrough === 'horizontal') {
+        this.initiated = false;
+        return;
+      }
+      deltaY = 0;
+    } else if (this.directionLocked === 'v') {
+      if (this.options.eventPassthrough === 'horizontal') {
+        e.preventDefault();
+      } else if (this.options.eventPassthrough === 'vertical') {
+        this.initiated = false;
+        return;
+      }
+      deltaX = 0;
+    }
+
+    deltaX = this.hasHorizontalScroll ? deltaX : 0;
+    deltaY = this.hasVerticalScroll ? deltaY : 0;
+    this.movingDirectionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+    this.movingDirectionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
+
+    var newX = this.x + deltaX;
+    var newY = this.y + deltaY;
+
+    // Slow down or stop if outside of the boundaries
+    if (newX > 0 || newX < this.maxScrollX) {
+      if (this.options.bounce) {
+        newX = this.x + deltaX / 3;
+      } else {
+        newX = newX > 0 ? 0 : this.maxScrollX;
+      }
+    }
+    if (newY > 0 || newY < this.maxScrollY) {
+      if (this.options.bounce) {
+        newY = this.y + deltaY / 3;
+      } else {
+        newY = newY > 0 ? 0 : this.maxScrollY;
+      }
+    }
+
+    if (!this.moved) {
+      this.moved = true;
+      this.trigger('scrollStart');
+    }
+
+    this._translate(newX, newY);
+
+    if (timestamp - this.startTime > this.options.momentumLimitTime) {
+      this.startTime = timestamp;
+      this.startX = this.x;
+      this.startY = this.y;
+
+      if (this.options.probeType === 1) {
+        this.trigger('scroll', {
+          x: this.x,
+          y: this.y
+        });
+      }
+    }
+
+    if (this.options.probeType > 1) {
+      this.trigger('scroll', {
+        x: this.x,
+        y: this.y
+      });
+    }
+
+    var scrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
+    var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+    var pX = this.pointX - scrollLeft;
+    var pY = this.pointY - scrollTop;
+
+    if (pX > document.documentElement.clientWidth - this.options.momentumLimitDistance || pX < this.options.momentumLimitDistance || pY < this.options.momentumLimitDistance || pY > document.documentElement.clientHeight - this.options.momentumLimitDistance) {
+      this._end(e);
+    }
+  };
+
+  BScroll.prototype._end = function (e) {
+    if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
+      return;
+    }
+    this.initiated = false;
+
+    if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+      e.preventDefault();
+    }
+
+    this.trigger('touchEnd', {
+      x: this.x,
+      y: this.y
+    });
+
+    var preventClick = this.stopFromTransition;
+    this.stopFromTransition = false;
+
+    // if configure pull down refresh, check it first
+    if (this.options.pullDownRefresh && this._checkPullDown()) {
+      return;
+    }
+
+    // reset if we are outside of the boundaries
+    if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
+      return;
+    }
+    this.isInTransition = false;
+    // ensures that the last position is rounded
+    var newX = Math.round(this.x);
+    var newY = Math.round(this.y);
+
+    // we scrolled less than 15 pixels
+    if (!this.moved) {
+      if (this.options.wheel) {
+        if (this.target && this.target.className === this.options.wheel.wheelWrapperClass) {
+          var index = Math.abs(Math.round(newY / this.itemHeight));
+          var _offset = Math.round((this.pointY + offset(this.target).top - this.itemHeight / 2) / this.itemHeight);
+          this.target = this.items[index + _offset];
+        }
+        this.scrollToElement(this.target, this.options.wheel.adjustTime || 400, true, true, ease.swipe);
+      } else {
+        if (!preventClick) {
+          if (this.options.tap) {
+            tap(e, this.options.tap);
+          }
+
+          if (this.options.click) {
+            click(e);
+          }
+        }
+      }
+      this.trigger('scrollCancel');
+      return;
+    }
+
+    this.scrollTo(newX, newY);
+
+    var deltaX = newX - this.absStartX;
+    var deltaY = newY - this.absStartY;
+    this.directionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+    this.directionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
+
+    this.endTime = getNow();
+
+    var duration = this.endTime - this.startTime;
+    var absDistX = Math.abs(newX - this.startX);
+    var absDistY = Math.abs(newY - this.startY);
+
+    // flick
+    if (this._events.flick && duration < this.options.flickLimitTime && absDistX < this.options.flickLimitDistance && absDistY < this.options.flickLimitDistance) {
+      this.trigger('flick');
+      return;
+    }
+
+    var time = 0;
+    // start momentum animation if needed
+    if (this.options.momentum && duration < this.options.momentumLimitTime && (absDistY > this.options.momentumLimitDistance || absDistX > this.options.momentumLimitDistance)) {
+      var momentumX = this.hasHorizontalScroll ? momentum(this.x, this.startX, duration, this.maxScrollX, this.options.bounce ? this.wrapperWidth : 0, this.options) : { destination: newX, duration: 0 };
+      var momentumY = this.hasVerticalScroll ? momentum(this.y, this.startY, duration, this.maxScrollY, this.options.bounce ? this.wrapperHeight : 0, this.options) : { destination: newY, duration: 0 };
+      newX = momentumX.destination;
+      newY = momentumY.destination;
+      time = Math.max(momentumX.duration, momentumY.duration);
+      this.isInTransition = true;
+    } else {
+      if (this.options.wheel) {
+        newY = Math.round(newY / this.itemHeight) * this.itemHeight;
+        time = this.options.wheel.adjustTime || 400;
+      }
+    }
+
+    var easing = ease.swipe;
+    if (this.options.snap) {
+      var snap = this._nearestSnap(newX, newY);
+      this.currentPage = snap;
+      time = this.options.snapSpeed || Math.max(Math.max(Math.min(Math.abs(newX - snap.x), 1000), Math.min(Math.abs(newY - snap.y), 1000)), 300);
+      newX = snap.x;
+      newY = snap.y;
+
+      this.directionX = 0;
+      this.directionY = 0;
+      easing = ease.bounce;
+    }
+
+    if (newX !== this.x || newY !== this.y) {
+      // change easing function when scroller goes out of the boundaries
+      if (newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY) {
+        easing = ease.swipeBounce;
+      }
+      this.scrollTo(newX, newY, time, easing);
+      return;
+    }
+
+    if (this.options.wheel) {
+      this.selectedIndex = Math.round(Math.abs(this.y / this.itemHeight));
+    }
+    this.trigger('scrollEnd', {
+      x: this.x,
+      y: this.y
+    });
+  };
+
+  BScroll.prototype._resize = function () {
+    var _this = this;
+
+    if (!this.enabled) {
+      return;
+    }
+
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(function () {
+      _this.refresh();
+    }, this.options.resizePolling);
+  };
+
+  BScroll.prototype._startProbe = function () {
+    cancelAnimationFrame(this.probeTimer);
+    this.probeTimer = requestAnimationFrame(probe);
+
+    var me = this;
+
+    function probe() {
+      if (!me.isInTransition) {
+        return;
+      }
+      var pos = me.getComputedPosition();
+      me.trigger('scroll', pos);
+      me.probeTimer = requestAnimationFrame(probe);
+    }
+  };
+
+  BScroll.prototype._transitionProperty = function () {
+    var property = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'transform';
+
+    this.scrollerStyle[style.transitionProperty] = property;
+  };
+
+  BScroll.prototype._transitionTime = function () {
+    var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    this.scrollerStyle[style.transitionDuration] = time + 'ms';
+
+    if (this.options.wheel) {
+      for (var i = 0; i < this.items.length; i++) {
+        this.items[i].style[style.transitionDuration] = time + 'ms';
+      }
+    }
+
+    if (this.indicators) {
+      for (var _i = 0; _i < this.indicators.length; _i++) {
+        this.indicators[_i].transitionTime(time);
+      }
+    }
+  };
+
+  BScroll.prototype._transitionTimingFunction = function (easing) {
+    this.scrollerStyle[style.transitionTimingFunction] = easing;
+
+    if (this.options.wheel) {
+      for (var i = 0; i < this.items.length; i++) {
+        this.items[i].style[style.transitionTimingFunction] = easing;
+      }
+    }
+
+    if (this.indicators) {
+      for (var _i2 = 0; _i2 < this.indicators.length; _i2++) {
+        this.indicators[_i2].transitionTimingFunction(easing);
+      }
+    }
+  };
+
+  BScroll.prototype._transitionEnd = function (e) {
+    if (e.target !== this.scroller || !this.isInTransition) {
+      return;
+    }
+
+    this._transitionTime();
+    if (!this.pulling && !this.resetPosition(this.options.bounceTime, ease.bounce)) {
+      this.isInTransition = false;
+      this.trigger('scrollEnd', {
+        x: this.x,
+        y: this.y
+      });
+    }
+  };
+
+  BScroll.prototype._translate = function (x, y) {
+    if (this.options.useTransform) {
+      this.scrollerStyle[style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
+    } else {
+      x = Math.round(x);
+      y = Math.round(y);
+      this.scrollerStyle.left = x + 'px';
+      this.scrollerStyle.top = y + 'px';
+    }
+
+    if (this.options.wheel) {
+      var _options$wheel$rotate = this.options.wheel.rotate,
+          rotate = _options$wheel$rotate === undefined ? 25 : _options$wheel$rotate;
+
+      for (var i = 0; i < this.items.length; i++) {
+        var deg = rotate * (y / this.itemHeight + i);
+        this.items[i].style[style.transform] = 'rotateX(' + deg + 'deg)';
+      }
+    }
+
+    this.x = x;
+    this.y = y;
+
+    if (this.indicators) {
+      for (var _i3 = 0; _i3 < this.indicators.length; _i3++) {
+        this.indicators[_i3].updatePosition();
+      }
+    }
+  };
+
+  BScroll.prototype._animate = function (destX, destY, duration, easingFn) {
+    var me = this;
+    var startX = this.x;
+    var startY = this.y;
+    var startTime = getNow();
+    var destTime = startTime + duration;
+
+    function step() {
+      var now = getNow();
+
+      if (now >= destTime) {
+        me.isAnimating = false;
+        me._translate(destX, destY);
+
+        if (!me.pulling && !me.resetPosition(me.options.bounceTime)) {
+          me.trigger('scrollEnd', {
+            x: me.x,
+            y: me.y
+          });
+        }
+        return;
+      }
+      now = (now - startTime) / duration;
+      var easing = easingFn(now);
+      var newX = (destX - startX) * easing + startX;
+      var newY = (destY - startY) * easing + startY;
+
+      me._translate(newX, newY);
+
+      if (me.isAnimating) {
+        me.animateTimer = requestAnimationFrame(step);
+      }
+
+      if (me.options.probeType === 3) {
+        me.trigger('scroll', {
+          x: me.x,
+          y: me.y
+        });
+      }
+    }
+
+    this.isAnimating = true;
+    cancelAnimationFrame(this.animateTimer);
+    step();
+  };
+
+  BScroll.prototype.scrollBy = function (x, y) {
+    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+
+    x = this.x + x;
+    y = this.y + y;
+
+    this.scrollTo(x, y, time, easing);
+  };
+
+  BScroll.prototype.scrollTo = function (x, y) {
+    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+
+    this.isInTransition = this.options.useTransition && time > 0 && (x !== this.x || y !== this.y);
+
+    if (!time || this.options.useTransition) {
+      this._transitionProperty();
+      this._transitionTimingFunction(easing.style);
+      this._transitionTime(time);
+      this._translate(x, y);
+
+      if (time && this.options.probeType === 3) {
+        this._startProbe();
+      }
+
+      if (this.options.wheel) {
+        if (y > 0) {
+          this.selectedIndex = 0;
+        } else if (y < this.maxScrollY) {
+          this.selectedIndex = this.items.length - 1;
+        } else {
+          this.selectedIndex = Math.round(Math.abs(y / this.itemHeight));
+        }
+      }
+    } else {
+      this._animate(x, y, time, easing.fn);
+    }
+  };
+
+  BScroll.prototype.scrollToElement = function (el, time, offsetX, offsetY, easing) {
+    if (!el) {
+      return;
+    }
+    el = el.nodeType ? el : this.scroller.querySelector(el);
+
+    if (this.options.wheel && el.className !== this.options.wheel.wheelItemClass) {
+      return;
+    }
+
+    var pos = offset(el);
+    pos.left -= this.wrapperOffset.left;
+    pos.top -= this.wrapperOffset.top;
+
+    // if offsetX/Y are true we center the element to the screen
+    if (offsetX === true) {
+      offsetX = Math.round(el.offsetWidth / 2 - this.wrapper.offsetWidth / 2);
+    }
+    if (offsetY === true) {
+      offsetY = Math.round(el.offsetHeight / 2 - this.wrapper.offsetHeight / 2);
+    }
+
+    pos.left -= offsetX || 0;
+    pos.top -= offsetY || 0;
+    pos.left = pos.left > 0 ? 0 : pos.left < this.maxScrollX ? this.maxScrollX : pos.left;
+    pos.top = pos.top > 0 ? 0 : pos.top < this.maxScrollY ? this.maxScrollY : pos.top;
+
+    if (this.options.wheel) {
+      pos.top = Math.round(pos.top / this.itemHeight) * this.itemHeight;
+    }
+
+    this.scrollTo(pos.left, pos.top, time, easing);
+  };
+
+  BScroll.prototype.resetPosition = function () {
+    var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var easeing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ease.bounce;
+
+    var x = this.x;
+    if (!this.hasHorizontalScroll || x > 0) {
+      x = 0;
+    } else if (x < this.maxScrollX) {
+      x = this.maxScrollX;
+    }
+
+    var y = this.y;
+    if (!this.hasVerticalScroll || y > 0) {
+      y = 0;
+    } else if (y < this.maxScrollY) {
+      y = this.maxScrollY;
+    }
+
+    if (x === this.x && y === this.y) {
+      return false;
+    }
+
+    this.scrollTo(x, y, time, easeing);
+
+    return true;
+  };
+
+  BScroll.prototype.getComputedPosition = function () {
+    var matrix = window.getComputedStyle(this.scroller, null);
+    var x = void 0;
+    var y = void 0;
+
+    if (this.options.useTransform) {
+      matrix = matrix[style.transform].split(')')[0].split(', ');
+      x = +(matrix[12] || matrix[4]);
+      y = +(matrix[13] || matrix[5]);
+    } else {
+      x = +matrix.left.replace(/[^-\d.]/g, '');
+      y = +matrix.top.replace(/[^-\d.]/g, '');
+    }
+
+    return {
+      x: x,
+      y: y
+    };
+  };
+
+  BScroll.prototype.stop = function () {
+    if (this.options.useTransition && this.isInTransition) {
+      this.isInTransition = false;
+      var pos = this.getComputedPosition();
+      this._translate(pos.x, pos.y);
+      if (this.options.wheel) {
+        this.target = this.items[Math.round(-pos.y / this.itemHeight)];
+      } else {
+        this.trigger('scrollEnd', {
+          x: this.x,
+          y: this.y
+        });
+      }
+      this.stopFromTransition = true;
+    } else if (!this.options.useTransition && this.isAnimating) {
+      this.isAnimating = false;
+      this.trigger('scrollEnd', {
+        x: this.x,
+        y: this.y
+      });
+      this.stopFromTransition = true;
+    }
+  };
+
+  BScroll.prototype.destroy = function () {
+    this.destroyed = true;
+    this.trigger('destroy');
+
+    this._removeDOMEvents();
+    // remove custom events
+    this._events = {};
+  };
+}
+
+function snapMixin(BScroll) {
+  BScroll.prototype._initSnap = function () {
+    var _this = this;
+
+    this.currentPage = {};
+    var snap = this.options.snap;
+
+    if (snap.loop) {
+      var children = this.scroller.children;
+      if (children.length > 0) {
+        prepend(children[children.length - 1].cloneNode(true), this.scroller);
+        this.scroller.appendChild(children[1].cloneNode(true));
+      }
+    }
+
+    var el = snap.el;
+    if (typeof el === 'string') {
+      el = this.scroller.querySelectorAll(el);
+    }
+
+    this.on('refresh', function () {
+      _this.pages = [];
+
+      if (!_this.wrapperWidth || !_this.wrapperHeight || !_this.scrollerWidth || !_this.scrollerHeight) {
+        return;
+      }
+
+      var stepX = snap.stepX || _this.wrapperWidth;
+      var stepY = snap.stepY || _this.wrapperHeight;
+
+      var x = 0;
+      var y = void 0;
+      var cx = void 0;
+      var cy = void 0;
+      var i = 0;
+      var l = void 0;
+      var m = 0;
+      var n = void 0;
+      var rect = void 0;
+      if (!el) {
+        cx = Math.round(stepX / 2);
+        cy = Math.round(stepY / 2);
+
+        while (x > -_this.scrollerWidth) {
+          _this.pages[i] = [];
+          l = 0;
+          y = 0;
+
+          while (y > -_this.scrollerHeight) {
+            _this.pages[i][l] = {
+              x: Math.max(x, _this.maxScrollX),
+              y: Math.max(y, _this.maxScrollY),
+              width: stepX,
+              height: stepY,
+              cx: x - cx,
+              cy: y - cy
+            };
+
+            y -= stepY;
+            l++;
+          }
+
+          x -= stepX;
+          i++;
+        }
+      } else {
+        l = el.length;
+        n = -1;
+
+        for (; i < l; i++) {
+          rect = getRect(el[i]);
+          if (i === 0 || rect.left <= getRect(el[i - 1]).left) {
+            m = 0;
+            n++;
+          }
+
+          if (!_this.pages[m]) {
+            _this.pages[m] = [];
+          }
+
+          x = Math.max(-rect.left, _this.maxScrollX);
+          y = Math.max(-rect.top, _this.maxScrollY);
+          cx = x - Math.round(rect.width / 2);
+          cy = y - Math.round(rect.height / 2);
+
+          _this.pages[m][n] = {
+            x: x,
+            y: y,
+            width: rect.width,
+            height: rect.height,
+            cx: cx,
+            cy: cy
+          };
+
+          if (x > _this.maxScrollX) {
+            m++;
+          }
+        }
+      }
+
+      var initPage = snap.loop ? 1 : 0;
+      _this.goToPage(_this.currentPage.pageX || initPage, _this.currentPage.pageY || 0, 0);
+
+      // Update snap threshold if needed
+      var snapThreshold = snap.threshold;
+      if (snapThreshold % 1 === 0) {
+        _this.snapThresholdX = snapThreshold;
+        _this.snapThresholdY = snapThreshold;
+      } else {
+        _this.snapThresholdX = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].width * snapThreshold);
+        _this.snapThresholdY = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].height * snapThreshold);
+      }
+    });
+
+    this.on('scrollEnd', function () {
+      if (snap.loop) {
+        if (_this.currentPage.pageX === 0) {
+          _this.goToPage(_this.pages.length - 2, _this.currentPage.pageY, 0);
+        }
+        if (_this.currentPage.pageX === _this.pages.length - 1) {
+          _this.goToPage(1, _this.currentPage.pageY, 0);
+        }
+      }
+    });
+
+    if (snap.listenFlick !== false) {
+      this.on('flick', function () {
+        var time = snap.speed || Math.max(Math.max(Math.min(Math.abs(_this.x - _this.startX), 1000), Math.min(Math.abs(_this.y - _this.startY), 1000)), 300);
+
+        _this.goToPage(_this.currentPage.pageX + _this.directionX, _this.currentPage.pageY + _this.directionY, time);
+      });
+    }
+
+    this.on('destroy', function () {
+      if (snap.loop) {
+        var _children = _this.scroller.children;
+        removeChild(_this.scroller, _children[_children.length - 1]);
+        removeChild(_this.scroller, _children[0]);
+      }
+    });
+  };
+
+  BScroll.prototype._nearestSnap = function (x, y) {
+    if (!this.pages.length) {
+      return { x: 0, y: 0, pageX: 0, pageY: 0 };
+    }
+
+    var i = 0;
+    // Check if we exceeded the snap threshold
+    if (Math.abs(x - this.absStartX) <= this.snapThresholdX && Math.abs(y - this.absStartY) <= this.snapThresholdY) {
+      return this.currentPage;
+    }
+
+    if (x > 0) {
+      x = 0;
+    } else if (x < this.maxScrollX) {
+      x = this.maxScrollX;
+    }
+
+    if (y > 0) {
+      y = 0;
+    } else if (y < this.maxScrollY) {
+      y = this.maxScrollY;
+    }
+
+    var l = this.pages.length;
+    for (; i < l; i++) {
+      if (x >= this.pages[i][0].cx) {
+        x = this.pages[i][0].x;
+        break;
+      }
+    }
+
+    l = this.pages[i].length;
+
+    var m = 0;
+    for (; m < l; m++) {
+      if (y >= this.pages[0][m].cy) {
+        y = this.pages[0][m].y;
+        break;
+      }
+    }
+
+    if (i === this.currentPage.pageX) {
+      i += this.directionX;
+
+      if (i < 0) {
+        i = 0;
+      } else if (i >= this.pages.length) {
+        i = this.pages.length - 1;
+      }
+
+      x = this.pages[i][0].x;
+    }
+
+    if (m === this.currentPage.pageY) {
+      m += this.directionY;
+
+      if (m < 0) {
+        m = 0;
+      } else if (m >= this.pages[0].length) {
+        m = this.pages[0].length - 1;
+      }
+
+      y = this.pages[0][m].y;
+    }
+
+    return {
+      x: x,
+      y: y,
+      pageX: i,
+      pageY: m
+    };
+  };
+
+  BScroll.prototype.goToPage = function (x, y, time) {
+    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+
+    var snap = this.options.snap;
+
+    if (!this.pages) {
+      return;
+    }
+
+    if (x >= this.pages.length) {
+      x = this.pages.length - 1;
+    } else if (x < 0) {
+      x = 0;
+    }
+
+    if (!this.pages[x]) {
+      return;
+    }
+
+    if (y >= this.pages[x].length) {
+      y = this.pages[x].length - 1;
+    } else if (y < 0) {
+      y = 0;
+    }
+
+    var posX = this.pages[x][y].x;
+    var posY = this.pages[x][y].y;
+
+    time = time === undefined ? snap.speed || Math.max(Math.max(Math.min(Math.abs(posX - this.x), 1000), Math.min(Math.abs(posY - this.y), 1000)), 300) : time;
+
+    this.currentPage = {
+      x: posX,
+      y: posY,
+      pageX: x,
+      pageY: y
+    };
+    this.scrollTo(posX, posY, time, easing);
+  };
+
+  BScroll.prototype.next = function (time, easing) {
+    var x = this.currentPage.pageX;
+    var y = this.currentPage.pageY;
+
+    x++;
+    if (x >= this.pages.length && this.hasVerticalScroll) {
+      x = 0;
+      y++;
+    }
+
+    this.goToPage(x, y, time, easing);
+  };
+
+  BScroll.prototype.prev = function (time, easing) {
+    var x = this.currentPage.pageX;
+    var y = this.currentPage.pageY;
+
+    x--;
+    if (x < 0 && this.hasVerticalScroll) {
+      x = 0;
+      y--;
+    }
+
+    this.goToPage(x, y, time, easing);
+  };
+
+  BScroll.prototype.getCurrentPage = function () {
+    return this.options.snap && this.currentPage;
+  };
+}
+
+function warn(msg) {
+  console.error("[BScroll warn]: " + msg);
+}
+
+function wheelMixin(BScroll) {
+  BScroll.prototype.wheelTo = function () {
+    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    if (this.options.wheel) {
+      this.y = -index * this.itemHeight;
+      this.scrollTo(0, this.y);
+    }
+  };
+
+  BScroll.prototype.getSelectedIndex = function () {
+    return this.options.wheel && this.selectedIndex;
+  };
+
+  BScroll.prototype._initWheel = function () {
+    var wheel = this.options.wheel;
+    if (!wheel.wheelWrapperClass) {
+      wheel.wheelWrapperClass = 'wheel-scroll';
+    }
+    if (!wheel.wheelItemClass) {
+      wheel.wheelItemClass = 'wheel-item';
+    }
+    if (wheel.selectedIndex === undefined) {
+      wheel.selectedIndex = 0;
+      warn('wheel option selectedIndex is required!');
+    }
+  };
+}
+
+var INDICATOR_MIN_LEN = 8;
+
+function scrollbarMixin(BScroll) {
+  BScroll.prototype._initScrollbar = function () {
+    var _this = this;
+
+    var _options$scrollbar$fa = this.options.scrollbar.fade,
+        fade = _options$scrollbar$fa === undefined ? true : _options$scrollbar$fa;
+
+    this.indicators = [];
+    var indicator = void 0;
+
+    if (this.options.scrollX) {
+      indicator = {
+        el: createScrollbar('horizontal'),
+        direction: 'horizontal',
+        fade: fade
+      };
+      this._insertScrollBar(indicator.el);
+
+      this.indicators.push(new Indicator(this, indicator));
+    }
+
+    if (this.options.scrollY) {
+      indicator = {
+        el: createScrollbar('vertical'),
+        direction: 'vertical',
+        fade: fade
+      };
+      this._insertScrollBar(indicator.el);
+      this.indicators.push(new Indicator(this, indicator));
+    }
+
+    this.on('refresh', function () {
+      for (var i = 0; i < _this.indicators.length; i++) {
+        _this.indicators[i].refresh();
+      }
+    });
+
+    if (fade) {
+      this.on('scrollEnd', function () {
+        for (var i = 0; i < _this.indicators.length; i++) {
+          _this.indicators[i].fade();
+        }
+      });
+
+      this.on('scrollCancel', function () {
+        for (var i = 0; i < _this.indicators.length; i++) {
+          _this.indicators[i].fade();
+        }
+      });
+
+      this.on('scrollStart', function () {
+        for (var i = 0; i < _this.indicators.length; i++) {
+          _this.indicators[i].fade(true);
+        }
+      });
+
+      this.on('beforeScrollStart', function () {
+        for (var i = 0; i < _this.indicators.length; i++) {
+          _this.indicators[i].fade(true, true);
+        }
+      });
+    }
+
+    this.on('destroy', function () {
+      _this._removeScrollBars();
+    });
+  };
+
+  BScroll.prototype._insertScrollBar = function (scrollbar) {
+    this.wrapper.appendChild(scrollbar);
+  };
+
+  BScroll.prototype._removeScrollBars = function () {
+    for (var i = 0; i < this.indicators.length; i++) {
+      var indicator = this.indicators[i];
+      indicator.remove();
+    }
+  };
+}
+
+function createScrollbar(direction) {
+  var scrollbar = document.createElement('div');
+  var indicator = document.createElement('div');
+
+  scrollbar.style.cssText = 'position:absolute;z-index:9999;pointerEvents:none';
+  indicator.style.cssText = 'box-sizing:border-box;position:absolute;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);border-radius:3px;';
+
+  indicator.className = 'bscroll-indicator';
+
+  if (direction === 'horizontal') {
+    scrollbar.style.cssText += ';height:7px;left:2px;right:2px;bottom:0';
+    indicator.style.height = '100%';
+    scrollbar.className = 'bscroll-horizontal-scrollbar';
+  } else {
+    scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px';
+    indicator.style.width = '100%';
+    scrollbar.className = 'bscroll-vertical-scrollbar';
+  }
+
+  scrollbar.style.cssText += ';overflow:hidden';
+  scrollbar.appendChild(indicator);
+
+  return scrollbar;
+}
+
+function Indicator(scroller, options) {
+  this.wrapper = options.el;
+  this.wrapperStyle = this.wrapper.style;
+  this.indicator = this.wrapper.children[0];
+  this.indicatorStyle = this.indicator.style;
+  this.scroller = scroller;
+  this.direction = options.direction;
+  if (options.fade) {
+    this.visible = 0;
+    this.wrapperStyle.opacity = '0';
+  } else {
+    this.visible = 1;
+  }
+}
+
+Indicator.prototype.refresh = function () {
+  this.transitionTime();
+  this._calculate();
+  this.updatePosition();
+};
+
+Indicator.prototype.fade = function (visible, hold) {
+  var _this2 = this;
+
+  if (hold && !this.visible) {
+    return;
+  }
+
+  var time = visible ? 250 : 500;
+
+  visible = visible ? '1' : '0';
+
+  this.wrapperStyle[style.transitionDuration] = time + 'ms';
+
+  clearTimeout(this.fadeTimeout);
+  this.fadeTimeout = setTimeout(function () {
+    _this2.wrapperStyle.opacity = visible;
+    _this2.visible = +visible;
+  }, 0);
+};
+
+Indicator.prototype.updatePosition = function () {
+  if (this.direction === 'vertical') {
+    var y = Math.round(this.sizeRatioY * this.scroller.y);
+
+    if (y < 0) {
+      this.transitionTime(500);
+      var height = Math.max(this.indicatorHeight + y * 3, INDICATOR_MIN_LEN);
+      this.indicatorStyle.height = height + 'px';
+      y = 0;
+    } else if (y > this.maxPosY) {
+      this.transitionTime(500);
+      var _height = Math.max(this.indicatorHeight - (y - this.maxPosY) * 3, INDICATOR_MIN_LEN);
+      this.indicatorStyle.height = _height + 'px';
+      y = this.maxPosY + this.indicatorHeight - _height;
+    } else {
+      this.indicatorStyle.height = this.indicatorHeight + 'px';
+    }
+    this.y = y;
+
+    if (this.scroller.options.useTransform) {
+      this.indicatorStyle[style.transform] = 'translateY(' + y + 'px)' + this.scroller.translateZ;
+    } else {
+      this.indicatorStyle.top = y + 'px';
+    }
+  } else {
+    var x = Math.round(this.sizeRatioX * this.scroller.x);
+
+    if (x < 0) {
+      this.transitionTime(500);
+      var width = Math.max(this.indicatorWidth + x * 3, INDICATOR_MIN_LEN);
+      this.indicatorStyle.width = width + 'px';
+      x = 0;
+    } else if (x > this.maxPosX) {
+      this.transitionTime(500);
+      var _width = Math.max(this.indicatorWidth - (x - this.maxPosX) * 3, INDICATOR_MIN_LEN);
+      this.indicatorStyle.width = _width + 'px';
+      x = this.maxPosX + this.indicatorWidth - _width;
+    } else {
+      this.indicatorStyle.width = this.indicatorWidth + 'px';
+    }
+
+    this.x = x;
+
+    if (this.scroller.options.useTransform) {
+      this.indicatorStyle[style.transform] = 'translateX(' + x + 'px)' + this.scroller.translateZ;
+    } else {
+      this.indicatorStyle.left = x + 'px';
+    }
+  }
+};
+
+Indicator.prototype.transitionTime = function () {
+  var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+  this.indicatorStyle[style.transitionDuration] = time + 'ms';
+};
+
+Indicator.prototype.transitionTimingFunction = function (easing) {
+  this.indicatorStyle[style.transitionTimingFunction] = easing;
+};
+
+Indicator.prototype.remove = function () {
+  this.wrapper.parentNode.removeChild(this.wrapper);
+};
+
+Indicator.prototype._calculate = function () {
+  if (this.direction === 'vertical') {
+    var wrapperHeight = this.wrapper.clientHeight;
+    this.indicatorHeight = Math.max(Math.round(wrapperHeight * wrapperHeight / (this.scroller.scrollerHeight || wrapperHeight || 1)), INDICATOR_MIN_LEN);
+    this.indicatorStyle.height = this.indicatorHeight + 'px';
+
+    this.maxPosY = wrapperHeight - this.indicatorHeight;
+
+    this.sizeRatioY = this.maxPosY / this.scroller.maxScrollY;
+  } else {
+    var wrapperWidth = this.wrapper.clientWidth;
+    this.indicatorWidth = Math.max(Math.round(wrapperWidth * wrapperWidth / (this.scroller.scrollerWidth || wrapperWidth || 1)), INDICATOR_MIN_LEN);
+    this.indicatorStyle.width = this.indicatorWidth + 'px';
+
+    this.maxPosX = wrapperWidth - this.indicatorWidth;
+
+    this.sizeRatioX = this.maxPosX / this.scroller.maxScrollX;
+  }
+};
+
+function pullDownMixin(BScroll) {
+  BScroll.prototype._initPullDown = function () {
+    // must watch scroll in real time
+    this.options.probeType = 3;
+  };
+
+  BScroll.prototype._checkPullDown = function () {
+    var _options$pullDownRefr = this.options.pullDownRefresh,
+        _options$pullDownRefr2 = _options$pullDownRefr.threshold,
+        threshold = _options$pullDownRefr2 === undefined ? 90 : _options$pullDownRefr2,
+        _options$pullDownRefr3 = _options$pullDownRefr.stop,
+        stop = _options$pullDownRefr3 === undefined ? 40 : _options$pullDownRefr3;
+
+    // check if a real pull down action
+
+    if (this.movingDirectionY !== DIRECTION_DOWN || this.y < threshold) {
+      return false;
+    }
+
+    if (!this.pulling) {
+      this.pulling = true;
+      this.trigger('pullingDown');
+    }
+    this.scrollTo(this.x, stop, this.options.bounceTime, ease.bounce);
+
+    return this.pulling;
+  };
+
+  BScroll.prototype.finishPullDown = function () {
+    this.pulling = false;
+    this.resetPosition(this.options.bounceTime, ease.bounce);
+  };
+}
+
+function pullUpMixin(BScroll) {
+  BScroll.prototype._initPullUp = function () {
+    // must watch scroll in real time
+    this.options.probeType = 3;
+
+    this.pullupWatching = false;
+    this._watchPullUp();
+  };
+
+  BScroll.prototype._watchPullUp = function () {
+    if (this.pullupWatching) {
+      return;
+    }
+    this.pullupWatching = true;
+    var _options$pullUpLoad$t = this.options.pullUpLoad.threshold,
+        threshold = _options$pullUpLoad$t === undefined ? 0 : _options$pullUpLoad$t;
+
+
+    this.on('scroll', checkToEnd);
+
+    function checkToEnd(pos) {
+      if (this.movingDirectionY === DIRECTION_UP && pos.y <= this.maxScrollY + threshold) {
+        this.trigger('pullingUp');
+        this.pullupWatching = false;
+        this.off('scroll', checkToEnd);
+      }
+    }
+  };
+
+  BScroll.prototype.finishPullUp = function () {
+    var _this = this;
+
+    if (this.isInTransition) {
+      this.once('scrollEnd', function () {
+        _this._watchPullUp();
+      });
+    } else {
+      this._watchPullUp();
+    }
+  };
+}
+
+function BScroll(el, options) {
+  this.wrapper = typeof el === 'string' ? document.querySelector(el) : el;
+  if (!this.wrapper) {
+    warn('can not resolve the wrapper dom');
+  }
+  this.scroller = this.wrapper.children[0];
+  if (!this.scroller) {
+    warn('the wrapper need at least one child element to be scroller');
+  }
+  // cache style for better performance
+  this.scrollerStyle = this.scroller.style;
+
+  this._init(el, options);
+}
+
+initMixin(BScroll);
+coreMixin(BScroll);
+eventMixin(BScroll);
+snapMixin(BScroll);
+wheelMixin(BScroll);
+scrollbarMixin(BScroll);
+pullDownMixin(BScroll);
+pullUpMixin(BScroll);
+
+BScroll.Version = '1.5.5';
+
+/* harmony default export */ __webpack_exports__["a"] = (BScroll);
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5150,7 +7189,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -5340,19 +7379,19 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(19);
-var buildURL = __webpack_require__(21);
-var parseHeaders = __webpack_require__(22);
-var isURLSameOrigin = __webpack_require__(23);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(24);
+var settle = __webpack_require__(21);
+var buildURL = __webpack_require__(23);
+var parseHeaders = __webpack_require__(24);
+var isURLSameOrigin = __webpack_require__(25);
+var createError = __webpack_require__(9);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -5449,7 +7488,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(25);
+      var cookies = __webpack_require__(27);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -5527,13 +7566,13 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(20);
+var enhanceError = __webpack_require__(22);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -5552,7 +7591,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5564,7 +7603,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5590,7 +7629,59 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(206)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Scroll.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a9b16578", Component.options)
+  } else {
+    hotAPI.reload("data-v-a9b16578", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -5618,11 +7709,11 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(13);
+window._ = __webpack_require__(15);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -5630,7 +7721,7 @@ window._ = __webpack_require__(13);
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(14);
+window.axios = __webpack_require__(16);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -5664,7 +7755,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -22753,24 +24844,24 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(11)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(13)(module)))
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(15);
+module.exports = __webpack_require__(17);
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(5);
-var Axios = __webpack_require__(17);
+var bind = __webpack_require__(6);
+var Axios = __webpack_require__(19);
 var defaults = __webpack_require__(4);
 
 /**
@@ -22804,15 +24895,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(10);
-axios.CancelToken = __webpack_require__(31);
-axios.isCancel = __webpack_require__(9);
+axios.Cancel = __webpack_require__(11);
+axios.CancelToken = __webpack_require__(33);
+axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(32);
+axios.spread = __webpack_require__(34);
 
 module.exports = axios;
 
@@ -22821,7 +24912,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /*!
@@ -22848,7 +24939,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22856,8 +24947,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(4);
 var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(26);
-var dispatchRequest = __webpack_require__(27);
+var InterceptorManager = __webpack_require__(28);
+var dispatchRequest = __webpack_require__(29);
 
 /**
  * Create a new instance of Axios
@@ -22934,7 +25025,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22953,13 +25044,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -22986,7 +25077,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23014,7 +25105,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23089,7 +25180,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23149,7 +25240,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23224,7 +25315,7 @@ module.exports = (
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23267,7 +25358,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23327,7 +25418,7 @@ module.exports = (
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23386,18 +25477,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(28);
-var isCancel = __webpack_require__(9);
+var transformData = __webpack_require__(30);
+var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(4);
-var isAbsoluteURL = __webpack_require__(29);
-var combineURLs = __webpack_require__(30);
+var isAbsoluteURL = __webpack_require__(31);
+var combineURLs = __webpack_require__(32);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -23479,7 +25570,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23506,7 +25597,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23527,7 +25618,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23548,13 +25639,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(10);
+var Cancel = __webpack_require__(11);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -23612,7 +25703,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23646,7 +25737,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports) {
 
 (function flexible (window, document) {
@@ -23696,7 +25787,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34420,10 +36511,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(35).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(37).setImmediate))
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -34476,13 +36567,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(36);
+__webpack_require__(38);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -34672,10 +36763,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(7)))
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -34757,9 +36848,9 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 38 */,
-/* 39 */,
-/* 40 */
+/* 40 */,
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -34837,7 +36928,7 @@ return af;
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -34984,7 +37075,7 @@ return ar;
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35048,7 +37139,7 @@ return arDz;
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35112,7 +37203,7 @@ return arKw;
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35243,7 +37334,7 @@ return arLy;
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35308,7 +37399,7 @@ return arMa;
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35418,7 +37509,7 @@ return arSa;
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35482,7 +37573,7 @@ return arTn;
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35592,7 +37683,7 @@ return az;
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35731,7 +37822,7 @@ return be;
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35826,7 +37917,7 @@ return bg;
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -35890,7 +37981,7 @@ return bm;
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36014,7 +38105,7 @@ return bn;
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36138,7 +38229,7 @@ return bo;
 
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36251,7 +38342,7 @@ return br;
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36399,7 +38490,7 @@ return bs;
 
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36492,7 +38583,7 @@ return ca;
 
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36669,7 +38760,7 @@ return cs;
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36737,7 +38828,7 @@ return cv;
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36823,7 +38914,7 @@ return cy;
 
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36888,7 +38979,7 @@ return da;
 
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -36971,7 +39062,7 @@ return de;
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37055,7 +39146,7 @@ return deAt;
 
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37138,7 +39229,7 @@ return deCh;
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37243,7 +39334,7 @@ return dv;
 
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37348,7 +39439,7 @@ return el;
 
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37420,7 +39511,7 @@ return enAu;
 
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37488,7 +39579,7 @@ return enCa;
 
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37560,7 +39651,7 @@ return enGb;
 
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37632,7 +39723,7 @@ return enIe;
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37704,7 +39795,7 @@ return enNz;
 
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37782,7 +39873,7 @@ return eo;
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37879,7 +39970,7 @@ return es;
 
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -37975,7 +40066,7 @@ return esDo;
 
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38063,7 +40154,7 @@ return esUs;
 
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38148,7 +40239,7 @@ return et;
 
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38219,7 +40310,7 @@ return eu;
 
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38331,7 +40422,7 @@ return fa;
 
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38443,7 +40534,7 @@ return fi;
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38508,7 +40599,7 @@ return fo;
 
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38596,7 +40687,7 @@ return fr;
 
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38675,7 +40766,7 @@ return frCa;
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38758,7 +40849,7 @@ return frCh;
 
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38838,7 +40929,7 @@ return fy;
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -38919,7 +41010,7 @@ return gd;
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39001,7 +41092,7 @@ return gl;
 
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39128,7 +41219,7 @@ return gomLatn;
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39257,7 +41348,7 @@ return gu;
 
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39361,7 +41452,7 @@ return he;
 
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39490,7 +41581,7 @@ return hi;
 
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39640,7 +41731,7 @@ return hr;
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39753,7 +41844,7 @@ return hu;
 
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39853,7 +41944,7 @@ return hyAm;
 
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -39941,7 +42032,7 @@ return id;
 
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40073,7 +42164,7 @@ return is;
 
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40148,7 +42239,7 @@ return it;
 
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40233,7 +42324,7 @@ return ja;
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40321,7 +42412,7 @@ return jv;
 
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40415,7 +42506,7 @@ return ka;
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40507,7 +42598,7 @@ return kk;
 
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40570,7 +42661,7 @@ return km;
 
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40701,7 +42792,7 @@ return kn;
 
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40789,7 +42880,7 @@ return ko;
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -40882,7 +42973,7 @@ return ky;
 
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41024,7 +43115,7 @@ return lb;
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41099,7 +43190,7 @@ return lo;
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41221,7 +43312,7 @@ return lt;
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41323,7 +43414,7 @@ return lv;
 
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41439,7 +43530,7 @@ return me;
 
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41508,7 +43599,7 @@ return mi;
 
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41603,7 +43694,7 @@ return mk;
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41689,7 +43780,7 @@ return ml;
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41853,7 +43944,7 @@ return mr;
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -41940,7 +44031,7 @@ return ms;
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42028,7 +44119,7 @@ return msMy;
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42129,7 +44220,7 @@ return my;
 
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42197,7 +44288,7 @@ return nb;
 
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42325,7 +44416,7 @@ return ne;
 
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42418,7 +44509,7 @@ return nl;
 
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42511,7 +44602,7 @@ return nlBe;
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42576,7 +44667,7 @@ return nn;
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42705,7 +44796,7 @@ return paIn;
 
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42834,7 +44925,7 @@ return pl;
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42904,7 +44995,7 @@ return pt;
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -42971,7 +45062,7 @@ return ptBr;
 
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43051,7 +45142,7 @@ return ro;
 
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43239,7 +45330,7 @@ return ru;
 
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43342,7 +45433,7 @@ return sd;
 
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43408,7 +45499,7 @@ return se;
 
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43484,7 +45575,7 @@ return si;
 
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43639,7 +45730,7 @@ return sk;
 
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43806,7 +45897,7 @@ return sl;
 
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43881,7 +45972,7 @@ return sq;
 
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -43996,7 +46087,7 @@ return sr;
 
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44111,7 +46202,7 @@ return srCyrl;
 
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44205,7 +46296,7 @@ return ss;
 
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44279,7 +46370,7 @@ return sv;
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44343,7 +46434,7 @@ return sw;
 
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44478,7 +46569,7 @@ return ta;
 
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44572,7 +46663,7 @@ return te;
 
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44645,7 +46736,7 @@ return tet;
 
 
 /***/ }),
-/* 141 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44717,7 +46808,7 @@ return th;
 
 
 /***/ }),
-/* 142 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44784,7 +46875,7 @@ return tlPh;
 
 
 /***/ }),
-/* 143 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -44909,7 +47000,7 @@ return tlh;
 
 
 /***/ }),
-/* 144 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45004,7 +47095,7 @@ return tr;
 
 
 /***/ }),
-/* 145 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45100,7 +47191,7 @@ return tzl;
 
 
 /***/ }),
-/* 146 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45163,7 +47254,7 @@ return tzm;
 
 
 /***/ }),
-/* 147 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45226,7 +47317,7 @@ return tzmLatn;
 
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45382,7 +47473,7 @@ return uk;
 
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45486,7 +47577,7 @@ return ur;
 
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45549,7 +47640,7 @@ return uz;
 
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45612,7 +47703,7 @@ return uzLatn;
 
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45696,7 +47787,7 @@ return vi;
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45769,7 +47860,7 @@ return xPseudo;
 
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45834,7 +47925,7 @@ return yo;
 
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -45950,7 +48041,7 @@ return zhCn;
 
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -46060,7 +48151,7 @@ return zhHk;
 
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -46169,2046 +48260,6 @@ return zhTw;
 
 
 /***/ }),
-/* 158 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/*!
- * better-normal-scroll v1.5.5
- * (c) 2016-2017 ustbhuangyi
- * Released under the MIT License.
- */
-var slicedToArray = function () {
-  function sliceIterator(arr, i) {
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _e = undefined;
-
-    try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"]) _i["return"]();
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-
-    return _arr;
-  }
-
-  return function (arr, i) {
-    if (Array.isArray(arr)) {
-      return arr;
-    } else if (Symbol.iterator in Object(arr)) {
-      return sliceIterator(arr, i);
-    } else {
-      throw new TypeError("Invalid attempt to destructure non-iterable instance");
-    }
-  };
-}();
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
-};
-
-function eventMixin(BScroll) {
-  BScroll.prototype.on = function (type, fn) {
-    var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
-
-    if (!this._events[type]) {
-      this._events[type] = [];
-    }
-
-    this._events[type].push([fn, context]);
-  };
-
-  BScroll.prototype.once = function (type, fn) {
-    var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
-
-    var fired = false;
-
-    function magic() {
-      this.off(type, magic);
-
-      if (!fired) {
-        fired = true;
-        fn.apply(context, arguments);
-      }
-    }
-    // 将参数中的回调函数挂载在magic对象的fn属性上,为了执行off方法的时候，暴露对应的函数方法
-    magic.fn = fn;
-
-    this.on(type, magic);
-  };
-
-  BScroll.prototype.off = function (type, fn) {
-    var _events = this._events[type];
-    if (!_events) {
-      return;
-    }
-
-    var count = _events.length;
-    while (count--) {
-      // 移除通过on或者once绑定的回调函数
-      if (_events[count][0] === fn || _events[count][0] && _events[count][0].fn === fn) {
-        _events[count][0] = undefined;
-      }
-    }
-  };
-
-  BScroll.prototype.trigger = function (type) {
-    var events = this._events[type];
-    if (!events) {
-      return;
-    }
-
-    var len = events.length;
-    var eventsCopy = [].concat(toConsumableArray(events));
-    for (var i = 0; i < len; i++) {
-      var event = eventsCopy[i];
-
-      var _event = slicedToArray(event, 2),
-          fn = _event[0],
-          context = _event[1];
-
-      if (fn) {
-        fn.apply(context, [].slice.call(arguments, 1));
-      }
-    }
-  };
-}
-
-var ua = navigator.userAgent;
-
-var isWeChatDevTools = /wechatdevtools/.test(ua);
-
-var elementStyle = document.createElement('div').style;
-
-var vendor = function () {
-  var transformNames = {
-    webkit: 'webkitTransform',
-    Moz: 'MozTransform',
-    O: 'OTransform',
-    ms: 'msTransform',
-    standard: 'transform'
-  };
-
-  for (var key in transformNames) {
-    if (elementStyle[transformNames[key]] !== undefined) {
-      return key;
-    }
-  }
-
-  return false;
-}();
-
-function prefixStyle(style) {
-  if (vendor === false) {
-    return false;
-  }
-
-  if (vendor === 'standard') {
-    return style;
-  }
-
-  return vendor + style.charAt(0).toUpperCase() + style.substr(1);
-}
-
-function addEvent(el, type, fn, capture) {
-  el.addEventListener(type, fn, { passive: false, capture: !!capture });
-}
-
-function removeEvent(el, type, fn, capture) {
-  el.removeEventListener(type, fn, { passive: false, capture: !!capture });
-}
-
-function offset(el) {
-  var left = 0;
-  var top = 0;
-
-  while (el) {
-    left -= el.offsetLeft;
-    top -= el.offsetTop;
-    el = el.offsetParent;
-  }
-
-  return {
-    left: left,
-    top: top
-  };
-}
-
-var transform = prefixStyle('transform');
-
-var hasPerspective = prefixStyle('perspective') in elementStyle;
-// fix issue #361
-var hasTouch = 'ontouchstart' in window || isWeChatDevTools;
-var hasTransform = transform !== false;
-var hasTransition = prefixStyle('transition') in elementStyle;
-
-var style = {
-  transform: transform,
-  transitionTimingFunction: prefixStyle('transitionTimingFunction'),
-  transitionDuration: prefixStyle('transitionDuration'),
-  transitionProperty: prefixStyle('transitionProperty'),
-  transitionDelay: prefixStyle('transitionDelay'),
-  transformOrigin: prefixStyle('transformOrigin'),
-  transitionEnd: prefixStyle('transitionEnd')
-};
-
-var TOUCH_EVENT = 1;
-var MOUSE_EVENT = 2;
-
-var eventType = {
-  touchstart: TOUCH_EVENT,
-  touchmove: TOUCH_EVENT,
-  touchend: TOUCH_EVENT,
-
-  mousedown: MOUSE_EVENT,
-  mousemove: MOUSE_EVENT,
-  mouseup: MOUSE_EVENT
-};
-
-function getRect(el) {
-  if (el instanceof window.SVGElement) {
-    var rect = el.getBoundingClientRect();
-    return {
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height
-    };
-  } else {
-    return {
-      top: el.offsetTop,
-      left: el.offsetLeft,
-      width: el.offsetWidth,
-      height: el.offsetHeight
-    };
-  }
-}
-
-function preventDefaultException(el, exceptions) {
-  for (var i in exceptions) {
-    if (exceptions[i].test(el[i])) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function tap(e, eventName) {
-  var ev = document.createEvent('Event');
-  ev.initEvent(eventName, true, true);
-  ev.pageX = e.pageX;
-  ev.pageY = e.pageY;
-  e.target.dispatchEvent(ev);
-}
-
-function click(e) {
-  var target = e.target;
-
-  if (!/(SELECT|INPUT|TEXTAREA)/i.test(target.tagName)) {
-    var ev = document.createEvent(window.MouseEvent ? 'MouseEvents' : 'Event');
-    // cancelable 设置为 false 是为了解决和 fastclick 冲突问题
-    ev.initEvent('click', true, false);
-    ev._constructed = true;
-    target.dispatchEvent(ev);
-  }
-}
-
-function prepend(el, target) {
-  if (target.firstChild) {
-    before(el, target.firstChild);
-  } else {
-    target.appendChild(el);
-  }
-}
-
-function before(el, target) {
-  target.parentNode.insertBefore(el, target);
-}
-
-function removeChild(el, child) {
-  el.removeChild(child);
-}
-
-function getNow() {
-  return window.performance && window.performance.now ? window.performance.now() + window.performance.timing.navigationStart : +new Date();
-}
-
-function extend(target) {
-  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    rest[_key - 1] = arguments[_key];
-  }
-
-  for (var i = 0; i < rest.length; i++) {
-    var source = rest[i];
-    for (var key in source) {
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-
-var DEFAULT_OPTIONS = {
-  startX: 0,
-  startY: 0,
-  scrollX: false,
-  scrollY: true,
-  freeScroll: false,
-  directionLockThreshold: 5,
-  eventPassthrough: '',
-  click: false,
-  tap: false,
-  bounce: true,
-  bounceTime: 700,
-  momentum: true,
-  momentumLimitTime: 300,
-  momentumLimitDistance: 15,
-  swipeTime: 2500,
-  swipeBounceTime: 500,
-  deceleration: 0.001,
-  flickLimitTime: 200,
-  flickLimitDistance: 100,
-  resizePolling: 60,
-  probeType: 0,
-  preventDefault: true,
-  preventDefaultException: {
-    tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/
-  },
-  HWCompositing: true,
-  useTransition: true,
-  useTransform: true,
-  bindToWrapper: false,
-  disableMouse: hasTouch,
-  disableTouch: !hasTouch,
-  observeDOM: true,
-  /**
-   * for picker
-   * wheel: {
-   *   selectedIndex: 0,
-   *   rotate: 25,
-   *   adjustTime: 400
-   *   wheelWrapperClass: 'wheel-scroll',
-   *   wheelItemClass: 'wheel-item'
-   * }
-   */
-  wheel: false,
-  /**
-   * for slide
-   * snap: {
-   *   loop: false,
-   *   el: domEl,
-   *   threshold: 0.1,
-   *   stepX: 100,
-   *   stepY: 100,
-   *   listenFlick: true
-   * }
-   */
-  snap: false,
-  /**
-   * for scrollbar
-   * scrollbar: {
-   *   fade: true
-   * }
-   */
-  scrollbar: false,
-  /**
-   * for pull down and refresh
-   * pullDownRefresh: {
-   *   threshold: 50,
-   *   stop: 20
-   * }
-   */
-  pullDownRefresh: false,
-  /**
-   * for pull up and load
-   * pullUpLoad: {
-   *   threshold: 50
-   * }
-   */
-  pullUpLoad: false
-};
-
-function initMixin(BScroll) {
-  BScroll.prototype._init = function (el, options) {
-    this._handleOptions(options);
-
-    // init private custom events
-    this._events = {};
-
-    this.x = 0;
-    this.y = 0;
-    this.directionX = 0;
-    this.directionY = 0;
-
-    this._addDOMEvents();
-
-    this._initExtFeatures();
-
-    this._watchTransition();
-
-    if (this.options.observeDOM) {
-      this._initDOMObserver();
-    }
-
-    this.refresh();
-
-    if (!this.options.snap) {
-      this.scrollTo(this.options.startX, this.options.startY);
-    }
-
-    this.enable();
-  };
-
-  BScroll.prototype._handleOptions = function (options) {
-    this.options = extend({}, DEFAULT_OPTIONS, options);
-
-    this.translateZ = this.options.HWCompositing && hasPerspective ? ' translateZ(0)' : '';
-
-    this.options.useTransition = this.options.useTransition && hasTransition;
-    this.options.useTransform = this.options.useTransform && hasTransform;
-
-    this.options.preventDefault = !this.options.eventPassthrough && this.options.preventDefault;
-
-    // If you want eventPassthrough I have to lock one of the axes
-    this.options.scrollX = this.options.eventPassthrough === 'horizontal' ? false : this.options.scrollX;
-    this.options.scrollY = this.options.eventPassthrough === 'vertical' ? false : this.options.scrollY;
-
-    // With eventPassthrough we also need lockDirection mechanism
-    this.options.freeScroll = this.options.freeScroll && !this.options.eventPassthrough;
-    this.options.directionLockThreshold = this.options.eventPassthrough ? 0 : this.options.directionLockThreshold;
-
-    if (this.options.tap === true) {
-      this.options.tap = 'tap';
-    }
-  };
-
-  BScroll.prototype._addDOMEvents = function () {
-    var eventOperation = addEvent;
-    this._handleDOMEvents(eventOperation);
-  };
-
-  BScroll.prototype._removeDOMEvents = function () {
-    var eventOperation = removeEvent;
-    this._handleDOMEvents(eventOperation);
-  };
-
-  BScroll.prototype._handleDOMEvents = function (eventOperation) {
-    var target = this.options.bindToWrapper ? this.wrapper : window;
-    eventOperation(window, 'orientationchange', this);
-    eventOperation(window, 'resize', this);
-
-    if (this.options.click) {
-      eventOperation(this.wrapper, 'click', this, true);
-    }
-
-    if (!this.options.disableMouse) {
-      eventOperation(this.wrapper, 'mousedown', this);
-      eventOperation(target, 'mousemove', this);
-      eventOperation(target, 'mousecancel', this);
-      eventOperation(target, 'mouseup', this);
-    }
-
-    if (hasTouch && !this.options.disableTouch) {
-      eventOperation(this.wrapper, 'touchstart', this);
-      eventOperation(target, 'touchmove', this);
-      eventOperation(target, 'touchcancel', this);
-      eventOperation(target, 'touchend', this);
-    }
-
-    eventOperation(this.scroller, style.transitionEnd, this);
-  };
-
-  BScroll.prototype._initExtFeatures = function () {
-    if (this.options.snap) {
-      this._initSnap();
-    }
-    if (this.options.scrollbar) {
-      this._initScrollbar();
-    }
-    if (this.options.pullUpLoad) {
-      this._initPullUp();
-    }
-    if (this.options.pullDownRefresh) {
-      this._initPullDown();
-    }
-    if (this.options.wheel) {
-      this._initWheel();
-    }
-  };
-
-  BScroll.prototype._watchTransition = function () {
-    if (typeof Object.defineProperty !== 'function') {
-      return;
-    }
-    var me = this;
-    var isInTransition = false;
-    Object.defineProperty(this, 'isInTransition', {
-      get: function get() {
-        return isInTransition;
-      },
-      set: function set(newVal) {
-        isInTransition = newVal;
-        // fix issue #359
-        var el = me.scroller.children.length ? me.scroller.children : [me.scroller];
-        var pointerEvents = isInTransition ? 'none' : 'auto';
-        for (var i = 0; i < el.length; i++) {
-          el[i].style.pointerEvents = pointerEvents;
-        }
-      }
-    });
-  };
-
-  BScroll.prototype._initDOMObserver = function () {
-    var _this = this;
-
-    if (typeof MutationObserver !== 'undefined') {
-      var timer = void 0;
-      var observer = new MutationObserver(function (mutations) {
-        // don't do any refresh during the transition, or outside of the boundaries
-        if (_this._shouldNotRefresh()) {
-          return;
-        }
-        var immediateRefresh = false;
-        var deferredRefresh = false;
-        for (var i = 0; i < mutations.length; i++) {
-          var mutation = mutations[i];
-          if (mutation.type !== 'attributes') {
-            immediateRefresh = true;
-            break;
-          } else {
-            if (mutation.target !== _this.scroller) {
-              deferredRefresh = true;
-              break;
-            }
-          }
-        }
-        if (immediateRefresh) {
-          _this.refresh();
-        } else if (deferredRefresh) {
-          // attributes changes too often
-          clearTimeout(timer);
-          timer = setTimeout(function () {
-            _this.refresh();
-          }, 60);
-        }
-      });
-      var config = {
-        attributes: true,
-        childList: true,
-        subtree: true
-      };
-      observer.observe(this.scroller, config);
-
-      this.on('destroy', function () {
-        observer.disconnect();
-      });
-    } else {
-      this._checkDOMUpdate();
-    }
-  };
-
-  BScroll.prototype._shouldNotRefresh = function () {
-    var outsideBoundaries = this.x > 0 || this.x < this.maxScrollX || this.y > 0 || this.y < this.maxScrollY;
-
-    return this.isInTransition || this.stopFromTransition || outsideBoundaries;
-  };
-
-  BScroll.prototype._checkDOMUpdate = function () {
-    var scrollerRect = getRect(this.scroller);
-    var oldWidth = scrollerRect.width;
-    var oldHeight = scrollerRect.height;
-
-    function check() {
-      if (this.destroyed) {
-        return;
-      }
-      scrollerRect = getRect(this.scroller);
-      var newWidth = scrollerRect.width;
-      var newHeight = scrollerRect.height;
-
-      if (oldWidth !== newWidth || oldHeight !== newHeight) {
-        this.refresh();
-      }
-      oldWidth = newWidth;
-      oldHeight = newHeight;
-
-      next.call(this);
-    }
-
-    function next() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        check.call(_this2);
-      }, 1000);
-    }
-
-    next.call(this);
-  };
-
-  BScroll.prototype.handleEvent = function (e) {
-    switch (e.type) {
-      case 'touchstart':
-      case 'mousedown':
-        this._start(e);
-        break;
-      case 'touchmove':
-      case 'mousemove':
-        this._move(e);
-        break;
-      case 'touchend':
-      case 'mouseup':
-      case 'touchcancel':
-      case 'mousecancel':
-        this._end(e);
-        break;
-      case 'orientationchange':
-      case 'resize':
-        this._resize();
-        break;
-      case 'transitionend':
-      case 'webkitTransitionEnd':
-      case 'oTransitionEnd':
-      case 'MSTransitionEnd':
-        this._transitionEnd(e);
-        break;
-      case 'click':
-        if (this.enabled && !e._constructed) {
-          if (!preventDefaultException(e.target, this.options.preventDefaultException)) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        }
-        break;
-    }
-  };
-
-  BScroll.prototype.refresh = function () {
-    var wrapperRect = getRect(this.wrapper);
-    this.wrapperWidth = wrapperRect.width;
-    this.wrapperHeight = wrapperRect.height;
-
-    var scrollerRect = getRect(this.scroller);
-    this.scrollerWidth = scrollerRect.width;
-    this.scrollerHeight = scrollerRect.height;
-
-    var wheel = this.options.wheel;
-    if (wheel) {
-      this.items = this.scroller.children;
-      this.options.itemHeight = this.itemHeight = this.items.length ? this.scrollerHeight / this.items.length : 0;
-      if (this.selectedIndex === undefined) {
-        this.selectedIndex = wheel.selectedIndex || 0;
-      }
-      this.options.startY = -this.selectedIndex * this.itemHeight;
-      this.maxScrollX = 0;
-      this.maxScrollY = -this.itemHeight * (this.items.length - 1);
-    } else {
-      this.maxScrollX = this.wrapperWidth - this.scrollerWidth;
-      this.maxScrollY = this.wrapperHeight - this.scrollerHeight;
-    }
-
-    this.hasHorizontalScroll = this.options.scrollX && this.maxScrollX < 0;
-    this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
-
-    if (!this.hasHorizontalScroll) {
-      this.maxScrollX = 0;
-      this.scrollerWidth = this.wrapperWidth;
-    }
-
-    if (!this.hasVerticalScroll) {
-      this.maxScrollY = 0;
-      this.scrollerHeight = this.wrapperHeight;
-    }
-
-    this.endTime = 0;
-    this.directionX = 0;
-    this.directionY = 0;
-    this.wrapperOffset = offset(this.wrapper);
-
-    this.trigger('refresh');
-
-    this.resetPosition();
-  };
-
-  BScroll.prototype.enable = function () {
-    this.enabled = true;
-  };
-
-  BScroll.prototype.disable = function () {
-    this.enabled = false;
-  };
-}
-
-var ease = {
-	// easeOutQuint
-	swipe: {
-		style: 'cubic-bezier(0.23, 1, 0.32, 1)',
-		fn: function fn(t) {
-			return 1 + --t * t * t * t * t;
-		}
-	},
-	// easeOutQuard
-	swipeBounce: {
-		style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-		fn: function fn(t) {
-			return t * (2 - t);
-		}
-	},
-	// easeOutQuart
-	bounce: {
-		style: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
-		fn: function fn(t) {
-			return 1 - --t * t * t * t;
-		}
-	}
-};
-
-function momentum(current, start, time, lowerMargin, wrapperSize, options) {
-  var distance = current - start;
-  var speed = Math.abs(distance) / time;
-
-  var deceleration = options.deceleration,
-      itemHeight = options.itemHeight,
-      swipeBounceTime = options.swipeBounceTime,
-      wheel = options.wheel,
-      swipeTime = options.swipeTime;
-
-  var duration = swipeTime;
-  var rate = wheel ? 4 : 15;
-
-  var destination = current + speed / deceleration * (distance < 0 ? -1 : 1);
-
-  if (wheel && itemHeight) {
-    destination = Math.round(destination / itemHeight) * itemHeight;
-  }
-
-  if (destination < lowerMargin) {
-    destination = wrapperSize ? lowerMargin - wrapperSize / rate * speed : lowerMargin;
-    duration = swipeBounceTime;
-  } else if (destination > 0) {
-    destination = wrapperSize ? wrapperSize / rate * speed : 0;
-    duration = swipeBounceTime;
-  }
-
-  return {
-    destination: Math.round(destination),
-    duration: duration
-  };
-}
-
-var DEFAULT_INTERVAL = 100 / 60;
-
-var requestAnimationFrame = function () {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
-  // if all else fails, use setTimeout
-  function (callback) {
-    return window.setTimeout(callback, (callback.interval || DEFAULT_INTERVAL) / 2); // make interval as precise as possible.
-  };
-}();
-
-var cancelAnimationFrame = function () {
-  return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || function (id) {
-    window.clearTimeout(id);
-  };
-}();
-
-var DIRECTION_UP = 1;
-var DIRECTION_DOWN = -1;
-var DIRECTION_LEFT = 1;
-var DIRECTION_RIGHT = -1;
-
-function coreMixin(BScroll) {
-  BScroll.prototype._start = function (e) {
-    var _eventType = eventType[e.type];
-    if (_eventType !== TOUCH_EVENT) {
-      if (e.button !== 0) {
-        return;
-      }
-    }
-    if (!this.enabled || this.destroyed || this.initiated && this.initiated !== _eventType) {
-      return;
-    }
-    this.initiated = _eventType;
-
-    if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
-      e.preventDefault();
-    }
-
-    this.moved = false;
-    this.distX = 0;
-    this.distY = 0;
-    this.directionX = 0;
-    this.directionY = 0;
-    this.movingDirectionX = 0;
-    this.movingDirectionY = 0;
-    this.directionLocked = 0;
-
-    this._transitionTime();
-    this.startTime = getNow();
-
-    if (this.options.wheel) {
-      this.target = e.target;
-    }
-
-    this.stop();
-
-    var point = e.touches ? e.touches[0] : e;
-
-    this.startX = this.x;
-    this.startY = this.y;
-    this.absStartX = this.x;
-    this.absStartY = this.y;
-    this.pointX = point.pageX;
-    this.pointY = point.pageY;
-
-    this.trigger('beforeScrollStart');
-  };
-
-  BScroll.prototype._move = function (e) {
-    if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
-      return;
-    }
-
-    if (this.options.preventDefault) {
-      e.preventDefault();
-    }
-
-    var point = e.touches ? e.touches[0] : e;
-    var deltaX = point.pageX - this.pointX;
-    var deltaY = point.pageY - this.pointY;
-
-    this.pointX = point.pageX;
-    this.pointY = point.pageY;
-
-    this.distX += deltaX;
-    this.distY += deltaY;
-
-    var absDistX = Math.abs(this.distX);
-    var absDistY = Math.abs(this.distY);
-
-    var timestamp = getNow();
-
-    // We need to move at least momentumLimitDistance pixels for the scrolling to initiate
-    if (timestamp - this.endTime > this.options.momentumLimitTime && absDistY < this.options.momentumLimitDistance && absDistX < this.options.momentumLimitDistance) {
-      return;
-    }
-
-    // If you are scrolling in one direction lock the other
-    if (!this.directionLocked && !this.options.freeScroll) {
-      if (absDistX > absDistY + this.options.directionLockThreshold) {
-        this.directionLocked = 'h'; // lock horizontally
-      } else if (absDistY >= absDistX + this.options.directionLockThreshold) {
-        this.directionLocked = 'v'; // lock vertically
-      } else {
-        this.directionLocked = 'n'; // no lock
-      }
-    }
-
-    if (this.directionLocked === 'h') {
-      if (this.options.eventPassthrough === 'vertical') {
-        e.preventDefault();
-      } else if (this.options.eventPassthrough === 'horizontal') {
-        this.initiated = false;
-        return;
-      }
-      deltaY = 0;
-    } else if (this.directionLocked === 'v') {
-      if (this.options.eventPassthrough === 'horizontal') {
-        e.preventDefault();
-      } else if (this.options.eventPassthrough === 'vertical') {
-        this.initiated = false;
-        return;
-      }
-      deltaX = 0;
-    }
-
-    deltaX = this.hasHorizontalScroll ? deltaX : 0;
-    deltaY = this.hasVerticalScroll ? deltaY : 0;
-    this.movingDirectionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
-    this.movingDirectionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
-
-    var newX = this.x + deltaX;
-    var newY = this.y + deltaY;
-
-    // Slow down or stop if outside of the boundaries
-    if (newX > 0 || newX < this.maxScrollX) {
-      if (this.options.bounce) {
-        newX = this.x + deltaX / 3;
-      } else {
-        newX = newX > 0 ? 0 : this.maxScrollX;
-      }
-    }
-    if (newY > 0 || newY < this.maxScrollY) {
-      if (this.options.bounce) {
-        newY = this.y + deltaY / 3;
-      } else {
-        newY = newY > 0 ? 0 : this.maxScrollY;
-      }
-    }
-
-    if (!this.moved) {
-      this.moved = true;
-      this.trigger('scrollStart');
-    }
-
-    this._translate(newX, newY);
-
-    if (timestamp - this.startTime > this.options.momentumLimitTime) {
-      this.startTime = timestamp;
-      this.startX = this.x;
-      this.startY = this.y;
-
-      if (this.options.probeType === 1) {
-        this.trigger('scroll', {
-          x: this.x,
-          y: this.y
-        });
-      }
-    }
-
-    if (this.options.probeType > 1) {
-      this.trigger('scroll', {
-        x: this.x,
-        y: this.y
-      });
-    }
-
-    var scrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
-    var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-
-    var pX = this.pointX - scrollLeft;
-    var pY = this.pointY - scrollTop;
-
-    if (pX > document.documentElement.clientWidth - this.options.momentumLimitDistance || pX < this.options.momentumLimitDistance || pY < this.options.momentumLimitDistance || pY > document.documentElement.clientHeight - this.options.momentumLimitDistance) {
-      this._end(e);
-    }
-  };
-
-  BScroll.prototype._end = function (e) {
-    if (!this.enabled || this.destroyed || eventType[e.type] !== this.initiated) {
-      return;
-    }
-    this.initiated = false;
-
-    if (this.options.preventDefault && !preventDefaultException(e.target, this.options.preventDefaultException)) {
-      e.preventDefault();
-    }
-
-    this.trigger('touchEnd', {
-      x: this.x,
-      y: this.y
-    });
-
-    var preventClick = this.stopFromTransition;
-    this.stopFromTransition = false;
-
-    // if configure pull down refresh, check it first
-    if (this.options.pullDownRefresh && this._checkPullDown()) {
-      return;
-    }
-
-    // reset if we are outside of the boundaries
-    if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
-      return;
-    }
-    this.isInTransition = false;
-    // ensures that the last position is rounded
-    var newX = Math.round(this.x);
-    var newY = Math.round(this.y);
-
-    // we scrolled less than 15 pixels
-    if (!this.moved) {
-      if (this.options.wheel) {
-        if (this.target && this.target.className === this.options.wheel.wheelWrapperClass) {
-          var index = Math.abs(Math.round(newY / this.itemHeight));
-          var _offset = Math.round((this.pointY + offset(this.target).top - this.itemHeight / 2) / this.itemHeight);
-          this.target = this.items[index + _offset];
-        }
-        this.scrollToElement(this.target, this.options.wheel.adjustTime || 400, true, true, ease.swipe);
-      } else {
-        if (!preventClick) {
-          if (this.options.tap) {
-            tap(e, this.options.tap);
-          }
-
-          if (this.options.click) {
-            click(e);
-          }
-        }
-      }
-      this.trigger('scrollCancel');
-      return;
-    }
-
-    this.scrollTo(newX, newY);
-
-    var deltaX = newX - this.absStartX;
-    var deltaY = newY - this.absStartY;
-    this.directionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
-    this.directionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
-
-    this.endTime = getNow();
-
-    var duration = this.endTime - this.startTime;
-    var absDistX = Math.abs(newX - this.startX);
-    var absDistY = Math.abs(newY - this.startY);
-
-    // flick
-    if (this._events.flick && duration < this.options.flickLimitTime && absDistX < this.options.flickLimitDistance && absDistY < this.options.flickLimitDistance) {
-      this.trigger('flick');
-      return;
-    }
-
-    var time = 0;
-    // start momentum animation if needed
-    if (this.options.momentum && duration < this.options.momentumLimitTime && (absDistY > this.options.momentumLimitDistance || absDistX > this.options.momentumLimitDistance)) {
-      var momentumX = this.hasHorizontalScroll ? momentum(this.x, this.startX, duration, this.maxScrollX, this.options.bounce ? this.wrapperWidth : 0, this.options) : { destination: newX, duration: 0 };
-      var momentumY = this.hasVerticalScroll ? momentum(this.y, this.startY, duration, this.maxScrollY, this.options.bounce ? this.wrapperHeight : 0, this.options) : { destination: newY, duration: 0 };
-      newX = momentumX.destination;
-      newY = momentumY.destination;
-      time = Math.max(momentumX.duration, momentumY.duration);
-      this.isInTransition = true;
-    } else {
-      if (this.options.wheel) {
-        newY = Math.round(newY / this.itemHeight) * this.itemHeight;
-        time = this.options.wheel.adjustTime || 400;
-      }
-    }
-
-    var easing = ease.swipe;
-    if (this.options.snap) {
-      var snap = this._nearestSnap(newX, newY);
-      this.currentPage = snap;
-      time = this.options.snapSpeed || Math.max(Math.max(Math.min(Math.abs(newX - snap.x), 1000), Math.min(Math.abs(newY - snap.y), 1000)), 300);
-      newX = snap.x;
-      newY = snap.y;
-
-      this.directionX = 0;
-      this.directionY = 0;
-      easing = ease.bounce;
-    }
-
-    if (newX !== this.x || newY !== this.y) {
-      // change easing function when scroller goes out of the boundaries
-      if (newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY) {
-        easing = ease.swipeBounce;
-      }
-      this.scrollTo(newX, newY, time, easing);
-      return;
-    }
-
-    if (this.options.wheel) {
-      this.selectedIndex = Math.round(Math.abs(this.y / this.itemHeight));
-    }
-    this.trigger('scrollEnd', {
-      x: this.x,
-      y: this.y
-    });
-  };
-
-  BScroll.prototype._resize = function () {
-    var _this = this;
-
-    if (!this.enabled) {
-      return;
-    }
-
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(function () {
-      _this.refresh();
-    }, this.options.resizePolling);
-  };
-
-  BScroll.prototype._startProbe = function () {
-    cancelAnimationFrame(this.probeTimer);
-    this.probeTimer = requestAnimationFrame(probe);
-
-    var me = this;
-
-    function probe() {
-      if (!me.isInTransition) {
-        return;
-      }
-      var pos = me.getComputedPosition();
-      me.trigger('scroll', pos);
-      me.probeTimer = requestAnimationFrame(probe);
-    }
-  };
-
-  BScroll.prototype._transitionProperty = function () {
-    var property = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'transform';
-
-    this.scrollerStyle[style.transitionProperty] = property;
-  };
-
-  BScroll.prototype._transitionTime = function () {
-    var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-    this.scrollerStyle[style.transitionDuration] = time + 'ms';
-
-    if (this.options.wheel) {
-      for (var i = 0; i < this.items.length; i++) {
-        this.items[i].style[style.transitionDuration] = time + 'ms';
-      }
-    }
-
-    if (this.indicators) {
-      for (var _i = 0; _i < this.indicators.length; _i++) {
-        this.indicators[_i].transitionTime(time);
-      }
-    }
-  };
-
-  BScroll.prototype._transitionTimingFunction = function (easing) {
-    this.scrollerStyle[style.transitionTimingFunction] = easing;
-
-    if (this.options.wheel) {
-      for (var i = 0; i < this.items.length; i++) {
-        this.items[i].style[style.transitionTimingFunction] = easing;
-      }
-    }
-
-    if (this.indicators) {
-      for (var _i2 = 0; _i2 < this.indicators.length; _i2++) {
-        this.indicators[_i2].transitionTimingFunction(easing);
-      }
-    }
-  };
-
-  BScroll.prototype._transitionEnd = function (e) {
-    if (e.target !== this.scroller || !this.isInTransition) {
-      return;
-    }
-
-    this._transitionTime();
-    if (!this.pulling && !this.resetPosition(this.options.bounceTime, ease.bounce)) {
-      this.isInTransition = false;
-      this.trigger('scrollEnd', {
-        x: this.x,
-        y: this.y
-      });
-    }
-  };
-
-  BScroll.prototype._translate = function (x, y) {
-    if (this.options.useTransform) {
-      this.scrollerStyle[style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
-    } else {
-      x = Math.round(x);
-      y = Math.round(y);
-      this.scrollerStyle.left = x + 'px';
-      this.scrollerStyle.top = y + 'px';
-    }
-
-    if (this.options.wheel) {
-      var _options$wheel$rotate = this.options.wheel.rotate,
-          rotate = _options$wheel$rotate === undefined ? 25 : _options$wheel$rotate;
-
-      for (var i = 0; i < this.items.length; i++) {
-        var deg = rotate * (y / this.itemHeight + i);
-        this.items[i].style[style.transform] = 'rotateX(' + deg + 'deg)';
-      }
-    }
-
-    this.x = x;
-    this.y = y;
-
-    if (this.indicators) {
-      for (var _i3 = 0; _i3 < this.indicators.length; _i3++) {
-        this.indicators[_i3].updatePosition();
-      }
-    }
-  };
-
-  BScroll.prototype._animate = function (destX, destY, duration, easingFn) {
-    var me = this;
-    var startX = this.x;
-    var startY = this.y;
-    var startTime = getNow();
-    var destTime = startTime + duration;
-
-    function step() {
-      var now = getNow();
-
-      if (now >= destTime) {
-        me.isAnimating = false;
-        me._translate(destX, destY);
-
-        if (!me.pulling && !me.resetPosition(me.options.bounceTime)) {
-          me.trigger('scrollEnd', {
-            x: me.x,
-            y: me.y
-          });
-        }
-        return;
-      }
-      now = (now - startTime) / duration;
-      var easing = easingFn(now);
-      var newX = (destX - startX) * easing + startX;
-      var newY = (destY - startY) * easing + startY;
-
-      me._translate(newX, newY);
-
-      if (me.isAnimating) {
-        me.animateTimer = requestAnimationFrame(step);
-      }
-
-      if (me.options.probeType === 3) {
-        me.trigger('scroll', {
-          x: me.x,
-          y: me.y
-        });
-      }
-    }
-
-    this.isAnimating = true;
-    cancelAnimationFrame(this.animateTimer);
-    step();
-  };
-
-  BScroll.prototype.scrollBy = function (x, y) {
-    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
-
-    x = this.x + x;
-    y = this.y + y;
-
-    this.scrollTo(x, y, time, easing);
-  };
-
-  BScroll.prototype.scrollTo = function (x, y) {
-    var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
-
-    this.isInTransition = this.options.useTransition && time > 0 && (x !== this.x || y !== this.y);
-
-    if (!time || this.options.useTransition) {
-      this._transitionProperty();
-      this._transitionTimingFunction(easing.style);
-      this._transitionTime(time);
-      this._translate(x, y);
-
-      if (time && this.options.probeType === 3) {
-        this._startProbe();
-      }
-
-      if (this.options.wheel) {
-        if (y > 0) {
-          this.selectedIndex = 0;
-        } else if (y < this.maxScrollY) {
-          this.selectedIndex = this.items.length - 1;
-        } else {
-          this.selectedIndex = Math.round(Math.abs(y / this.itemHeight));
-        }
-      }
-    } else {
-      this._animate(x, y, time, easing.fn);
-    }
-  };
-
-  BScroll.prototype.scrollToElement = function (el, time, offsetX, offsetY, easing) {
-    if (!el) {
-      return;
-    }
-    el = el.nodeType ? el : this.scroller.querySelector(el);
-
-    if (this.options.wheel && el.className !== this.options.wheel.wheelItemClass) {
-      return;
-    }
-
-    var pos = offset(el);
-    pos.left -= this.wrapperOffset.left;
-    pos.top -= this.wrapperOffset.top;
-
-    // if offsetX/Y are true we center the element to the screen
-    if (offsetX === true) {
-      offsetX = Math.round(el.offsetWidth / 2 - this.wrapper.offsetWidth / 2);
-    }
-    if (offsetY === true) {
-      offsetY = Math.round(el.offsetHeight / 2 - this.wrapper.offsetHeight / 2);
-    }
-
-    pos.left -= offsetX || 0;
-    pos.top -= offsetY || 0;
-    pos.left = pos.left > 0 ? 0 : pos.left < this.maxScrollX ? this.maxScrollX : pos.left;
-    pos.top = pos.top > 0 ? 0 : pos.top < this.maxScrollY ? this.maxScrollY : pos.top;
-
-    if (this.options.wheel) {
-      pos.top = Math.round(pos.top / this.itemHeight) * this.itemHeight;
-    }
-
-    this.scrollTo(pos.left, pos.top, time, easing);
-  };
-
-  BScroll.prototype.resetPosition = function () {
-    var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var easeing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ease.bounce;
-
-    var x = this.x;
-    if (!this.hasHorizontalScroll || x > 0) {
-      x = 0;
-    } else if (x < this.maxScrollX) {
-      x = this.maxScrollX;
-    }
-
-    var y = this.y;
-    if (!this.hasVerticalScroll || y > 0) {
-      y = 0;
-    } else if (y < this.maxScrollY) {
-      y = this.maxScrollY;
-    }
-
-    if (x === this.x && y === this.y) {
-      return false;
-    }
-
-    this.scrollTo(x, y, time, easeing);
-
-    return true;
-  };
-
-  BScroll.prototype.getComputedPosition = function () {
-    var matrix = window.getComputedStyle(this.scroller, null);
-    var x = void 0;
-    var y = void 0;
-
-    if (this.options.useTransform) {
-      matrix = matrix[style.transform].split(')')[0].split(', ');
-      x = +(matrix[12] || matrix[4]);
-      y = +(matrix[13] || matrix[5]);
-    } else {
-      x = +matrix.left.replace(/[^-\d.]/g, '');
-      y = +matrix.top.replace(/[^-\d.]/g, '');
-    }
-
-    return {
-      x: x,
-      y: y
-    };
-  };
-
-  BScroll.prototype.stop = function () {
-    if (this.options.useTransition && this.isInTransition) {
-      this.isInTransition = false;
-      var pos = this.getComputedPosition();
-      this._translate(pos.x, pos.y);
-      if (this.options.wheel) {
-        this.target = this.items[Math.round(-pos.y / this.itemHeight)];
-      } else {
-        this.trigger('scrollEnd', {
-          x: this.x,
-          y: this.y
-        });
-      }
-      this.stopFromTransition = true;
-    } else if (!this.options.useTransition && this.isAnimating) {
-      this.isAnimating = false;
-      this.trigger('scrollEnd', {
-        x: this.x,
-        y: this.y
-      });
-      this.stopFromTransition = true;
-    }
-  };
-
-  BScroll.prototype.destroy = function () {
-    this.destroyed = true;
-    this.trigger('destroy');
-
-    this._removeDOMEvents();
-    // remove custom events
-    this._events = {};
-  };
-}
-
-function snapMixin(BScroll) {
-  BScroll.prototype._initSnap = function () {
-    var _this = this;
-
-    this.currentPage = {};
-    var snap = this.options.snap;
-
-    if (snap.loop) {
-      var children = this.scroller.children;
-      if (children.length > 0) {
-        prepend(children[children.length - 1].cloneNode(true), this.scroller);
-        this.scroller.appendChild(children[1].cloneNode(true));
-      }
-    }
-
-    var el = snap.el;
-    if (typeof el === 'string') {
-      el = this.scroller.querySelectorAll(el);
-    }
-
-    this.on('refresh', function () {
-      _this.pages = [];
-
-      if (!_this.wrapperWidth || !_this.wrapperHeight || !_this.scrollerWidth || !_this.scrollerHeight) {
-        return;
-      }
-
-      var stepX = snap.stepX || _this.wrapperWidth;
-      var stepY = snap.stepY || _this.wrapperHeight;
-
-      var x = 0;
-      var y = void 0;
-      var cx = void 0;
-      var cy = void 0;
-      var i = 0;
-      var l = void 0;
-      var m = 0;
-      var n = void 0;
-      var rect = void 0;
-      if (!el) {
-        cx = Math.round(stepX / 2);
-        cy = Math.round(stepY / 2);
-
-        while (x > -_this.scrollerWidth) {
-          _this.pages[i] = [];
-          l = 0;
-          y = 0;
-
-          while (y > -_this.scrollerHeight) {
-            _this.pages[i][l] = {
-              x: Math.max(x, _this.maxScrollX),
-              y: Math.max(y, _this.maxScrollY),
-              width: stepX,
-              height: stepY,
-              cx: x - cx,
-              cy: y - cy
-            };
-
-            y -= stepY;
-            l++;
-          }
-
-          x -= stepX;
-          i++;
-        }
-      } else {
-        l = el.length;
-        n = -1;
-
-        for (; i < l; i++) {
-          rect = getRect(el[i]);
-          if (i === 0 || rect.left <= getRect(el[i - 1]).left) {
-            m = 0;
-            n++;
-          }
-
-          if (!_this.pages[m]) {
-            _this.pages[m] = [];
-          }
-
-          x = Math.max(-rect.left, _this.maxScrollX);
-          y = Math.max(-rect.top, _this.maxScrollY);
-          cx = x - Math.round(rect.width / 2);
-          cy = y - Math.round(rect.height / 2);
-
-          _this.pages[m][n] = {
-            x: x,
-            y: y,
-            width: rect.width,
-            height: rect.height,
-            cx: cx,
-            cy: cy
-          };
-
-          if (x > _this.maxScrollX) {
-            m++;
-          }
-        }
-      }
-
-      var initPage = snap.loop ? 1 : 0;
-      _this.goToPage(_this.currentPage.pageX || initPage, _this.currentPage.pageY || 0, 0);
-
-      // Update snap threshold if needed
-      var snapThreshold = snap.threshold;
-      if (snapThreshold % 1 === 0) {
-        _this.snapThresholdX = snapThreshold;
-        _this.snapThresholdY = snapThreshold;
-      } else {
-        _this.snapThresholdX = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].width * snapThreshold);
-        _this.snapThresholdY = Math.round(_this.pages[_this.currentPage.pageX][_this.currentPage.pageY].height * snapThreshold);
-      }
-    });
-
-    this.on('scrollEnd', function () {
-      if (snap.loop) {
-        if (_this.currentPage.pageX === 0) {
-          _this.goToPage(_this.pages.length - 2, _this.currentPage.pageY, 0);
-        }
-        if (_this.currentPage.pageX === _this.pages.length - 1) {
-          _this.goToPage(1, _this.currentPage.pageY, 0);
-        }
-      }
-    });
-
-    if (snap.listenFlick !== false) {
-      this.on('flick', function () {
-        var time = snap.speed || Math.max(Math.max(Math.min(Math.abs(_this.x - _this.startX), 1000), Math.min(Math.abs(_this.y - _this.startY), 1000)), 300);
-
-        _this.goToPage(_this.currentPage.pageX + _this.directionX, _this.currentPage.pageY + _this.directionY, time);
-      });
-    }
-
-    this.on('destroy', function () {
-      if (snap.loop) {
-        var _children = _this.scroller.children;
-        removeChild(_this.scroller, _children[_children.length - 1]);
-        removeChild(_this.scroller, _children[0]);
-      }
-    });
-  };
-
-  BScroll.prototype._nearestSnap = function (x, y) {
-    if (!this.pages.length) {
-      return { x: 0, y: 0, pageX: 0, pageY: 0 };
-    }
-
-    var i = 0;
-    // Check if we exceeded the snap threshold
-    if (Math.abs(x - this.absStartX) <= this.snapThresholdX && Math.abs(y - this.absStartY) <= this.snapThresholdY) {
-      return this.currentPage;
-    }
-
-    if (x > 0) {
-      x = 0;
-    } else if (x < this.maxScrollX) {
-      x = this.maxScrollX;
-    }
-
-    if (y > 0) {
-      y = 0;
-    } else if (y < this.maxScrollY) {
-      y = this.maxScrollY;
-    }
-
-    var l = this.pages.length;
-    for (; i < l; i++) {
-      if (x >= this.pages[i][0].cx) {
-        x = this.pages[i][0].x;
-        break;
-      }
-    }
-
-    l = this.pages[i].length;
-
-    var m = 0;
-    for (; m < l; m++) {
-      if (y >= this.pages[0][m].cy) {
-        y = this.pages[0][m].y;
-        break;
-      }
-    }
-
-    if (i === this.currentPage.pageX) {
-      i += this.directionX;
-
-      if (i < 0) {
-        i = 0;
-      } else if (i >= this.pages.length) {
-        i = this.pages.length - 1;
-      }
-
-      x = this.pages[i][0].x;
-    }
-
-    if (m === this.currentPage.pageY) {
-      m += this.directionY;
-
-      if (m < 0) {
-        m = 0;
-      } else if (m >= this.pages[0].length) {
-        m = this.pages[0].length - 1;
-      }
-
-      y = this.pages[0][m].y;
-    }
-
-    return {
-      x: x,
-      y: y,
-      pageX: i,
-      pageY: m
-    };
-  };
-
-  BScroll.prototype.goToPage = function (x, y, time) {
-    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
-
-    var snap = this.options.snap;
-
-    if (!this.pages) {
-      return;
-    }
-
-    if (x >= this.pages.length) {
-      x = this.pages.length - 1;
-    } else if (x < 0) {
-      x = 0;
-    }
-
-    if (!this.pages[x]) {
-      return;
-    }
-
-    if (y >= this.pages[x].length) {
-      y = this.pages[x].length - 1;
-    } else if (y < 0) {
-      y = 0;
-    }
-
-    var posX = this.pages[x][y].x;
-    var posY = this.pages[x][y].y;
-
-    time = time === undefined ? snap.speed || Math.max(Math.max(Math.min(Math.abs(posX - this.x), 1000), Math.min(Math.abs(posY - this.y), 1000)), 300) : time;
-
-    this.currentPage = {
-      x: posX,
-      y: posY,
-      pageX: x,
-      pageY: y
-    };
-    this.scrollTo(posX, posY, time, easing);
-  };
-
-  BScroll.prototype.next = function (time, easing) {
-    var x = this.currentPage.pageX;
-    var y = this.currentPage.pageY;
-
-    x++;
-    if (x >= this.pages.length && this.hasVerticalScroll) {
-      x = 0;
-      y++;
-    }
-
-    this.goToPage(x, y, time, easing);
-  };
-
-  BScroll.prototype.prev = function (time, easing) {
-    var x = this.currentPage.pageX;
-    var y = this.currentPage.pageY;
-
-    x--;
-    if (x < 0 && this.hasVerticalScroll) {
-      x = 0;
-      y--;
-    }
-
-    this.goToPage(x, y, time, easing);
-  };
-
-  BScroll.prototype.getCurrentPage = function () {
-    return this.options.snap && this.currentPage;
-  };
-}
-
-function warn(msg) {
-  console.error("[BScroll warn]: " + msg);
-}
-
-function wheelMixin(BScroll) {
-  BScroll.prototype.wheelTo = function () {
-    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-    if (this.options.wheel) {
-      this.y = -index * this.itemHeight;
-      this.scrollTo(0, this.y);
-    }
-  };
-
-  BScroll.prototype.getSelectedIndex = function () {
-    return this.options.wheel && this.selectedIndex;
-  };
-
-  BScroll.prototype._initWheel = function () {
-    var wheel = this.options.wheel;
-    if (!wheel.wheelWrapperClass) {
-      wheel.wheelWrapperClass = 'wheel-scroll';
-    }
-    if (!wheel.wheelItemClass) {
-      wheel.wheelItemClass = 'wheel-item';
-    }
-    if (wheel.selectedIndex === undefined) {
-      wheel.selectedIndex = 0;
-      warn('wheel option selectedIndex is required!');
-    }
-  };
-}
-
-var INDICATOR_MIN_LEN = 8;
-
-function scrollbarMixin(BScroll) {
-  BScroll.prototype._initScrollbar = function () {
-    var _this = this;
-
-    var _options$scrollbar$fa = this.options.scrollbar.fade,
-        fade = _options$scrollbar$fa === undefined ? true : _options$scrollbar$fa;
-
-    this.indicators = [];
-    var indicator = void 0;
-
-    if (this.options.scrollX) {
-      indicator = {
-        el: createScrollbar('horizontal'),
-        direction: 'horizontal',
-        fade: fade
-      };
-      this._insertScrollBar(indicator.el);
-
-      this.indicators.push(new Indicator(this, indicator));
-    }
-
-    if (this.options.scrollY) {
-      indicator = {
-        el: createScrollbar('vertical'),
-        direction: 'vertical',
-        fade: fade
-      };
-      this._insertScrollBar(indicator.el);
-      this.indicators.push(new Indicator(this, indicator));
-    }
-
-    this.on('refresh', function () {
-      for (var i = 0; i < _this.indicators.length; i++) {
-        _this.indicators[i].refresh();
-      }
-    });
-
-    if (fade) {
-      this.on('scrollEnd', function () {
-        for (var i = 0; i < _this.indicators.length; i++) {
-          _this.indicators[i].fade();
-        }
-      });
-
-      this.on('scrollCancel', function () {
-        for (var i = 0; i < _this.indicators.length; i++) {
-          _this.indicators[i].fade();
-        }
-      });
-
-      this.on('scrollStart', function () {
-        for (var i = 0; i < _this.indicators.length; i++) {
-          _this.indicators[i].fade(true);
-        }
-      });
-
-      this.on('beforeScrollStart', function () {
-        for (var i = 0; i < _this.indicators.length; i++) {
-          _this.indicators[i].fade(true, true);
-        }
-      });
-    }
-
-    this.on('destroy', function () {
-      _this._removeScrollBars();
-    });
-  };
-
-  BScroll.prototype._insertScrollBar = function (scrollbar) {
-    this.wrapper.appendChild(scrollbar);
-  };
-
-  BScroll.prototype._removeScrollBars = function () {
-    for (var i = 0; i < this.indicators.length; i++) {
-      var indicator = this.indicators[i];
-      indicator.remove();
-    }
-  };
-}
-
-function createScrollbar(direction) {
-  var scrollbar = document.createElement('div');
-  var indicator = document.createElement('div');
-
-  scrollbar.style.cssText = 'position:absolute;z-index:9999;pointerEvents:none';
-  indicator.style.cssText = 'box-sizing:border-box;position:absolute;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);border-radius:3px;';
-
-  indicator.className = 'bscroll-indicator';
-
-  if (direction === 'horizontal') {
-    scrollbar.style.cssText += ';height:7px;left:2px;right:2px;bottom:0';
-    indicator.style.height = '100%';
-    scrollbar.className = 'bscroll-horizontal-scrollbar';
-  } else {
-    scrollbar.style.cssText += ';width:7px;bottom:2px;top:2px;right:1px';
-    indicator.style.width = '100%';
-    scrollbar.className = 'bscroll-vertical-scrollbar';
-  }
-
-  scrollbar.style.cssText += ';overflow:hidden';
-  scrollbar.appendChild(indicator);
-
-  return scrollbar;
-}
-
-function Indicator(scroller, options) {
-  this.wrapper = options.el;
-  this.wrapperStyle = this.wrapper.style;
-  this.indicator = this.wrapper.children[0];
-  this.indicatorStyle = this.indicator.style;
-  this.scroller = scroller;
-  this.direction = options.direction;
-  if (options.fade) {
-    this.visible = 0;
-    this.wrapperStyle.opacity = '0';
-  } else {
-    this.visible = 1;
-  }
-}
-
-Indicator.prototype.refresh = function () {
-  this.transitionTime();
-  this._calculate();
-  this.updatePosition();
-};
-
-Indicator.prototype.fade = function (visible, hold) {
-  var _this2 = this;
-
-  if (hold && !this.visible) {
-    return;
-  }
-
-  var time = visible ? 250 : 500;
-
-  visible = visible ? '1' : '0';
-
-  this.wrapperStyle[style.transitionDuration] = time + 'ms';
-
-  clearTimeout(this.fadeTimeout);
-  this.fadeTimeout = setTimeout(function () {
-    _this2.wrapperStyle.opacity = visible;
-    _this2.visible = +visible;
-  }, 0);
-};
-
-Indicator.prototype.updatePosition = function () {
-  if (this.direction === 'vertical') {
-    var y = Math.round(this.sizeRatioY * this.scroller.y);
-
-    if (y < 0) {
-      this.transitionTime(500);
-      var height = Math.max(this.indicatorHeight + y * 3, INDICATOR_MIN_LEN);
-      this.indicatorStyle.height = height + 'px';
-      y = 0;
-    } else if (y > this.maxPosY) {
-      this.transitionTime(500);
-      var _height = Math.max(this.indicatorHeight - (y - this.maxPosY) * 3, INDICATOR_MIN_LEN);
-      this.indicatorStyle.height = _height + 'px';
-      y = this.maxPosY + this.indicatorHeight - _height;
-    } else {
-      this.indicatorStyle.height = this.indicatorHeight + 'px';
-    }
-    this.y = y;
-
-    if (this.scroller.options.useTransform) {
-      this.indicatorStyle[style.transform] = 'translateY(' + y + 'px)' + this.scroller.translateZ;
-    } else {
-      this.indicatorStyle.top = y + 'px';
-    }
-  } else {
-    var x = Math.round(this.sizeRatioX * this.scroller.x);
-
-    if (x < 0) {
-      this.transitionTime(500);
-      var width = Math.max(this.indicatorWidth + x * 3, INDICATOR_MIN_LEN);
-      this.indicatorStyle.width = width + 'px';
-      x = 0;
-    } else if (x > this.maxPosX) {
-      this.transitionTime(500);
-      var _width = Math.max(this.indicatorWidth - (x - this.maxPosX) * 3, INDICATOR_MIN_LEN);
-      this.indicatorStyle.width = _width + 'px';
-      x = this.maxPosX + this.indicatorWidth - _width;
-    } else {
-      this.indicatorStyle.width = this.indicatorWidth + 'px';
-    }
-
-    this.x = x;
-
-    if (this.scroller.options.useTransform) {
-      this.indicatorStyle[style.transform] = 'translateX(' + x + 'px)' + this.scroller.translateZ;
-    } else {
-      this.indicatorStyle.left = x + 'px';
-    }
-  }
-};
-
-Indicator.prototype.transitionTime = function () {
-  var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-  this.indicatorStyle[style.transitionDuration] = time + 'ms';
-};
-
-Indicator.prototype.transitionTimingFunction = function (easing) {
-  this.indicatorStyle[style.transitionTimingFunction] = easing;
-};
-
-Indicator.prototype.remove = function () {
-  this.wrapper.parentNode.removeChild(this.wrapper);
-};
-
-Indicator.prototype._calculate = function () {
-  if (this.direction === 'vertical') {
-    var wrapperHeight = this.wrapper.clientHeight;
-    this.indicatorHeight = Math.max(Math.round(wrapperHeight * wrapperHeight / (this.scroller.scrollerHeight || wrapperHeight || 1)), INDICATOR_MIN_LEN);
-    this.indicatorStyle.height = this.indicatorHeight + 'px';
-
-    this.maxPosY = wrapperHeight - this.indicatorHeight;
-
-    this.sizeRatioY = this.maxPosY / this.scroller.maxScrollY;
-  } else {
-    var wrapperWidth = this.wrapper.clientWidth;
-    this.indicatorWidth = Math.max(Math.round(wrapperWidth * wrapperWidth / (this.scroller.scrollerWidth || wrapperWidth || 1)), INDICATOR_MIN_LEN);
-    this.indicatorStyle.width = this.indicatorWidth + 'px';
-
-    this.maxPosX = wrapperWidth - this.indicatorWidth;
-
-    this.sizeRatioX = this.maxPosX / this.scroller.maxScrollX;
-  }
-};
-
-function pullDownMixin(BScroll) {
-  BScroll.prototype._initPullDown = function () {
-    // must watch scroll in real time
-    this.options.probeType = 3;
-  };
-
-  BScroll.prototype._checkPullDown = function () {
-    var _options$pullDownRefr = this.options.pullDownRefresh,
-        _options$pullDownRefr2 = _options$pullDownRefr.threshold,
-        threshold = _options$pullDownRefr2 === undefined ? 90 : _options$pullDownRefr2,
-        _options$pullDownRefr3 = _options$pullDownRefr.stop,
-        stop = _options$pullDownRefr3 === undefined ? 40 : _options$pullDownRefr3;
-
-    // check if a real pull down action
-
-    if (this.movingDirectionY !== DIRECTION_DOWN || this.y < threshold) {
-      return false;
-    }
-
-    if (!this.pulling) {
-      this.pulling = true;
-      this.trigger('pullingDown');
-    }
-    this.scrollTo(this.x, stop, this.options.bounceTime, ease.bounce);
-
-    return this.pulling;
-  };
-
-  BScroll.prototype.finishPullDown = function () {
-    this.pulling = false;
-    this.resetPosition(this.options.bounceTime, ease.bounce);
-  };
-}
-
-function pullUpMixin(BScroll) {
-  BScroll.prototype._initPullUp = function () {
-    // must watch scroll in real time
-    this.options.probeType = 3;
-
-    this.pullupWatching = false;
-    this._watchPullUp();
-  };
-
-  BScroll.prototype._watchPullUp = function () {
-    if (this.pullupWatching) {
-      return;
-    }
-    this.pullupWatching = true;
-    var _options$pullUpLoad$t = this.options.pullUpLoad.threshold,
-        threshold = _options$pullUpLoad$t === undefined ? 0 : _options$pullUpLoad$t;
-
-
-    this.on('scroll', checkToEnd);
-
-    function checkToEnd(pos) {
-      if (this.movingDirectionY === DIRECTION_UP && pos.y <= this.maxScrollY + threshold) {
-        this.trigger('pullingUp');
-        this.pullupWatching = false;
-        this.off('scroll', checkToEnd);
-      }
-    }
-  };
-
-  BScroll.prototype.finishPullUp = function () {
-    var _this = this;
-
-    if (this.isInTransition) {
-      this.once('scrollEnd', function () {
-        _this._watchPullUp();
-      });
-    } else {
-      this._watchPullUp();
-    }
-  };
-}
-
-function BScroll(el, options) {
-  this.wrapper = typeof el === 'string' ? document.querySelector(el) : el;
-  if (!this.wrapper) {
-    warn('can not resolve the wrapper dom');
-  }
-  this.scroller = this.wrapper.children[0];
-  if (!this.scroller) {
-    warn('the wrapper need at least one child element to be scroller');
-  }
-  // cache style for better performance
-  this.scrollerStyle = this.scroller.style;
-
-  this._init(el, options);
-}
-
-initMixin(BScroll);
-coreMixin(BScroll);
-eventMixin(BScroll);
-snapMixin(BScroll);
-wheelMixin(BScroll);
-scrollbarMixin(BScroll);
-pullDownMixin(BScroll);
-pullUpMixin(BScroll);
-
-BScroll.Version = '1.5.5';
-
-/* harmony default export */ __webpack_exports__["a"] = (BScroll);
-
-
-/***/ }),
-/* 159 */,
 /* 160 */,
 /* 161 */,
 /* 162 */,
@@ -48244,14 +48295,15 @@ BScroll.Version = '1.5.5';
 /* 192 */,
 /* 193 */,
 /* 194 */,
-/* 195 */
+/* 195 */,
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(196);
+module.exports = __webpack_require__(197);
 
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -48261,9 +48313,9 @@ module.exports = __webpack_require__(196);
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(12);
+__webpack_require__(14);
 
-__webpack_require__(33);
+__webpack_require__(35);
 
 window.moment = __webpack_require__(0);
 window.moment.locale('zh-cn');
@@ -48287,265 +48339,266 @@ window.moment.locale('zh-cn');
 // });
 
 
-window.Vue = __webpack_require__(34);
+window.Vue = __webpack_require__(36);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('user-index', __webpack_require__(198));
-Vue.component('parcel-index', __webpack_require__(203));
+Vue.component('user-index', __webpack_require__(199));
+Vue.component('parcel-index', __webpack_require__(204));
 Vue.component('order-show', __webpack_require__(213));
-Vue.component('physical-index', __webpack_require__(217));
-Vue.component('package-index', __webpack_require__(220));
-Vue.component('package-show', __webpack_require__(223));
+Vue.component('physical-index', __webpack_require__(216));
+Vue.component('package-index', __webpack_require__(219));
+Vue.component('package-show', __webpack_require__(222));
+Vue.component('advance-index', __webpack_require__(225));
 
 var app = new Vue({
   el: '#app'
 });
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 40,
-	"./af.js": 40,
-	"./ar": 41,
-	"./ar-dz": 42,
-	"./ar-dz.js": 42,
-	"./ar-kw": 43,
-	"./ar-kw.js": 43,
-	"./ar-ly": 44,
-	"./ar-ly.js": 44,
-	"./ar-ma": 45,
-	"./ar-ma.js": 45,
-	"./ar-sa": 46,
-	"./ar-sa.js": 46,
-	"./ar-tn": 47,
-	"./ar-tn.js": 47,
-	"./ar.js": 41,
-	"./az": 48,
-	"./az.js": 48,
-	"./be": 49,
-	"./be.js": 49,
-	"./bg": 50,
-	"./bg.js": 50,
-	"./bm": 51,
-	"./bm.js": 51,
-	"./bn": 52,
-	"./bn.js": 52,
-	"./bo": 53,
-	"./bo.js": 53,
-	"./br": 54,
-	"./br.js": 54,
-	"./bs": 55,
-	"./bs.js": 55,
-	"./ca": 56,
-	"./ca.js": 56,
-	"./cs": 57,
-	"./cs.js": 57,
-	"./cv": 58,
-	"./cv.js": 58,
-	"./cy": 59,
-	"./cy.js": 59,
-	"./da": 60,
-	"./da.js": 60,
-	"./de": 61,
-	"./de-at": 62,
-	"./de-at.js": 62,
-	"./de-ch": 63,
-	"./de-ch.js": 63,
-	"./de.js": 61,
-	"./dv": 64,
-	"./dv.js": 64,
-	"./el": 65,
-	"./el.js": 65,
-	"./en-au": 66,
-	"./en-au.js": 66,
-	"./en-ca": 67,
-	"./en-ca.js": 67,
-	"./en-gb": 68,
-	"./en-gb.js": 68,
-	"./en-ie": 69,
-	"./en-ie.js": 69,
-	"./en-nz": 70,
-	"./en-nz.js": 70,
-	"./eo": 71,
-	"./eo.js": 71,
-	"./es": 72,
-	"./es-do": 73,
-	"./es-do.js": 73,
-	"./es-us": 74,
-	"./es-us.js": 74,
-	"./es.js": 72,
-	"./et": 75,
-	"./et.js": 75,
-	"./eu": 76,
-	"./eu.js": 76,
-	"./fa": 77,
-	"./fa.js": 77,
-	"./fi": 78,
-	"./fi.js": 78,
-	"./fo": 79,
-	"./fo.js": 79,
-	"./fr": 80,
-	"./fr-ca": 81,
-	"./fr-ca.js": 81,
-	"./fr-ch": 82,
-	"./fr-ch.js": 82,
-	"./fr.js": 80,
-	"./fy": 83,
-	"./fy.js": 83,
-	"./gd": 84,
-	"./gd.js": 84,
-	"./gl": 85,
-	"./gl.js": 85,
-	"./gom-latn": 86,
-	"./gom-latn.js": 86,
-	"./gu": 87,
-	"./gu.js": 87,
-	"./he": 88,
-	"./he.js": 88,
-	"./hi": 89,
-	"./hi.js": 89,
-	"./hr": 90,
-	"./hr.js": 90,
-	"./hu": 91,
-	"./hu.js": 91,
-	"./hy-am": 92,
-	"./hy-am.js": 92,
-	"./id": 93,
-	"./id.js": 93,
-	"./is": 94,
-	"./is.js": 94,
-	"./it": 95,
-	"./it.js": 95,
-	"./ja": 96,
-	"./ja.js": 96,
-	"./jv": 97,
-	"./jv.js": 97,
-	"./ka": 98,
-	"./ka.js": 98,
-	"./kk": 99,
-	"./kk.js": 99,
-	"./km": 100,
-	"./km.js": 100,
-	"./kn": 101,
-	"./kn.js": 101,
-	"./ko": 102,
-	"./ko.js": 102,
-	"./ky": 103,
-	"./ky.js": 103,
-	"./lb": 104,
-	"./lb.js": 104,
-	"./lo": 105,
-	"./lo.js": 105,
-	"./lt": 106,
-	"./lt.js": 106,
-	"./lv": 107,
-	"./lv.js": 107,
-	"./me": 108,
-	"./me.js": 108,
-	"./mi": 109,
-	"./mi.js": 109,
-	"./mk": 110,
-	"./mk.js": 110,
-	"./ml": 111,
-	"./ml.js": 111,
-	"./mr": 112,
-	"./mr.js": 112,
-	"./ms": 113,
-	"./ms-my": 114,
-	"./ms-my.js": 114,
-	"./ms.js": 113,
-	"./my": 115,
-	"./my.js": 115,
-	"./nb": 116,
-	"./nb.js": 116,
-	"./ne": 117,
-	"./ne.js": 117,
-	"./nl": 118,
-	"./nl-be": 119,
-	"./nl-be.js": 119,
-	"./nl.js": 118,
-	"./nn": 120,
-	"./nn.js": 120,
-	"./pa-in": 121,
-	"./pa-in.js": 121,
-	"./pl": 122,
-	"./pl.js": 122,
-	"./pt": 123,
-	"./pt-br": 124,
-	"./pt-br.js": 124,
-	"./pt.js": 123,
-	"./ro": 125,
-	"./ro.js": 125,
-	"./ru": 126,
-	"./ru.js": 126,
-	"./sd": 127,
-	"./sd.js": 127,
-	"./se": 128,
-	"./se.js": 128,
-	"./si": 129,
-	"./si.js": 129,
-	"./sk": 130,
-	"./sk.js": 130,
-	"./sl": 131,
-	"./sl.js": 131,
-	"./sq": 132,
-	"./sq.js": 132,
-	"./sr": 133,
-	"./sr-cyrl": 134,
-	"./sr-cyrl.js": 134,
-	"./sr.js": 133,
-	"./ss": 135,
-	"./ss.js": 135,
-	"./sv": 136,
-	"./sv.js": 136,
-	"./sw": 137,
-	"./sw.js": 137,
-	"./ta": 138,
-	"./ta.js": 138,
-	"./te": 139,
-	"./te.js": 139,
-	"./tet": 140,
-	"./tet.js": 140,
-	"./th": 141,
-	"./th.js": 141,
-	"./tl-ph": 142,
-	"./tl-ph.js": 142,
-	"./tlh": 143,
-	"./tlh.js": 143,
-	"./tr": 144,
-	"./tr.js": 144,
-	"./tzl": 145,
-	"./tzl.js": 145,
-	"./tzm": 146,
-	"./tzm-latn": 147,
-	"./tzm-latn.js": 147,
-	"./tzm.js": 146,
-	"./uk": 148,
-	"./uk.js": 148,
-	"./ur": 149,
-	"./ur.js": 149,
-	"./uz": 150,
-	"./uz-latn": 151,
-	"./uz-latn.js": 151,
-	"./uz.js": 150,
-	"./vi": 152,
-	"./vi.js": 152,
-	"./x-pseudo": 153,
-	"./x-pseudo.js": 153,
-	"./yo": 154,
-	"./yo.js": 154,
-	"./zh-cn": 155,
-	"./zh-cn.js": 155,
-	"./zh-hk": 156,
-	"./zh-hk.js": 156,
-	"./zh-tw": 157,
-	"./zh-tw.js": 157
+	"./af": 42,
+	"./af.js": 42,
+	"./ar": 43,
+	"./ar-dz": 44,
+	"./ar-dz.js": 44,
+	"./ar-kw": 45,
+	"./ar-kw.js": 45,
+	"./ar-ly": 46,
+	"./ar-ly.js": 46,
+	"./ar-ma": 47,
+	"./ar-ma.js": 47,
+	"./ar-sa": 48,
+	"./ar-sa.js": 48,
+	"./ar-tn": 49,
+	"./ar-tn.js": 49,
+	"./ar.js": 43,
+	"./az": 50,
+	"./az.js": 50,
+	"./be": 51,
+	"./be.js": 51,
+	"./bg": 52,
+	"./bg.js": 52,
+	"./bm": 53,
+	"./bm.js": 53,
+	"./bn": 54,
+	"./bn.js": 54,
+	"./bo": 55,
+	"./bo.js": 55,
+	"./br": 56,
+	"./br.js": 56,
+	"./bs": 57,
+	"./bs.js": 57,
+	"./ca": 58,
+	"./ca.js": 58,
+	"./cs": 59,
+	"./cs.js": 59,
+	"./cv": 60,
+	"./cv.js": 60,
+	"./cy": 61,
+	"./cy.js": 61,
+	"./da": 62,
+	"./da.js": 62,
+	"./de": 63,
+	"./de-at": 64,
+	"./de-at.js": 64,
+	"./de-ch": 65,
+	"./de-ch.js": 65,
+	"./de.js": 63,
+	"./dv": 66,
+	"./dv.js": 66,
+	"./el": 67,
+	"./el.js": 67,
+	"./en-au": 68,
+	"./en-au.js": 68,
+	"./en-ca": 69,
+	"./en-ca.js": 69,
+	"./en-gb": 70,
+	"./en-gb.js": 70,
+	"./en-ie": 71,
+	"./en-ie.js": 71,
+	"./en-nz": 72,
+	"./en-nz.js": 72,
+	"./eo": 73,
+	"./eo.js": 73,
+	"./es": 74,
+	"./es-do": 75,
+	"./es-do.js": 75,
+	"./es-us": 76,
+	"./es-us.js": 76,
+	"./es.js": 74,
+	"./et": 77,
+	"./et.js": 77,
+	"./eu": 78,
+	"./eu.js": 78,
+	"./fa": 79,
+	"./fa.js": 79,
+	"./fi": 80,
+	"./fi.js": 80,
+	"./fo": 81,
+	"./fo.js": 81,
+	"./fr": 82,
+	"./fr-ca": 83,
+	"./fr-ca.js": 83,
+	"./fr-ch": 84,
+	"./fr-ch.js": 84,
+	"./fr.js": 82,
+	"./fy": 85,
+	"./fy.js": 85,
+	"./gd": 86,
+	"./gd.js": 86,
+	"./gl": 87,
+	"./gl.js": 87,
+	"./gom-latn": 88,
+	"./gom-latn.js": 88,
+	"./gu": 89,
+	"./gu.js": 89,
+	"./he": 90,
+	"./he.js": 90,
+	"./hi": 91,
+	"./hi.js": 91,
+	"./hr": 92,
+	"./hr.js": 92,
+	"./hu": 93,
+	"./hu.js": 93,
+	"./hy-am": 94,
+	"./hy-am.js": 94,
+	"./id": 95,
+	"./id.js": 95,
+	"./is": 96,
+	"./is.js": 96,
+	"./it": 97,
+	"./it.js": 97,
+	"./ja": 98,
+	"./ja.js": 98,
+	"./jv": 99,
+	"./jv.js": 99,
+	"./ka": 100,
+	"./ka.js": 100,
+	"./kk": 101,
+	"./kk.js": 101,
+	"./km": 102,
+	"./km.js": 102,
+	"./kn": 103,
+	"./kn.js": 103,
+	"./ko": 104,
+	"./ko.js": 104,
+	"./ky": 105,
+	"./ky.js": 105,
+	"./lb": 106,
+	"./lb.js": 106,
+	"./lo": 107,
+	"./lo.js": 107,
+	"./lt": 108,
+	"./lt.js": 108,
+	"./lv": 109,
+	"./lv.js": 109,
+	"./me": 110,
+	"./me.js": 110,
+	"./mi": 111,
+	"./mi.js": 111,
+	"./mk": 112,
+	"./mk.js": 112,
+	"./ml": 113,
+	"./ml.js": 113,
+	"./mr": 114,
+	"./mr.js": 114,
+	"./ms": 115,
+	"./ms-my": 116,
+	"./ms-my.js": 116,
+	"./ms.js": 115,
+	"./my": 117,
+	"./my.js": 117,
+	"./nb": 118,
+	"./nb.js": 118,
+	"./ne": 119,
+	"./ne.js": 119,
+	"./nl": 120,
+	"./nl-be": 121,
+	"./nl-be.js": 121,
+	"./nl.js": 120,
+	"./nn": 122,
+	"./nn.js": 122,
+	"./pa-in": 123,
+	"./pa-in.js": 123,
+	"./pl": 124,
+	"./pl.js": 124,
+	"./pt": 125,
+	"./pt-br": 126,
+	"./pt-br.js": 126,
+	"./pt.js": 125,
+	"./ro": 127,
+	"./ro.js": 127,
+	"./ru": 128,
+	"./ru.js": 128,
+	"./sd": 129,
+	"./sd.js": 129,
+	"./se": 130,
+	"./se.js": 130,
+	"./si": 131,
+	"./si.js": 131,
+	"./sk": 132,
+	"./sk.js": 132,
+	"./sl": 133,
+	"./sl.js": 133,
+	"./sq": 134,
+	"./sq.js": 134,
+	"./sr": 135,
+	"./sr-cyrl": 136,
+	"./sr-cyrl.js": 136,
+	"./sr.js": 135,
+	"./ss": 137,
+	"./ss.js": 137,
+	"./sv": 138,
+	"./sv.js": 138,
+	"./sw": 139,
+	"./sw.js": 139,
+	"./ta": 140,
+	"./ta.js": 140,
+	"./te": 141,
+	"./te.js": 141,
+	"./tet": 142,
+	"./tet.js": 142,
+	"./th": 143,
+	"./th.js": 143,
+	"./tl-ph": 144,
+	"./tl-ph.js": 144,
+	"./tlh": 145,
+	"./tlh.js": 145,
+	"./tr": 146,
+	"./tr.js": 146,
+	"./tzl": 147,
+	"./tzl.js": 147,
+	"./tzm": 148,
+	"./tzm-latn": 149,
+	"./tzm-latn.js": 149,
+	"./tzm.js": 148,
+	"./uk": 150,
+	"./uk.js": 150,
+	"./ur": 151,
+	"./ur.js": 151,
+	"./uz": 152,
+	"./uz-latn": 153,
+	"./uz-latn.js": 153,
+	"./uz.js": 152,
+	"./vi": 154,
+	"./vi.js": 154,
+	"./x-pseudo": 155,
+	"./x-pseudo.js": 155,
+	"./yo": 156,
+	"./yo.js": 156,
+	"./zh-cn": 157,
+	"./zh-cn.js": 157,
+	"./zh-hk": 158,
+	"./zh-hk.js": 158,
+	"./zh-tw": 159,
+	"./zh-tw.js": 159
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -48561,18 +48614,18 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 197;
+webpackContext.id = 198;
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(199)
+var __vue_script__ = __webpack_require__(200)
 /* template */
-var __vue_template__ = __webpack_require__(202)
+var __vue_template__ = __webpack_require__(203)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -48612,12 +48665,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_From_js__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_From_js__ = __webpack_require__(201);
 //
 //
 //
@@ -48723,11 +48776,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_Errors_js__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_Errors_js__ = __webpack_require__(202);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48889,7 +48942,7 @@ var Form = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Form);
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48981,7 +49034,7 @@ var Errors = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Errors);
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49189,13 +49242,13 @@ if (false) {
 }
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(204)
+var __vue_script__ = __webpack_require__(205)
 /* template */
 var __vue_template__ = __webpack_require__(212)
 /* template functional */
@@ -49237,14 +49290,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
 //
 //
@@ -49429,58 +49482,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 205 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(206)
-}
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(210)
-/* template */
-var __vue_template__ = __webpack_require__(211)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/Scroll.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a9b16578", Component.options)
-  } else {
-    hotAPI.reload("data-v-a9b16578", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
 /* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49510,7 +49511,7 @@ if(false) {
 /* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(37)(undefined);
+exports = module.exports = __webpack_require__(39)(undefined);
 // imports
 
 
@@ -49780,7 +49781,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_better_scroll__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_better_scroll__ = __webpack_require__(5);
 //
 //
 //
@@ -51151,16 +51152,15 @@ if (false) {
 }
 
 /***/ }),
-/* 216 */,
-/* 217 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(218)
+var __vue_script__ = __webpack_require__(217)
 /* template */
-var __vue_template__ = __webpack_require__(219)
+var __vue_template__ = __webpack_require__(218)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51200,14 +51200,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
 //
 //
@@ -51390,7 +51390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51783,15 +51783,15 @@ if (false) {
 }
 
 /***/ }),
-/* 220 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(221)
+var __vue_script__ = __webpack_require__(220)
 /* template */
-var __vue_template__ = __webpack_require__(222)
+var __vue_template__ = __webpack_require__(221)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51831,14 +51831,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 221 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
 //
 //
@@ -51888,7 +51888,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 222 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51966,15 +51966,15 @@ if (false) {
 }
 
 /***/ }),
-/* 223 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(224)
+var __vue_script__ = __webpack_require__(223)
 /* template */
-var __vue_template__ = __webpack_require__(225)
+var __vue_template__ = __webpack_require__(224)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52014,14 +52014,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 224 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
 //
 //
@@ -52084,6 +52084,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             payway: 'wechat',
             money: this.attributes.men_money,
             witch_money: 'men',
+            order_time: '',
             days: [],
             day: '',
             time: ''
@@ -52106,12 +52107,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         changeMoney: function changeMoney(witch_money) {
             this.witch_money = witch_money;
             this.money = witch_money === 'men' ? this.pack.men_money : this.pack.women_money;
+        },
+        settle: function settle() {
+            var _this = this;
+
+            if (this.day === '' || this.time === '') {
+                alert('请选择体检时间');
+                return;
+            }
+            this.order_time = this.day + ' ' + this.time;
+
+            axios.post('/orders', {
+                order_details: this.pack,
+                order_details_type: 'App\\Models\\Package',
+                money: this.money
+            }).then(function (response) {
+                if (response.status === 201) {
+                    _this.order = response.data.data;
+                    _this.pay();
+                }
+                console.log(response.status);
+            }).catch(function (error) {
+                if (error.response.status === 400) {
+                    alert(error.response.data.data);
+                    return;
+                }
+                console.log(error.reponse);
+            });
+        },
+        pay: function pay() {
+            axios.post('/orders/' + this.order.id + '/' + this.payway, {
+                order_time: this.order_time,
+                pay_way: this.payway
+            }).then(function (response) {
+                if (response.status === 201) {}
+                console.log(response.status);
+            }).catch(function (error) {
+                if (error.response.status === 400) {
+                    alert(error.response.data.data);
+                    return;
+                }
+                console.log(error.response);
+            });
         }
     }
 });
 
 /***/ }),
-/* 225 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52318,7 +52361,9 @@ var render = function() {
       _c("div", { staticClass: "container pack-pay" }, [
         _c("span", [_vm._v("￥" + _vm._s(_vm.money))]),
         _vm._v(" "),
-        _c("button", { attrs: { type: "button" } }, [_vm._v("立即支付")])
+        _c("button", { attrs: { type: "button" }, on: { click: _vm.settle } }, [
+          _vm._v("立即支付")
+        ])
       ])
     ])
   ])
@@ -52330,6 +52375,304 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-f3b11294", module.exports)
+  }
+}
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(226)
+/* template */
+var __vue_template__ = __webpack_require__(227)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/pages/AdvanceIndex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-48ee13a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-48ee13a6", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 226 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            schedulings: this.attributes,
+            date: moment().format('L'),
+            menu: 'date',
+            days: [],
+            weeks: ['日', '一', '二', '三', '四', '五', '六'],
+            week: moment().day()
+        };
+    },
+
+    components: {
+        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
+    },
+    created: function created() {
+        for (var index = 0; index < 7; index++) {
+            this.days[index] = [moment().add(index, 'days').format('MM.DD'), moment().add(index, 'days').day()];
+        }
+    },
+
+    methods: {
+        touch: function touch() {
+            event.preventDefault();
+        },
+        changeMenu: function changeMenu(menu) {
+            this.menu = menu;
+            if (menu === 'date') {
+                this.week = moment().day();
+            } else {
+                this.week = '';
+            }
+        },
+        changeDay: function changeDay(week) {
+            this.week = week;
+        }
+    }
+});
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container mx-auto" }, [
+    _c("div", { staticClass: "parcel-index" }, [
+      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
+        _c(
+          "a",
+          {
+            class: _vm.menu == "expert" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeMenu("expert")
+              }
+            }
+          },
+          [_vm._v("按专家预约")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.menu == "date" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeMenu("date")
+              }
+            }
+          },
+          [_vm._v("按日期预约")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm.menu == "expert"
+        ? _c(
+            "div",
+            { staticClass: "parcel-date", on: { touchmove: _vm.touch } },
+            [_vm._v(_vm._s(_vm.date))]
+          )
+        : _c(
+            "div",
+            { staticClass: "parcel-date", on: { touchmove: _vm.touch } },
+            _vm._l(_vm.days, function(day, index) {
+              return _c(
+                "li",
+                {
+                  key: index,
+                  class: day["1"] == _vm.week ? "on" : "",
+                  on: {
+                    click: function($event) {
+                      _vm.changeDay(day["1"])
+                    }
+                  }
+                },
+                [
+                  _vm._v(_vm._s(_vm.weeks[day["1"]])),
+                  _c("span", [_vm._v(_vm._s(day["0"]))])
+                ]
+              )
+            })
+          ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "parcel-contact" },
+        [
+          _c(
+            "scroll",
+            {
+              staticClass: "parcel-package warpper",
+              attrs: { data: _vm.schedulings }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "content" },
+                _vm._l(_vm.schedulings, function(scheduling, index) {
+                  return _vm.week === "" || scheduling.day === _vm.week
+                    ? _c("div", { key: index, staticClass: "doctor-item" }, [
+                        _c("img", {
+                          attrs: { src: scheduling.doctor.image, alt: "" }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "doctor-item-desc" }, [
+                          _c("div", { staticClass: "doctor-item-right" }, [
+                            _c("div", { staticClass: "doctor-item-top" }, [
+                              _c("div", { staticClass: "name-title" }, [
+                                _c("p", [
+                                  _c("strong", [
+                                    _vm._v(_vm._s(scheduling.doctor.name))
+                                  ]),
+                                  _vm._v(" " + _vm._s(scheduling.doctor.title))
+                                ]),
+                                _vm._v(" "),
+                                _c("p", [
+                                  _vm._v(
+                                    "接诊量：" +
+                                      _vm._s(scheduling.doctor.recep_num)
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.menu == "expert"
+                                ? _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href: "/scheduling/" + scheduling.id
+                                      }
+                                    },
+                                    [_vm._v("查看")]
+                                  )
+                                : _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        href: "/scheduling/" + scheduling.id
+                                      }
+                                    },
+                                    [_vm._v("预约")]
+                                  )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v(_vm._s(scheduling.doctor.desc))])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "depart" }, [
+                            _c("span", [
+                              _vm._v(_vm._s(scheduling.doctor.department.name))
+                            ])
+                          ])
+                        ])
+                      ])
+                    : _vm._e()
+                })
+              )
+            ]
+          )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-48ee13a6", module.exports)
   }
 }
 

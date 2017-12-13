@@ -11,6 +11,7 @@ $factory->define(App\Models\Doctor::class, function (Faker $faker) {
         'department_id' => function () {
             return factory('App\Models\Department')->create()->id;
         },
+        'recep_num' => rand(100, 999),
         'status' => 1,
     ];
 });

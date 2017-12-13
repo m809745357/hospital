@@ -43,7 +43,7 @@
             </div>
             <div class="container pack-pay">
                 <span>￥{{ money }}</span>
-                <button type="button">立即支付</button>
+                <button type="button" @click="settle">立即支付</button>
             </div>
         </div>
     </div>
@@ -60,6 +60,7 @@ export default {
             payway: 'wechat',
             money: this.attributes.men_money,
             witch_money: 'men',
+            order_time: '',
             days: [],
             day: '',
             time: ''
@@ -80,6 +81,54 @@ export default {
         changeMoney(witch_money) {
             this.witch_money = witch_money
             this.money = witch_money === 'men' ? this.pack.men_money : this.pack.women_money
+            
+        },
+        settle() {
+            if (this.day === '' || this.time === '') {
+                alert('请选择体检时间');
+                return ;
+            }
+            this.order_time = this.day + ' ' + this.time;
+
+            axios.post('/orders', {
+                    order_details: this.pack,
+                    order_details_type: 'App\\Models\\Package',
+                    money: this.money
+                })
+                .then(response => {
+                    if (response.status === 201) {                            
+                        this.order = response.data.data
+                        this.pay();
+                    }
+                    console.log(response.status);
+                })
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        alert(error.response.data.data);
+                        return ;
+                    }
+                    console.log(error.reponse);
+                })
+                
+        },
+        pay () {
+            axios.post(`/orders/${this.order.id}/${this.payway}`, {
+                    order_time: this.order_time,
+                    pay_way: this.payway,
+                })
+                .then(response => {
+                    if (response.status === 201) {
+                        
+                    }
+                    console.log(response.status);
+                })
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        alert(error.response.data.data);
+                        return ;
+                    }
+                    console.log(error.response);
+                })
         }
     }
 }

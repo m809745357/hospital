@@ -44,6 +44,7 @@ Vue.component('order-show', require('./pages/OrderShow.vue'));
 Vue.component('physical-index', require('./pages/PhysicalIndex.vue'));
 Vue.component('package-index', require('./pages/PackageIndex.vue'));
 Vue.component('package-show', require('./pages/PackageShow.vue'));
+Vue.component('advance-index', require('./pages/AdvanceIndex.vue'));
 
 const app = new Vue({
     el: '#app',

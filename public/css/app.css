@@ -4573,14 +4573,47 @@ th {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   border-bottom-width: 1px;
   border-color: #ececec;
   background-color: #ffffff;
   position: relative;
   z-index: 10;
+}
+
+.parcel-index .parcel-date li {
+  list-style: none;
+}
+
+.parcel-index .parcel-date li span {
+  display: none;
+}
+
+.parcel-index .parcel-date li.on {
+  width: 1rem;
+  height: 0.8rem;
+  text-align: center;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-width: 1px;
+  border-color: #ececec;
+  color: #3490dc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.parcel-index .parcel-date li.on span {
+  display: block;
 }
 
 .parcel-index .parcel-contact {
@@ -4841,6 +4874,154 @@ th {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item {
+  height: 3.6133rem;
+  margin: 0 0.4rem;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item img {
+  width: 1.7333rem;
+  height: 1.7333rem;
+  margin-top: 0.24rem;
+  border-radius: 50%;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc {
+  width: 7.0667rem;
+  margin-top: 0.24rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right {
+  height: 2.16rem;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right .doctor-item-top {
+  height: 1.0667rem;
+  width: 7.0667rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right .doctor-item-top .name-title {
+  height: 1.0667rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right .doctor-item-top .name-title span {
+  color: #ececec;
+  font-weight: 400;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right .doctor-item-top a {
+  height: 0.72rem;
+  width: 1.3333rem;
+  background-color: #3490dc;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right p {
+  font-size: 12px;
+  color: #5f5f5f;
+  font-weight: 400;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .doctor-item-right p strong {
+  font-size: 14px;
+  color: #333333;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .depart {
+  width: 7.0667rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #5f5f5f;
+}
+
+.parcel-index .parcel-contact .parcel-package .doctor-item .doctor-item-desc .depart span {
+  padding: 0.1333rem 0.2667rem;
+  background-color: #ececec;
+  border-radius: 4px;
 }
 
 .parcel-index .parcel-footer {

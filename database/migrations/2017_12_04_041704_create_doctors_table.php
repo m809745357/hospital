@@ -20,6 +20,7 @@ class CreateDoctorsTable extends Migration
             $table->string('image')->nullable();
             $table->string('desc');
             $table->unsignedInteger('department_id');
+            $table->integer('recep_num');
             $table->string('status');
             $table->timestamps();
         });
