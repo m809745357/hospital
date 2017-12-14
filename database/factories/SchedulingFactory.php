@@ -11,7 +11,7 @@ $factory->define(Scheduling::class, function (Faker $faker) {
             return factory('App\Models\Doctor')->create()->id;
         },
         'type' => $type[rand(0, 2)],
-        'day' => rand(1, 7),
+        'day' => rand(0, 6),
         'time' => rand(1, 3),
         'address' => $faker->word,
         'money' => $faker->randomNumber(2),

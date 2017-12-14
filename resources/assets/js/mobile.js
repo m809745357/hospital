@@ -41,6 +41,7 @@ window.Vue = require('vue');
 Vue.component('user-index', require('./pages/UserIndex.vue'));
 Vue.component('parcel-index', require('./pages/ParcelIndex.vue'));
 Vue.component('order-show', require('./pages/OrderShow.vue'));
+Vue.component('order-index', require('./pages/OrderIndex.vue'));
 Vue.component('physical-index', require('./pages/PhysicalIndex.vue'));
 Vue.component('package-index', require('./pages/PackageIndex.vue'));
 Vue.component('package-show', require('./pages/PackageShow.vue'));

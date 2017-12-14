@@ -28,7 +28,7 @@ class Order extends Model
 
     public function getOrderDetailsAttribute($order_details)
     {
-        return $this->attributes['order_details'] = unserialize($order_details);
+        return $this->attributes['order_details'] = is_array($order_details) ? $order_details : unserialize($order_details);
     }
 
     public function wechat()

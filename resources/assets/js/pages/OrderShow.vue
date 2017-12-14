@@ -56,7 +56,66 @@
                 <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
             </div>
         </div>
-        <div class="order-show">
+        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Package'">
+            <div class="from-group">
+                <label for="">订单号</label>
+                <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">订单时间</label>
+                <input type="text" v-model="order.created_at" name="created_at" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">预约时间</label>
+                <select name="order_time" id="" v-model="day" v-if="order.status == 1">
+                    <option value="">请选择</option>
+                    <option :value="day" v-for="(day, index) in days" :key="index">{{ day }}</option>
+                </select>
+                <select name="order_time" id="" v-model="time" v-if="order.status == 1">
+                    <option value="">请选择</option>
+                    <option value="9:00-10:00">9:00-10:00</option>
+                    <option value="10:00-11:00">10:00-11:00</option>
+                    <option value="11:00-12:00">11:00-12:00</option>
+                    <option value="12:00-13:00">12:00-13:00</option>
+                    <option value="13:00-14:00">13:00-14:00</option>
+                    <option value="14:00-15:00">14:00-15:00</option>
+                    <option value="15:00-16:00">15:00-16:00</option>
+                    <option value="16:00-17:00">16:00-17:00</option>
+                </select>
+                <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
+            </div>
+            <div class="from-group">
+                <label for="">诊疗费</label>
+                <input type="text" v-model="'￥ ' + order.money + ' 元'" name="order_time" disabled>
+            </div>
+        </div>
+        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Scheduling'">
+            <div class="from-group">
+                <label for="">订单号</label>
+                <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">订单时间</label>
+                <input type="text" v-model="order.created_at" name="created_at" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">预约时间</label>
+                <input type="text" v-model="order.order_time" name="order_time" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">预约医生</label>
+                <input type="text" v-model="order.order_details.doctor.name" name="order_time" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">诊疗费</label>
+                <input type="text" v-model="'￥ ' + order.order_details.money + ' 元'" name="order_time" disabled>
+            </div>
+            <div class="from-group">
+                <label for="">就诊地点</label>
+                <input type="text" v-model="order.order_details.address" name="order_time" disabled>
+            </div>
+        </div>
+        <div class="order-show" v-if="! order.order_details_type == 'App\\Models\\Scheduling'">
             <h4>订单详情</h4>
             <div class="food-item" v-for="(detail, index) in order.order_details" :key="index">
                 <h4>{{ detail.title }}</h4>
@@ -136,6 +195,13 @@ export default {
             if (this.order.order_details_type == 'App\\Models\\Physical') {
                 if (this.day === '' || this.time === '') {
                     alert('请选择体检时间');
+                    return ;
+                }
+                this.order.order_time = this.day + ' ' + this.time;
+            }
+            if (this.order.order_details_type == 'App\\Models\\Package') {
+                if (this.day === '' || this.time === '') {
+                    alert('请选择预约时间');
                     return ;
                 }
                 this.order.order_time = this.day + ' ' + this.time;

@@ -24,7 +24,7 @@ class OrderController extends Controller
             'out_trade_no' => $out_trade_no,
             'order_details' => $order_details,
             'order_details_type' => $request->order_details_type,
-            'order_time' => '',
+            'order_time' => $request->order_time ?? '',
             'remark' => $request->menu
         ]);
 
@@ -34,6 +34,12 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return view('mobile.orders.show', compact('order'));
+    }
+
+    public function index()
+    {
+        $orders = auth()->user()->order;
+        return view('mobile.orders.index', compact('orders'));
     }
 
     public function card(Request $request, Order $order)

@@ -140,6 +140,7 @@ th {
 }
 .parcel-index {
     font-size: 14px;
+    @apply text-grey-darker;
 
     .parcel-menu {
         height: 0.9333rem;
@@ -176,6 +177,11 @@ th {
                     @apply block;
                 }
             }
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -306,11 +312,15 @@ th {
                 margin: 0 0.4rem;
                 @apply border-b border-grey-lighter flex flex-row justify-between;
 
-                img {
-                    width: 1.7333rem;
-                    height: 1.7333rem;
-                    margin-top: 0.24rem;
-                    border-radius: 50%;
+                .doctor-item-left {
+
+                    @apply flex flex-col items-center justify-around;
+                    img {
+                        width: 1.7333rem;
+                        height: 1.7333rem;
+                        margin-top: 0.24rem;
+                        border-radius: 50%;
+                    }
                 }
 
                 .doctor-item-desc {
@@ -337,7 +347,7 @@ th {
 
                             a {
                                 height: 0.72rem;
-                                width: 1.3333rem;
+                                width: 2rem;
                                 @apply bg-blue shadow text-white text-sm rounded-4px no-underline flex items-center justify-center;
                             }
                         }
@@ -362,6 +372,36 @@ th {
                     }
                 }
 
+            }
+
+            .order-item {
+                height: 2.8533rem;
+                padding: 0 0.4rem;
+                border-top-width: 0.4rem;
+                @apply border-b border-grey-lighter flex flex-col items-center justify-between;
+
+                .order-item-top {
+                    width: 100%;
+                    height: 1.4267rem;
+                    @apply flex flex-row items-center justify-between border-b border-grey-lighter;
+
+                    .order-item-desc {
+                        height: 1.4267rem;
+                        @apply flex-1 flex flex-col items-start justify-around;
+                    }
+
+                    a {
+                        height: 0.72rem;
+                        width: 1.3333rem;
+                        @apply bg-blue shadow text-white text-sm rounded-4px no-underline flex items-center justify-center;
+                    }
+                }
+
+                .order-item-bottom {
+                    width: 100%;
+                    height: 1.4267rem;
+                    @apply flex flex-row items-center justify-between;
+                }
             }
         }
     }

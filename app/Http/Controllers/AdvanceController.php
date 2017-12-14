@@ -14,7 +14,11 @@ class AdvanceController extends Controller
 
     public function index()
     {
-        $schedulings = Scheduling::with('doctor.department')->latest()->get();
+        $schedulings = Scheduling::with('doctor.department')
+                        ->orderBy('type', 'asc')
+                        ->orderBy('day', 'asc')
+                        ->orderBy('time', 'asc')
+                        ->get();
         return view('mobile.advances.index', compact('schedulings'));
     }
 }
