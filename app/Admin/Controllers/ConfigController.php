@@ -80,6 +80,16 @@ class ConfigController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+            $grid->disableCreation();
+            $grid->disableExport();
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+            });
+            $grid->tools(function ($tools) {
+                $tools->batch(function ($batch) {
+                    $batch->disableDelete();
+                });
+            });
         });
     }
 

@@ -4592,7 +4592,7 @@ return hooks;
 "use strict";
 
 
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(7);
 var isBuffer = __webpack_require__(18);
 
 /*global toString:true*/
@@ -5055,10 +5055,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(8);
+    adapter = __webpack_require__(9);
   }
   return adapter;
 }
@@ -5129,7 +5129,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 5 */
@@ -7174,6 +7174,58 @@ BScroll.Version = '1.5.5';
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(206)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Scroll.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a9b16578", Component.options)
+  } else {
+    hotAPI.reload("data-v-a9b16578", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -7189,7 +7241,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7379,7 +7431,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7390,7 +7442,7 @@ var settle = __webpack_require__(21);
 var buildURL = __webpack_require__(23);
 var parseHeaders = __webpack_require__(24);
 var isURLSameOrigin = __webpack_require__(25);
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(10);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
 
 module.exports = function xhrAdapter(config) {
@@ -7566,7 +7618,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7591,7 +7643,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7603,7 +7655,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7626,58 +7678,6 @@ Cancel.prototype.toString = function toString() {
 Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(206)
-}
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(210)
-/* template */
-var __vue_template__ = __webpack_require__(211)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/Scroll.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a9b16578", Component.options)
-  } else {
-    hotAPI.reload("data-v-a9b16578", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
 
 
 /***/ }),
@@ -24860,7 +24860,7 @@ module.exports = __webpack_require__(17);
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(7);
 var Axios = __webpack_require__(19);
 var defaults = __webpack_require__(4);
 
@@ -24895,9 +24895,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(11);
+axios.Cancel = __webpack_require__(12);
 axios.CancelToken = __webpack_require__(33);
-axios.isCancel = __webpack_require__(10);
+axios.isCancel = __webpack_require__(11);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -25050,7 +25050,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(10);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -25485,7 +25485,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(30);
-var isCancel = __webpack_require__(10);
+var isCancel = __webpack_require__(11);
 var defaults = __webpack_require__(4);
 var isAbsoluteURL = __webpack_require__(31);
 var combineURLs = __webpack_require__(32);
@@ -25645,7 +25645,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(11);
+var Cancel = __webpack_require__(12);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -36763,7 +36763,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
 
 /***/ }),
 /* 39 */
@@ -48349,11 +48349,11 @@ window.Vue = __webpack_require__(36);
 Vue.component('user-index', __webpack_require__(199));
 Vue.component('parcel-index', __webpack_require__(204));
 Vue.component('order-show', __webpack_require__(213));
-Vue.component('order-index', __webpack_require__(229));
-Vue.component('physical-index', __webpack_require__(216));
-Vue.component('package-index', __webpack_require__(219));
-Vue.component('package-show', __webpack_require__(222));
-Vue.component('advance-index', __webpack_require__(225));
+Vue.component('order-index', __webpack_require__(216));
+Vue.component('physical-index', __webpack_require__(219));
+Vue.component('package-index', __webpack_require__(222));
+Vue.component('package-show', __webpack_require__(225));
+Vue.component('advance-index', __webpack_require__(228));
 
 var app = new Vue({
   el: '#app'
@@ -49296,7 +49296,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
@@ -51631,6 +51631,332 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
+Component.options.__file = "resources/assets/js/pages/OrderIndex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-db597bbe", Component.options)
+  } else {
+    hotAPI.reload("data-v-db597bbe", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 217 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            orders: this.attributes,
+            date: moment().format('L'),
+            menu: 'P',
+            status: '1'
+        };
+    },
+
+    components: {
+        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
+    },
+    methods: {
+        touch: function touch() {
+            event.preventDefault();
+        },
+        changeMenu: function changeMenu(menu) {
+            this.menu = menu;
+            this.status = '1';
+        },
+        changeStatus: function changeStatus(status) {
+            this.status = status;
+        }
+    }
+});
+
+/***/ }),
+/* 218 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container mx-auto" }, [
+    _c("div", { staticClass: "parcel-index" }, [
+      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
+        _c(
+          "a",
+          {
+            class: _vm.menu == "P" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeMenu("P")
+              }
+            }
+          },
+          [_vm._v("体检订单")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.menu == "S" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeMenu("S")
+              }
+            }
+          },
+          [_vm._v("挂号订单")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.menu == "F" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeMenu("F")
+              }
+            }
+          },
+          [_vm._v("点餐订单")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
+        _c(
+          "a",
+          {
+            class: _vm.status == "1" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeStatus("1")
+              }
+            }
+          },
+          [_vm._v("未支付")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.status == "2" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeStatus("2")
+              }
+            }
+          },
+          [_vm._v("已支付")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.status == "3" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeStatus("3")
+              }
+            }
+          },
+          [_vm._v("已完成")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            class: _vm.status == "4" ? "on" : "",
+            on: {
+              click: function($event) {
+                _vm.changeStatus("4")
+              }
+            }
+          },
+          [_vm._v("已取消")]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "parcel-contact" },
+        [
+          _c(
+            "scroll",
+            {
+              staticClass: "parcel-package warpper",
+              attrs: { data: _vm.orders }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "content" },
+                _vm._l(_vm.orders, function(order, index) {
+                  return order.order_details_type.indexOf(_vm.menu) > -1 &&
+                    order.status === _vm.status
+                    ? _c("div", { key: index, staticClass: "order-item" }, [
+                        _c("div", { staticClass: "order-item-top" }, [
+                          _c("div", { staticClass: "order-item-desc" }, [
+                            _c("h4", [
+                              _vm._v("订单号：" + _vm._s(order.out_trade_no))
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                _vm._s(order.order_time) +
+                                  " " +
+                                  _vm._s(order.remark)
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          order.status == 1
+                            ? _c(
+                                "a",
+                                { attrs: { href: "/orders/" + order.id } },
+                                [_vm._v("去支付")]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "order-item-bottom" }, [
+                          order.order_details_type === "App\\Models\\Food"
+                            ? _c("p", [_vm._v("4")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          order.order_details_type === "App\\Models\\Physical"
+                            ? _c("p", [_vm._v("3")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          order.order_details_type === "App\\Models\\Package"
+                            ? _c("p", [
+                                _vm._v("2" + _vm._s(order.order_details.title))
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          order.order_details_type === "App\\Models\\Scheduling"
+                            ? _c("p", [
+                                _vm._v(
+                                  "1" +
+                                    _vm._s(
+                                      order.order_details.doctor.department.name
+                                    ) +
+                                    " " +
+                                    _vm._s(order.order_details.doctor.name)
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("￥ " + _vm._s(order.money))])
+                        ])
+                      ])
+                    : _vm._e()
+                })
+              )
+            ]
+          )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-db597bbe", module.exports)
+  }
+}
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(220)
+/* template */
+var __vue_template__ = __webpack_require__(221)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
 Component.options.__file = "resources/assets/js/pages/PhysicalIndex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
@@ -51654,12 +51980,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
@@ -51844,7 +52170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52237,15 +52563,15 @@ if (false) {
 }
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(220)
+var __vue_script__ = __webpack_require__(223)
 /* template */
-var __vue_template__ = __webpack_require__(221)
+var __vue_template__ = __webpack_require__(224)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52285,12 +52611,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
@@ -52342,7 +52668,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52420,15 +52746,15 @@ if (false) {
 }
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(223)
+var __vue_script__ = __webpack_require__(226)
 /* template */
-var __vue_template__ = __webpack_require__(224)
+var __vue_template__ = __webpack_require__(227)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52468,12 +52794,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 223 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
@@ -52608,7 +52934,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 224 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52833,15 +53159,15 @@ if (false) {
 }
 
 /***/ }),
-/* 225 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(226)
+var __vue_script__ = __webpack_require__(229)
 /* template */
-var __vue_template__ = __webpack_require__(227)
+var __vue_template__ = __webpack_require__(230)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52881,12 +53207,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 226 */
+/* 229 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
 //
@@ -53006,7 +53332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 227 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53200,333 +53526,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-48ee13a6", module.exports)
-  }
-}
-
-/***/ }),
-/* 228 */,
-/* 229 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(230)
-/* template */
-var __vue_template__ = __webpack_require__(231)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/pages/OrderIndex.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-db597bbe", Component.options)
-  } else {
-    hotAPI.reload("data-v-db597bbe", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 230 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_better_scroll__ = __webpack_require__(5);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['attributes'],
-    data: function data() {
-        return {
-            orders: this.attributes,
-            date: moment().format('L'),
-            menu: 'P',
-            status: '1'
-        };
-    },
-
-    components: {
-        scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
-    },
-    methods: {
-        touch: function touch() {
-            event.preventDefault();
-        },
-        changeMenu: function changeMenu(menu) {
-            this.menu = menu;
-            this.status = '1';
-        },
-        changeStatus: function changeStatus(status) {
-            this.status = status;
-        }
-    }
-});
-
-/***/ }),
-/* 231 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mx-auto" }, [
-    _c("div", { staticClass: "parcel-index" }, [
-      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
-        _c(
-          "a",
-          {
-            class: _vm.menu == "P" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeMenu("P")
-              }
-            }
-          },
-          [_vm._v("体检订单")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            class: _vm.menu == "S" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeMenu("S")
-              }
-            }
-          },
-          [_vm._v("挂号订单")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            class: _vm.menu == "F" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeMenu("F")
-              }
-            }
-          },
-          [_vm._v("点餐订单")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "parcel-menu", on: { touchmove: _vm.touch } }, [
-        _c(
-          "a",
-          {
-            class: _vm.status == "1" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeStatus("1")
-              }
-            }
-          },
-          [_vm._v("未支付")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            class: _vm.status == "2" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeStatus("2")
-              }
-            }
-          },
-          [_vm._v("已支付")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            class: _vm.status == "3" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeStatus("3")
-              }
-            }
-          },
-          [_vm._v("已完成")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            class: _vm.status == "4" ? "on" : "",
-            on: {
-              click: function($event) {
-                _vm.changeStatus("4")
-              }
-            }
-          },
-          [_vm._v("已取消")]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "parcel-contact" },
-        [
-          _c(
-            "scroll",
-            {
-              staticClass: "parcel-package warpper",
-              attrs: { data: _vm.orders }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "content" },
-                _vm._l(_vm.orders, function(order, index) {
-                  return order.order_details_type.indexOf(_vm.menu) > -1 &&
-                    order.status === _vm.status
-                    ? _c("div", { key: index, staticClass: "order-item" }, [
-                        _c("div", { staticClass: "order-item-top" }, [
-                          _c("div", { staticClass: "order-item-desc" }, [
-                            _c("h4", [
-                              _vm._v("订单号：" + _vm._s(order.out_trade_no))
-                            ]),
-                            _vm._v(" "),
-                            _c("p", [
-                              _vm._v(
-                                _vm._s(order.order_time) +
-                                  " " +
-                                  _vm._s(order.remark)
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          order.status == 1
-                            ? _c(
-                                "a",
-                                { attrs: { href: "/orders/" + order.id } },
-                                [_vm._v("去支付")]
-                              )
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "order-item-bottom" }, [
-                          order.order_details_type === "App\\Models\\Food"
-                            ? _c("p", [_vm._v("4")])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          order.order_details_type === "App\\Models\\Physical"
-                            ? _c("p", [_vm._v("3")])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          order.order_details_type === "App\\Models\\Package"
-                            ? _c("p", [
-                                _vm._v("2" + _vm._s(order.order_details.title))
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          order.order_details_type === "App\\Models\\Scheduling"
-                            ? _c("p", [
-                                _vm._v(
-                                  "1" +
-                                    _vm._s(
-                                      order.order_details.doctor.department.name
-                                    ) +
-                                    " " +
-                                    _vm._s(order.order_details.doctor.name)
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("￥ " + _vm._s(order.money))])
-                        ])
-                      ])
-                    : _vm._e()
-                })
-              )
-            ]
-          )
-        ],
-        1
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-db597bbe", module.exports)
   }
 }
 

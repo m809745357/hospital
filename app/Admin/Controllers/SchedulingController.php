@@ -105,7 +105,7 @@ class SchedulingController extends Controller
             $form->text('address', '地址');
             $form->number('money', '门诊费');
             $form->select('day', '星期')->options([
-                1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六', 7 => '星期日'
+                1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六', 0 => '星期日'
             ]);
             $form->select('time', '上下午')->options([
                 1 => '上午', 2 => '下午', 3 => '全天'

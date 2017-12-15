@@ -29,7 +29,7 @@
                 <div class="flex items-center justify-end md:h-pc-131 h-full">
                     <div class="md:absolute pin-l md:ml-pc-200 m-1 md:m-0 h-full flex items-center">
                         <a href="{{ url('/home') }}" class="no-underline">
-                            <img :src="`/uploads/${configs.logo}`" class="w-3/4">
+                            <img :src="`/uploads/${configs.logo}`" class="w-3/4 md:w-full">
                         </a>
                         <div class="block md:hidden"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
                     </div>
@@ -59,7 +59,7 @@
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
                         <img src="/images/slider-bg-1.png" alt="">
-                        <button class="banner-button" type="button" v-html="slide.title"></button>
+                        <button class="banner-button hidden md:block" type="button" v-html="slide.title" ></button>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>
