@@ -40,11 +40,12 @@ class ParcelTest extends TestCase
 
         $food = factory('App\Models\Food')->create()->toArray();
         $food['num'] = 5;
-
+        // $this->withExceptionHandling();
         $this->post('/orders', [
-            'foods' => [
+            'order_details' => [
                 $food,
             ],
+            'order_details_type' => 'App\\Models\\Food',
             'menu' => 'am'
         ]);
 
@@ -68,7 +69,8 @@ class ParcelTest extends TestCase
         $order = $user->order()->create([
             'money' => $food['money'] * $food['num'],
             'out_trade_no' => config('wechat.payment.merchant_id') . date('YmdHis') . rand(1000, 9999),
-            'foods' => serialize($food),
+            'order_details' => serialize($food),
+            'order_details_type' => 'App\\Models\\Food',
             'order_time' => '',
             'remark' => 'am'
         ]);

@@ -20,11 +20,11 @@ class AdvanceTest extends TestCase
         $user = factory('App\User')->create();
         $this->actingAs($user);
 
-        $doctor = factory('App\Models\Doctor')->create();
+        $scheduling = factory('App\Models\Scheduling')->create();
 
         $response = $this->get('advances');
 
-        $response->assertSee($doctor->name);
+        $response->assertSee($scheduling->doctor->name);
     }
 
     /**

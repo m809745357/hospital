@@ -17,7 +17,9 @@ class SmsTest extends TestCase
      */
     public function any_wechat_user_can_send_sms_to_the_phone_number()
     {
-        $user = factory('App\User')->create(['mobile' => '18367831980']);
+        factory('App\User')->create(['mobile' => '18367831980']);
+
+        $user = factory('App\User')->create(['mobile' => '18367831981']);
         $this->actingAs($user);
 
         $this->withExceptionHandling();

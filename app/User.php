@@ -46,6 +46,22 @@ class User extends Authenticatable
     }
 
     /**
+     * 用户可以成为推广人
+     */
+    public function promoter()
+    {
+        return $this->hasOne(Models\Promoter::class, 'user_id');
+    }
+
+    /**
+     * 成为推广人
+     */
+    public function addPromoter($promoter)
+    {
+        return $this->promoter()->create($promoter);
+    }
+
+    /**
      * 标记已读
      *
      * @return [type] [description]

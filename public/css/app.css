@@ -5769,6 +5769,135 @@ th {
   color: #ffffff;
 }
 
+.promoter {
+  font-size: 14px;
+  color: #a9a9a9;
+}
+
+.promoter .content {
+  height: 1.2rem;
+  color: #a9a9a9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+}
+
+.promoter .content.title {
+  color: #333333;
+  border-bottom-width: 10px;
+}
+
+.promoter .content button {
+  width: 1.4rem;
+  height: 0.7rem;
+  background-color: #3490dc;
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.promoter .promoter-info {
+  padding: 0 0.4rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+  border-bottom-width: 10px;
+}
+
+.promoter .promoter-info img {
+  width: 1.7333rem;
+  height: 1.7333rem;
+  border-radius: 50%;
+}
+
+.promoter .promoter-info .promoter-desc {
+  height: 1.7333rem;
+  margin-left: 0.4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.promoter .promoter-info .promoter-desc h4 strong {
+  color: #333333;
+  font-size: 16px;
+}
+
+.promoter .promoter-info .promoter-desc span {
+  padding: 0.1rem 0.2rem;
+  margin-left: 0.1rem;
+  background-color: #ececec;
+  border-radius: 4px;
+}
+
+.promoter .promoter-menu {
+  margin: 0 0.4rem;
+}
+
+.promoter .promoter-menu a {
+  height: 1.0667rem;
+  text-decoration: none;
+  color: #333333;
+  border-bottom-width: 1px;
+  border-color: #ececec;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.promoter .promoter-menu a img {
+  width: 16px;
+  height: 16px;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

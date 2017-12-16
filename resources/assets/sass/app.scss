@@ -699,3 +699,70 @@ th {
         }
     }
 }
+.promoter {
+    @apply text-sm text-grey-dark;
+
+    .content {
+        height: 1.2rem;
+        @apply text-grey-dark flex flex-row justify-around items-center border-b border-grey-lighter;
+
+        
+        &.title {
+            @apply text-grey-darkest;
+            border-bottom-width: 10px;
+        }
+
+        button {
+            width: 1.4rem;
+            height: 0.7rem;
+            @apply bg-blue shadow text-white text-sm;
+        }
+    }
+
+
+    .promoter-info {
+        padding: 0 0.4rem;
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+        @apply flex flex-row items-center justify-between border-b border-grey-lighter;
+        border-bottom-width: 10px;
+
+        img {
+            width: 1.7333rem;
+            height: 1.7333rem;
+            border-radius: 50%;
+        }
+
+        .promoter-desc {
+            height: 1.7333rem;
+            margin-left: 0.4rem;
+            @apply flex flex-col flex-1 items-start justify-around;
+
+            h4 {
+
+                strong {
+                    @apply text-grey-darkest text-base;
+                }
+            }
+
+            span {
+                padding: 0.1rem 0.2rem;
+                margin-left: 0.1rem; 
+                @apply bg-grey-lighter rounded-4px;
+            }
+        }
+    }
+
+    .promoter-menu {
+        margin: 0 0.4rem;
+        a {
+            height: 1.0667rem;
+            @apply no-underline text-grey-darkest border-b border-grey-lighter flex flex-row justify-between items-center;
+
+            img {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+}

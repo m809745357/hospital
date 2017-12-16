@@ -46,6 +46,12 @@ Vue.component('physical-index', require('./pages/PhysicalIndex.vue'));
 Vue.component('package-index', require('./pages/PackageIndex.vue'));
 Vue.component('package-show', require('./pages/PackageShow.vue'));
 Vue.component('advance-index', require('./pages/AdvanceIndex.vue'));
+Vue.component('promoter-create', require('./pages/PromoterCreate.vue'));
+Vue.component('promoter-show', require('./pages/PromoterShow.vue'));
+Vue.component('promoter-order', require('./pages/PromoterOrder.vue'));
+Vue.component('promoter-order-create', require('./pages/PromoterOrderCreate.vue'));
+Vue.component('promoter-record', require('./pages/PromoterRecord.vue'));
+Vue.component('promoter-confirm', require('./pages/PromoterConfirm.vue'));
 
 const app = new Vue({
     el: '#app',
