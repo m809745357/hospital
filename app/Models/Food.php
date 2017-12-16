@@ -16,4 +16,9 @@ class Food extends Model
     {
         return $num ?? 0;
     }
+
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class, 'channel_id');
+    }
 }

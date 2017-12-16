@@ -22,4 +22,9 @@ class Promoter extends Model
     {
         return $this->order()->create($order);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class, 'user_id');
+    }
 }

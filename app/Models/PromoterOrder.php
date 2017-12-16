@@ -17,4 +17,9 @@ class PromoterOrder extends Model
     {
         return $this->hasOne(PromoterRecord::class, 'promoter_order_id');
     }
+
+    public function promoter()
+    {
+        return $this->belongsTo(promoter::class, 'promoter_id');
+    }
 }
