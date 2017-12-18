@@ -36,6 +36,8 @@ Route::post('/orders', 'OrderController@store')->name('order.store');
 Route::get('/orders', 'OrderController@index')->name('order.index');
 Route::get('/orders/{order}', 'OrderController@show')->name('order.show');
 Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
+Route::post('/orders/{order}/wechat', 'OrderController@wechat')->name('order.wechat');
+Route::post('/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
 
 Route::get('/physicals/single', 'PhysicalController@index')->name('physical.index');
 Route::get('/physicals/packages', 'PackageController@index')->name('package.index');

@@ -9,6 +9,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\Models\PromoterRecord;
+use App\Models\PromoterOrder;
 
 class PromoterRecordController extends Controller
 {
@@ -70,7 +71,7 @@ class PromoterRecordController extends Controller
         return Admin::grid(PromoterRecord::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->promoter_order_id('订单编号');
+            $grid->column('order.order_no', '订单编号');
             $grid->crown('皇冠');
             $grid->stars('星星');
             $grid->status('是否兑换');
@@ -90,9 +91,19 @@ class PromoterRecordController extends Controller
         return Admin::form(PromoterRecord::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->number('crown');
-            $form->number('stars');
-            $form->switch('status', '状态')->options([0 => '未兑换', 1 => '兑换']);
+            $form->select('promoter_order_id', '转诊订单编号')->options(function ($value) {
+                return PromoterOrder::doesntHave('record')->get()->pluck('order_no', 'id');
+            });
+
+            $form->promoter_order_id('promoter_order_id', '订单编号');
+
+            $form->number('crown', '皇冠');
+            $form->number('stars', '星星');
+            $form->select('status', '状态')->options([
+                0 => '没有兑换',
+                1 => '申请兑换',
+                2 => '兑换成功'
+            ]);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

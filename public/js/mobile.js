@@ -50605,7 +50605,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             secret: '',
             days: [],
             day: '',
-            time: ''
+            time: '',
+            img: ''
         };
     },
     created: function created() {
@@ -50654,9 +50655,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 secret: this.secret
             }).then(function (response) {
                 if (response.status === 201) {
-                    _this.order = response.data.data;
-                    _this.show = false;
-                    return;
+                    if (_this.payway === 'ipad') {
+                        _this.img = response.data.data;
+                        _this.show = true;
+                        return;
+                    }
+                    if (_this.payway === 'card') {
+                        _this.order = response.data.data;
+                        _this.show = false;
+                        return;
+                    }
                 }
                 console.log(response.status);
             }).catch(function (error) {
@@ -51584,18 +51592,15 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.payway === "ipad"
-          ? _c(
-              "div",
-              {
-                staticClass: "model-desc",
-                on: {
-                  click: function($event) {
-                    $event.stopPropagation()
-                  }
+          ? _c("div", {
+              staticClass: "model-desc",
+              domProps: { innerHTML: _vm._s(_vm.img) },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
                 }
-              },
-              [_c("img", { attrs: { src: "", alt: "" } })]
-            )
+              }
+            })
           : _vm._e()
       ]
     )

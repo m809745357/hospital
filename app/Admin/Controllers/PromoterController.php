@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Promoter;
-
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -23,7 +22,6 @@ class PromoterController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('转诊管理');
             $content->description('展示转诊管理信息');
 
@@ -40,7 +38,6 @@ class PromoterController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
             $content->header('转诊管理');
             $content->description('展示转诊管理信息');
 
@@ -56,7 +53,6 @@ class PromoterController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('转诊管理');
             $content->description('展示转诊管理信息');
 
@@ -96,8 +92,8 @@ class PromoterController extends Controller
         return Admin::form(Promoter::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->display('user_id', '用户')->with(function ($value) {
-                return \App\User::find($value)->name;
+            $form->select('user_id', '用户')->options(function ($value) {
+                return \App\User::all()->pluck('name', 'id');
             });
             $form->text('hospital', '医院');
             $form->text('department', '部门');

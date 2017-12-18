@@ -152,8 +152,8 @@
                 </div>
                 <button type="button" @click="pay">确定</button>
             </div>
-            <div v-if="payway === 'ipad'" class="model-desc" @click.stop="">
-                <img src="" alt="">
+            <div v-if="payway === 'ipad'" class="model-desc" @click.stop="" v-html="img">
+                
             </div>
         </div>
     </div>
@@ -169,7 +169,8 @@ export default {
             secret: '',
             days: [],
             day: '',
-            time: ''
+            time: '',
+            img: ''
         }
     },
     created () {
@@ -217,9 +218,16 @@ export default {
                 })
                 .then(response => {
                     if (response.status === 201) {
-                        this.order = response.data.data;
-                        this.show = false;
-                        return ;
+                        if (this.payway === 'ipad') {
+                            this.img = response.data.data;
+                            this.show = true;
+                            return ;
+                        }
+                        if (this.payway === 'card') {
+                            this.order = response.data.data;
+                            this.show = false;
+                            return ;
+                        }
                     }
                     console.log(response.status);
                 })

@@ -58,6 +58,7 @@ class User extends Authenticatable
      */
     public function addPromoter($promoter)
     {
+        $promoter['order_no'] = date('YmdHis') . rand(1000, 9999);
         return $this->promoter()->create($promoter);
     }
 
