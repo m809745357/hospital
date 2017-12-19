@@ -26,29 +26,35 @@ Route::get('/schedulings', 'SchedulingController@index')->name('scheduling.index
 Route::get('/report', 'HomeController@report')->name('report');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 
-Route::get('/user', 'UserController@index')->name('user.index');
-Route::post('/user', 'UserController@update')->name('user.update');
-Route::post('/sms', 'MobileController@store')->name('sms.store');
-Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
+Route::get('/user/bind', 'UserController@bind')->name('user.bind');
 
-Route::get('/parcels', 'ParcelController@index')->name('parcel.index');
-Route::post('/orders', 'OrderController@store')->name('order.store');
-Route::get('/orders', 'OrderController@index')->name('order.index');
-Route::get('/orders/{order}', 'OrderController@show')->name('order.show');
-Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
-Route::post('/orders/{order}/wechat', 'OrderController@wechat')->name('order.wechat');
-Route::post('/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
+Route::group(['middleware' => 'prefect'], function () {
+    Route::get('/user', 'UserController@index')->name('user.index');
+    Route::get('/user/room', 'UserController@room')->name('user.room');
+    Route::post('/user', 'UserController@update')->name('user.update');
+    Route::post('/sms', 'MobileController@store')->name('sms.store');
+    Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
 
-Route::get('/physicals/single', 'PhysicalController@index')->name('physical.index');
-Route::get('/physicals/packages', 'PackageController@index')->name('package.index');
-Route::get('/physicals/packages/{package}', 'PackageController@show')->name('package.show');
+    Route::get('/parcels', 'ParcelController@index')->name('parcel.index')->middleware('address');
+    Route::post('/orders', 'OrderController@store')->name('order.store');
+    Route::get('/orders', 'OrderController@index')->name('order.index');
+    Route::get('/orders/promoter', 'PromoterController@promoter')->name('order.promoter');
+    Route::get('/orders/{order}', 'OrderController@show')->name('order.show');
+    Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
+    Route::post('/orders/{order}/wechat', 'OrderController@wechat')->name('order.wechat');
+    Route::post('/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
 
-Route::get('/advances', 'AdvanceController@index')->name('advance.index');
-Route::get('/user/promoter', 'PromoterController@show')->name('promoter.show');
-Route::get('/user/promoter/orders', 'PromoterController@order')->name('promoter.order');
-Route::get('/user/promoter/records', 'PromoterController@record')->name('promoter.record');
-Route::get('/user/promoter/confirms', 'PromoterController@confirm')->name('promoter.confirm');
-Route::get('/promoter/create', 'PromoterController@create')->name('promoter.create');
-Route::get('/promoter/{promoter}/order/create', 'PromoterOrderController@create')->name('promoter.order.create');
-Route::post('/promoter/{promoter}/order/create', 'PromoterOrderController@store')->name('promoter.order.store');
-Route::post('/promoter', 'PromoterController@store')->name('promoter.store');
+    Route::get('/physicals/single', 'PhysicalController@index')->name('physical.index');
+    Route::get('/physicals/packages', 'PackageController@index')->name('package.index');
+    Route::get('/physicals/packages/{package}', 'PackageController@show')->name('package.show');
+
+    Route::get('/advances', 'AdvanceController@index')->name('advance.index');
+    Route::get('/user/promoter', 'PromoterController@show')->name('promoter.show');
+    Route::get('/user/promoter/orders', 'PromoterController@order')->name('promoter.order');
+    Route::get('/user/promoter/records', 'PromoterController@record')->name('promoter.record');
+    Route::get('/user/promoter/confirms', 'PromoterController@confirm')->name('promoter.confirm');
+    Route::get('/promoter/create', 'PromoterController@create')->name('promoter.create');
+    Route::get('/promoter/{promoter}/order/create', 'PromoterOrderController@create')->name('promoter.order.create');
+    Route::post('/promoter/{promoter}/order/create', 'PromoterOrderController@store')->name('promoter.order.store');
+    Route::post('/promoter', 'PromoterController@store')->name('promoter.store');
+});

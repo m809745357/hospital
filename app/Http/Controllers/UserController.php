@@ -16,6 +16,16 @@ class UserController extends Controller
         return view('mobile.user.index');
     }
 
+    public function bind()
+    {
+        return view('mobile.user.bind');
+    }
+
+    public function room()
+    {
+        return view('mobile.user.room');
+    }
+
     public function update(UpdateUserPost $request)
     {
         $user = auth()->user();

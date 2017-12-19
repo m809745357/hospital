@@ -24,7 +24,23 @@ class CreateSmsPost extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => 'required'
+            'mobile' => [
+                'required',
+                'regex:/^1[34578][0-9]{9}$/'
+            ]
+        ];
+    }
+
+    /**
+     * 获取已定义的验证规则的错误消息。
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'mobile.required' => '请输入手机号码',
+            'mobile.regex' => '请输入正确的手机号码',
         ];
     }
 }

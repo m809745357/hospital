@@ -29,7 +29,6 @@ class PromoterController extends Controller
 
     public function confirm()
     {
-        
         $promoterRecords = auth()->user()->promoter->load('order.record', 'order.department');
         return view('mobile.promoters.confirm', compact('promoterRecords'));
     }
@@ -53,6 +52,12 @@ class PromoterController extends Controller
     {
         $promoter = auth()->user()->addPromoter($request->validated());
 
-        return response($promoter, 201);
+        return response(['data' => '推广信息完善成功'], 201);
+    }
+
+    public function promoter()
+    {
+        $promoterOrders = auth()->user()->promoterOrder->load('department');
+        return view('mobile.promoters.order', compact('promoterOrders'));
     }
 }

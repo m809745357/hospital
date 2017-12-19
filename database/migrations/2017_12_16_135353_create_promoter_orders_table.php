@@ -17,6 +17,7 @@ class CreatePromoterOrdersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('department_id');
             $table->unsignedInteger('promoter_id');
+            $table->unsignedInteger('user_id');
             $table->string('order_no');
             $table->string('name');
             $table->string('gender');

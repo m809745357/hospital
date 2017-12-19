@@ -10,7 +10,7 @@
             <scroll class="promoter-content warpper" :date="orders">
                 <div>
                     <li class="content" v-for="(order, index) in orders" :key="index">
-                        <span>{{ order.created_at }}</span>
+                        <span>{{ order.created_at.substr(0, 10) }}</span>
                         <span>{{ order.name }}</span>
                         <span>{{ order.gender }}</span>
                         <span>{{ order.department.name }}</span>
@@ -28,7 +28,7 @@ export default {
     props: ['attributes'],
     data () {
         return {
-            orders: this.attributes.order,
+            orders: this.attributes.order === undefined ? this.attributes : this.attributes.order,
             user: window.App.user,
         }
     },

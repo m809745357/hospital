@@ -18,7 +18,7 @@
             <scroll class="promoter-content warpper" :date="orders">
                 <div>
                     <li class="content" v-for="(order, index) in orders" :key="index" v-if="order.record !== null">
-                        <span>{{ order.created_at }}</span>
+                        <span>{{ order.created_at.substr(0, 10) }}</span>
                         <span>{{ order.name }}</span>
                         <span>{{ order.department.name }}</span>
                         <span>门诊</span>

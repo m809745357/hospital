@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-        <div class="user-index">
+        <div class="user-form">
             <img src="/images/promoter.png" alt="" style="margin-bottom: 0.2667rem;">
             <div class="from-group">
                 <label for="">姓名</label>

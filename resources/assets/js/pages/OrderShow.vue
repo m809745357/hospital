@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto">
-        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Food'">
+        <div class="user-form" v-if="order.order_details_type == 'App\\Models\\Food'">
             <div class="from-group">
                 <label for="">订单号</label>
                 <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
@@ -27,7 +27,7 @@
                 <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
             </div>
         </div>
-        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Physical'">
+        <div class="user-form" v-if="order.order_details_type == 'App\\Models\\Physical'">
             <div class="from-group">
                 <label for="">订单号</label>
                 <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
@@ -56,7 +56,7 @@
                 <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
             </div>
         </div>
-        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Package'">
+        <div class="user-form" v-if="order.order_details_type == 'App\\Models\\Package'">
             <div class="from-group">
                 <label for="">订单号</label>
                 <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
@@ -89,7 +89,7 @@
                 <input type="text" v-model="'￥ ' + order.money + ' 元'" name="order_time" disabled>
             </div>
         </div>
-        <div class="user-index" v-if="order.order_details_type == 'App\\Models\\Scheduling'">
+        <div class="user-form" v-if="order.order_details_type == 'App\\Models\\Scheduling'">
             <div class="from-group">
                 <label for="">订单号</label>
                 <input type="text" v-model="order.out_trade_no" name="out_trade_no" disabled>
@@ -144,6 +144,9 @@
         <div class="topay" v-if="order.status == 1">
             <button type="button" @click="pay">马上支付</button>
         </div>
+        <div class="topay" v-else>
+            <button type="button" @click="back">返回我的订单</button>
+        </div>
         <div class="pay-model" v-show="show" @click="cancelCardPay" >
             <div v-if="payway === 'card'" class="model-desc" @click.stop="">
                 <div class="from-group">
@@ -186,6 +189,9 @@ export default {
         change(payway) {
             this.payway = payway;
             this.show = false;
+        },
+        back() {
+            window.location.href = '/orders';
         },
         pay() {
 

@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->hasOne(Models\Promoter::class, 'user_id');
     }
 
+    public function promoterOrder()
+    {
+        return $this->hasMany(Models\PromoterOrder::class, 'user_id');
+    }
+
     /**
      * 成为推广人
      */
@@ -80,5 +85,15 @@ class User extends Authenticatable
     public function order()
     {
         return $this->hasMany(Models\Order::class, 'user_id');
+    }
+
+    public function checkPrefect()
+    {
+        return $this->mobile === null;
+    }
+
+    public function checkAddress()
+    {
+        return $this->address === null || $this->address === '';
     }
 }

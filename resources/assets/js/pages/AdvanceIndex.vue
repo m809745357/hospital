@@ -21,7 +21,6 @@
                             <div class="doctor-item-left">
                                 <img :src="scheduling.doctor.image" alt="">
                                 <h4>{{ types[scheduling.type] }}</h4>
-                                <p>{{ days_display[scheduling.day] }} {{ times[scheduling.time] }}</p>
                             </div>
                             <div class="doctor-item-desc">
                                 <div class="doctor-item-right">
@@ -36,6 +35,7 @@
                                 </div>
                                 <div class="depart">
                                     <span>{{ scheduling.address }}</span>
+                                    <p>{{ days_display[scheduling.day] }} {{ times[scheduling.time] }}</p>
                                 </div>
                             </div>
                         </div>

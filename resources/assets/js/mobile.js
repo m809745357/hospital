@@ -9,29 +9,23 @@ require('./bootstrap');
 
 require('amfe-flexible');
 
-window.moment = require('moment');
-window.moment.locale('zh-cn');
-// moment.updateLocale('en', {
-//     relativeTime: {
-//         future: "在 %s",
-//         past: "%s 前",
-//         s: '1 秒',
-//         ss: '%d 秒',
-//         m: "1 分钟",
-//         mm: "%d 分钟",
-//         h: "1 小时",
-//         hh: "%d 小时",
-//         d: "1 天",
-//         dd: "%d 天",
-//         M: "1 月",
-//         MM: "%d 月",
-//         y: "1 年",
-//         yy: "%d 年"
-//     }
-// });
-
+import { Alert, Confirm, Toast } from 'wc-messagebox'
+import 'wc-messagebox/style.css'
 
 window.Vue = require('vue');
+
+Vue.use(Alert, {
+    title: '提示',  // 默认标题为 '提示'
+    btn: {
+        text: '确定',
+        style: {} // 可以通过 style 来修改按钮的样式, 比如说粗细, 颜色
+    }
+})
+// Vue.use(Confirm, options)
+// Vue.use(Toast, duration)
+
+window.moment = require('moment');
+window.moment.locale('zh-cn');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -39,6 +33,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('user-index', require('./pages/UserIndex.vue'));
+Vue.component('user-bind', require('./pages/UserBind.vue'));
+Vue.component('user-room', require('./pages/UserRoom.vue'));
 Vue.component('parcel-index', require('./pages/ParcelIndex.vue'));
 Vue.component('order-show', require('./pages/OrderShow.vue'));
 Vue.component('order-index', require('./pages/OrderIndex.vue'));

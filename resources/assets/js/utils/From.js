@@ -39,7 +39,7 @@ export default class Form {
             this[field] = '';
         }
 
-        // this.errors.clear();
+        this.errors.clear();
     }
 
 
@@ -114,6 +114,7 @@ export default class Form {
     onSuccess(data) {
         // alert(data.message); // temporary
 
+        this.errors.clear();
         // this.reset();
     }
 

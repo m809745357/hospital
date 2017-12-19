@@ -110,7 +110,7 @@ th {
     @apply mx-auto border text-xs text-grey-dark rounded-px border-grey-dark p-px h-pc-25 w-pc-68 flex items-center justify-center no-underline;
 }
 
-.user-index {
+.user-form {
     margin: 0 0.3333rem;
     padding-top: 0.5067rem;
     @apply max-w-full text-grey-dark text-sm;
@@ -314,12 +314,16 @@ th {
 
                 .doctor-item-left {
 
-                    @apply flex flex-col items-center justify-around;
+                    @apply flex flex-col items-center justify-between;
                     img {
                         width: 1.7333rem;
                         height: 1.7333rem;
                         margin-top: 0.24rem;
                         border-radius: 50%;
+                    }
+                    h4 {
+                        height: 1.19rem;
+                        @apply flex items-center;
                     }
                 }
 
@@ -363,7 +367,7 @@ th {
 
                     .depart {
                         width: 7.0667rem;
-                        @apply flex-1 flex items-center text-grey-darker;
+                        @apply flex-1 flex items-center text-grey-darker justify-between;
 
                         span {
                             padding: 0.1333rem 0.2667rem;
@@ -386,7 +390,6 @@ th {
                     @apply flex flex-row items-center justify-between border-b border-grey-lighter;
 
                     .order-item-desc {
-                        height: 1.4267rem;
                         @apply flex-1 flex flex-col items-start justify-around;
                     }
 
@@ -706,6 +709,10 @@ th {
         height: 1.2rem;
         @apply text-grey-dark flex flex-row justify-around items-center border-b border-grey-lighter;
 
+        span {
+            width: 20%;
+            text-align: center;
+        }
         
         &.title {
             @apply text-grey-darkest;
@@ -765,4 +772,62 @@ th {
             }
         }
     }
+}
+.user-index {
+    @apply text-sm;
+
+    .user-desc {
+        padding: 0.4rem;
+        
+        @apply flex flex-row items-center justify-around border-b border-grey-lighter;
+        border-bottom-width: 10px;
+        
+
+        img.avatar {
+            width: 1.7333rem;
+            height: 1.7333rem;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            height: 1.5rem;
+            margin-left: 0.4rem;
+            @apply flex-1 flex flex-col items-start justify-around;
+
+            span, p {
+                @apply font-normal text-grey-dark;
+            }
+        }
+    }
+
+    .user-account {
+        list-style: none;
+        height: 1.8rem;
+        @apply flex flex-row items-center justify-around border-b border-grey-lighter;
+
+        a {
+            height: 1.4rem;
+            @apply no-underline flex flex-col items-center justify-between border-r border-grey-lighter w-1/3 text-xs text-grey-darker;
+        }
+
+        a:nth-last-child(1) {
+            border-right: 0;
+        }
+    }
+
+    .user-menu {
+        padding: 0 0.4rem;
+        a {
+            height: 1.3333rem;
+            @apply no-underline flex flex-row items-center justify-between border-b border-grey-lighter text-grey-darker;
+
+            p {
+                margin-left: 0.4rem;
+                @apply flex-1;
+            }
+        }
+    }
+}
+.is-danger {
+    @apply text-red text-sm;
 }
