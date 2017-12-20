@@ -17,6 +17,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/oauth_callback', 'Auth\LoginController@oauthCallback')->name('callback');
 Route::get('/introduce', 'HomeController@introduce')->name('introduce');
 Route::get('/dynamics', 'DynamicController@index')->name('dynamic.index');
 Route::get('/dynamics/{dynamic}', 'DynamicController@show')->name('dynamic.show');

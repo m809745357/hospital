@@ -28,7 +28,7 @@ class OrderController extends Controller
         $order = auth()->user()->order()->create([
             'money' => $money,
             'out_trade_no' => $out_trade_no,
-            'order_details' => $request->order_details,
+            'order_details' => $order_details,
             'order_details_type' => $request->order_details_type,
             'order_time' => $request->order_time ?? '',
             'remark' => $request->menu
@@ -72,7 +72,8 @@ class OrderController extends Controller
             ]);
 
             $prepayId = $result->prepay_id;
-            return response(['data' => $payment->configForJSSDKPayment($prepayId)], 201);
+            // return response(['data' => $payment->configForJSSDKPayment($prepayId)], 201);
+            return response(['data' => $payment->configForPayment($prepayId)], 201);
         }
         return response(['data' => $result['err_code_des']], 400);
     }
