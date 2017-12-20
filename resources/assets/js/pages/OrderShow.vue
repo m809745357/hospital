@@ -115,7 +115,7 @@
                 <input type="text" v-model="order.order_details.address" name="order_time" disabled>
             </div>
         </div>
-        <div class="order-show" v-if="! order.order_details_type == 'App\\Models\\Scheduling'">
+        <div class="order-show" v-if="order.order_details_type !== 'App\\Models\\Scheduling' && order.order_details_type !== 'App\\Models\\Package'">
             <h4>订单详情</h4>
             <div class="food-item" v-for="(detail, index) in order.order_details" :key="index">
                 <h4>{{ detail.title }}</h4>
@@ -179,7 +179,8 @@ export default {
     created () {
         for (let index = 0; index < 7; index++) {
             this.days[index] = moment().add(index, 'days').format('L')
-        }  
+        }
+        console.log(this.attributes.order_details_type !== 'App\\Models\\Scheduling');  
     },
     methods: {
         cancelCardPay() {
@@ -196,19 +197,19 @@ export default {
         pay() {
 
             if (this.order.order_time === '' && this.order.order_details_type == 'App\\Models\\Food') {
-                alert('请选择送餐时间');
+                this.$alert('请选择送餐时间');
                 return ;
             }
             if (this.order.order_details_type == 'App\\Models\\Physical') {
                 if (this.day === '' || this.time === '') {
-                    alert('请选择体检时间');
+                    this.$alert('请选择体检时间');
                     return ;
                 }
                 this.order.order_time = this.day + ' ' + this.time;
             }
             if (this.order.order_details_type == 'App\\Models\\Package') {
                 if (this.day === '' || this.time === '') {
-                    alert('请选择预约时间');
+                    this.$alert('请选择预约时间');
                     return ;
                 }
                 this.order.order_time = this.day + ' ' + this.time;
@@ -234,13 +235,26 @@ export default {
                             this.show = false;
                             return ;
                         }
+                        if (this.payway === 'wechat') {
+                            wx.chooseWXPay({
+                                appId: response.data.appId,
+                                timestamp: response.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                                nonceStr: response.data.nonceStr, // 支付签名随机串，不长于 32 位
+                                package: response.data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                                signType: response.data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                                paySign: response.data.paySign, // 支付签名
+                                success: function (res) {
+                                    console.log(res);
+                                }
+                            });
+                        }
                     }
                     console.log(response.status);
                 })
                 .catch(error => {
                     this.cancelCardPay();
                     if (error.response.status === 400) {
-                        alert(error.response.data.data);
+                        this.$alert(error.response.data.data);
                         return ;
                     }
                     console.log(error.response);

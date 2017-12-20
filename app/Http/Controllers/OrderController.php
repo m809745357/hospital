@@ -10,6 +10,11 @@ use EasyWeChat\Foundation\Application;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(CreateOrderPost $request)
     {
         $money = $request->money ?? collect($request->order_details)->sum(function ($detail) {
@@ -23,7 +28,7 @@ class OrderController extends Controller
         $order = auth()->user()->order()->create([
             'money' => $money,
             'out_trade_no' => $out_trade_no,
-            'order_details' => $order_details,
+            'order_details' => $request->order_details,
             'order_details_type' => $request->order_details_type,
             'order_time' => $request->order_time ?? '',
             'remark' => $request->menu
@@ -39,7 +44,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = auth()->user()->order;
+        $orders = auth()->user()->order()->latest()->get();
         return view('mobile.orders.index', compact('orders'));
     }
 
@@ -48,12 +53,20 @@ class OrderController extends Controller
         $app = new Application(config('wechat'));
         $payment = $app->payment;
 
+        if ($order->pay_way === 'ipad') {
+            tap($order)->update([
+                'order_details' => serialize($order->order_details),
+                'out_trade_no' => $this->getOutTradeNo(),
+            ]);
+        }
+
         $wxOrder = new \EasyWeChat\Payment\Order($this->getWechatOrder('JSAPI', $order));
 
         auth()->user()->update(['openid' => 'oktzkwbxksTOGCk9wGLWDV_6gCbA']);
         $result = $payment->prepare($wxOrder);
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS') {
             tap($order)->update([
+                'order_details' => serialize($order->order_details),
                 'order_time' => $request->order_time,
                 'pay_way' => $request->pay_way,
             ]);
@@ -69,6 +82,13 @@ class OrderController extends Controller
         $app = new Application(config('wechat'));
         $payment = $app->payment;
 
+        if ($order->pay_way === 'wechat') {
+            tap($order)->update([
+                'order_details' => serialize($order->order_details),
+                'out_trade_no' => $this->getOutTradeNo(),
+            ]);
+        }
+
         $wxOrder = new \EasyWeChat\Payment\Order($this->getWechatOrder('NATIVE', $order));
 
         $result = $payment->prepare($wxOrder);
@@ -76,6 +96,7 @@ class OrderController extends Controller
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS') {
             $code_url = $result->code_url;
             tap($order)->update([
+                'order_details' => serialize($order->order_details),
                 'order_time' => $request->order_time,
                 'pay_way' => $request->pay_way,
             ]);
@@ -89,13 +110,46 @@ class OrderController extends Controller
     {
         return $attributes = [
             'trade_type' => $trade_type, // JSAPI，NATIVE，APP...
-            'body' => '微信点餐',
-            'detail' => '微信点餐',
+            'body' => $this->getBody($order),
+            'detail' => $this->getDetail($order),
             'out_trade_no' => $order->out_trade_no,
             'total_fee' => $order->money, // 单位：分
             'notify_url' => config('app.url') . '/wechat/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'openid' => auth()->user()->fresh()->openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
         ];
+    }
+
+    private function getBody($order)
+    {
+        switch ($order->order_details_type) {
+            case 'App\\Models\\Food':
+                return "微信点餐";
+                break;
+            case 'App\\Models\\Physical': case 'App\\Models\\Package':
+                return "预约体检";
+                break;
+            case 'App\\Models\\Scheduling':
+                return "预约挂号";
+                break;
+        }
+    }
+
+    private function getDetail($order)
+    {                           
+        switch ($order->order_details_type) {
+            case 'App\\Models\\Food':
+                return $order->order_details[0]['title'] . '等餐品';
+                break;
+            case 'App\\Models\\Physical': 
+                return $order->order_details[0]['title'] . '等单列体检';
+                break;
+            case 'App\\Models\\Package':
+                return $order->order_details['title'] . '套餐体检';
+                break;
+            case 'App\\Models\\Scheduling':
+                return $order->order_details['doctor']['department']['name'] . ' ' . $order->order_details['doctor']['name'];
+                break;
+        }
     }
 
     public function card(Request $request, Order $order)

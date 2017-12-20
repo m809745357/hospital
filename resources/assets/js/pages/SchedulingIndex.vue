@@ -56,20 +56,10 @@
                             <th width="25%" class="font-normal">诊查费</th>
                         </tr>
                         <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-orange">{{ typeDisplay(scheduling.type) }}</td>
-                            <td class="text-grey-dark">{{ days[scheduling.day - 1] }} {{ times[scheduling.time - 1] }}</td>
-                            <td class="text-grey-dark">{{ scheduling.address }}</td>
-                            <td class="text-green">{{ scheduling.money }}元</td>
-                        </tr>
-                        <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-blue">{{ typeDisplay(scheduling.type) }}</td>
-                            <td class="text-grey-dark">{{ days[scheduling.day - 1] }}{{ times[scheduling.time - 1] }}</td>
-                            <td class="text-grey-dark">{{ scheduling.address }}</td>
-                            <td class="text-green">{{ scheduling.money }}元</td>
-                        </tr>
-                        <tr class="text-sm" v-for="(scheduling, index) in doctor.schedulings" :key="index">
-                            <td class="text-green">{{ typeDisplay(scheduling.type) }}</td>
-                            <td class="text-grey-dark">{{ days[scheduling.day - 1] }}{{ times[scheduling.time - 1] }}</td>
+                            <td v-if="scheduling.type === 'general'" class="text-orange">{{ typeDisplay(scheduling.type) }}</td>
+                            <td v-if="scheduling.type === 'expert'" class="text-blue">{{ typeDisplay(scheduling.type) }}</td>
+                            <td v-if="scheduling.type === 'famous'" class="text-green">{{ typeDisplay(scheduling.type) }}</td>
+                            <td class="text-grey-dark">{{ days[scheduling.day] }} {{ times[scheduling.time - 1] }}</td>
                             <td class="text-grey-dark">{{ scheduling.address }}</td>
                             <td class="text-green">{{ scheduling.money }}元</td>
                         </tr>
@@ -97,7 +87,7 @@ export default {
                 time: '',
             },
             days: [
-                '星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'
+                '星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'
             ],
             times: [
                 '上午', '下午', '全天'

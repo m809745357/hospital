@@ -5118,6 +5118,10 @@ th {
       justify-content: space-around;
 }
 
+.parcel-index .parcel-contact .parcel-package .order-item .order-item-top .order-item-desc p {
+  margin-top: 5px;
+}
+
 .parcel-index .parcel-contact .parcel-package .order-item .order-item-top a {
   height: 0.72rem;
   width: 1.3333rem;
@@ -5155,6 +5159,12 @@ th {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.parcel-index .parcel-contact .parcel-package .order-item .order-item-bottom p {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .parcel-index .parcel-footer {

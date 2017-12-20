@@ -85,7 +85,7 @@ export default {
         },
         settle() {
             if (this.day === '' || this.time === '') {
-                alert('请选择体检时间');
+                this.$alert('请选择体检时间');
                 return ;
             }
             this.order_time = this.day + ' ' + this.time;
@@ -104,7 +104,7 @@ export default {
                 })
                 .catch(error => {
                     if (error.response.status === 400) {
-                        alert(error.response.data.data);
+                        this.$alert(error.response.data.data);
                         return ;
                     }
                     console.log(error.reponse);
@@ -124,7 +124,7 @@ export default {
                 })
                 .catch(error => {
                     if (error.response.status === 400) {
-                        alert(error.response.data.data);
+                        this.$alert(error.response.data.data);
                         return ;
                     }
                     console.log(error.response);

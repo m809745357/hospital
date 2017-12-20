@@ -15,7 +15,7 @@ class CheckPerfectInfo
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->checkPrefect()) {
+        if (auth()->check() && auth()->user()->checkPrefect()) {
             return redirect('/user/bind');
         }
 

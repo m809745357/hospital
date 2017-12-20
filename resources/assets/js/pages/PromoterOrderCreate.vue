@@ -62,11 +62,15 @@ export default {
             this.form.post(this.url())
                 .then(response => {
                     console.log(response);
-                    alert('预约成功');
+                    this.$alert('预约成功');
                     // window.location.href = '/user/promoter'
                 })
                 .catch(error => {
-                    console.log(error);
+                    if (error.response.status === 400) {
+                        this.$alert(error.response.data.data);
+                        return ;
+                    }
+                    console.log(error.response);
                 });
         }
     }

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use EasyWeChat\Foundation\Application;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,9 +13,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Application $app)
     {
-        //
+        \View::share('js', $app->js);
     }
 
     /**

@@ -27,11 +27,11 @@ Route::get('/report', 'HomeController@report')->name('report');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/user/bind', 'UserController@bind')->name('user.bind');
+Route::post('/user', 'UserController@update')->name('user.update');
 
 Route::group(['middleware' => 'prefect'], function () {
     Route::get('/user', 'UserController@index')->name('user.index');
     Route::get('/user/room', 'UserController@room')->name('user.room');
-    Route::post('/user', 'UserController@update')->name('user.update');
     Route::post('/sms', 'MobileController@store')->name('sms.store');
     Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
 

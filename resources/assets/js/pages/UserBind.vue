@@ -16,7 +16,7 @@
                 <label for="">身份证</label>
                 <input type="text" v-model="form.card" name="card" placeholder="请输入身份证">
             </div>
-            <div class="from-group">
+            <div class="from-group" v-if="phone">
                 <label for="">原手机</label>
                 <input type="tel" v-model="phone" name="phone" disabled>
             </div>

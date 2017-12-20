@@ -9,7 +9,7 @@ $factory->define(App\Models\Physical::class, function (Faker $faker) {
         },
         'title' => $faker->sentence,
         'image' => $faker->imageUrl(200, 200),
-        'desc' => $faker->paragraph,
+        'desc' => $faker->sentence,
         'money' => $faker->randomNumber(2),
     ];
 });

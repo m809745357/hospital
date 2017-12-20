@@ -13,7 +13,14 @@
         window.App = <?php echo json_encode([
             'user' => Auth::user(),
             'signedIn' => Auth::check(),
-            'configs' => App\Models\Config::all()->pluck('contact', 'slug')
+            'configs' => App\Models\Config::all()->pluck('contact', 'slug'),
+            // 'wxconfig' => app()->environment('testing') ? '' : $js->config(array(
+            //     'onMenuShareTimeline',
+            //     'onMenuShareAppMessage',
+            //     'onMenuShareQQ',
+            //     'onMenuShareWeibo',
+            //     'onMenuShareQZone',
+            // ), false)
         ]); ?>
     </script>
     <!-- Styles -->

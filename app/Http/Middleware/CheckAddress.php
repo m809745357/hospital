@@ -15,7 +15,7 @@ class CheckAddress
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->checkAddress()) {
+        if (auth()->check() && auth()->user()->checkAddress()) {
             return redirect('/user/room');
         }
 

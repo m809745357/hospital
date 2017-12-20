@@ -23,6 +23,7 @@
     "moment": "^2.19.3",
     "tailwindcss": "^0.3.0",
     "vue-awesome-swiper": "^3.0.2",
-    "wc-messagebox": "^1.8.9"
+    "wc-messagebox": "^1.8.9",
+    "weixin-js-sdk": "^1.2.0"
   }
 }

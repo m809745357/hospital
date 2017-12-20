@@ -49,7 +49,11 @@ export default {
                         });
                 })
                 .catch(error => {
-                    console.log(error);
+                    if (error.response.status === 400) {
+                        this.$alert(error.response.data.data);
+                        return ;
+                    }
+                    console.log(error.response);
                 });
         }
     }

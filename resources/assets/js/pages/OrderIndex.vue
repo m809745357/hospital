@@ -19,15 +19,19 @@
                             <div class="order-item-top">
                                 <div class="order-item-desc">
                                     <h4>订单号：{{ order.out_trade_no }}</h4>
-                                    <p>{{ order.order_time }} {{ order.remark }}</p>
+                                    <p v-if="order.order_details_type === 'App\\Models\\Food'">{{ order.created_at.substr(0, 10) }} {{ order.order_time }} {{ foodType[order.remark] }}</p>
+                                    <p v-if="order.order_details_type === 'App\\Models\\Physical'">{{ order.order_time === '' ? '暂未选择时间' : order.order_time }} {{ order.remark }}</p>
+                                    <p v-if="order.order_details_type === 'App\\Models\\Package'">{{ order.order_time === '' ? '暂未选择时间' : order.order_time }} {{ order.remark }}</p>
+                                    <p v-if="order.order_details_type === 'App\\Models\\Scheduling'">{{ order.order_time === '' ? '暂未选择时间' : order.order_time }} {{ order.remark }}</p>
                                 </div>
                                 <a :href="`/orders/${order.id}`" v-if="order.status == 1">去支付</a>
+                                <a :href="`/orders/${order.id}`" v-if="order.status == 2">去查看</a>
                             </div>
                             <div class="order-item-bottom">
-                                <p v-if="order.order_details_type === 'App\\Models\\Food'">4</p>
-                                <p v-if="order.order_details_type === 'App\\Models\\Physical'">3</p>
-                                <p v-if="order.order_details_type === 'App\\Models\\Package'">2{{ order.order_details.title}}</p>
-                                <p v-if="order.order_details_type === 'App\\Models\\Scheduling'">1{{ order.order_details.doctor.department.name }} {{ order.order_details.doctor.name }}</p>
+                                <p v-if="order.order_details_type === 'App\\Models\\Food'">{{ order.order_details[0].title }} 等餐品</p>
+                                <p v-if="order.order_details_type === 'App\\Models\\Physical'">{{ order.order_details[0].title }} 等单列体检</p>
+                                <p v-if="order.order_details_type === 'App\\Models\\Package'">{{ order.order_details.title }} 套餐体检</p>
+                                <p v-if="order.order_details_type === 'App\\Models\\Scheduling'">{{ order.order_details.doctor.department.name }} {{ order.order_details.doctor.name }}</p>
                                 <span>￥ {{ order.money }}</span>
                             </div>
                         </div>
@@ -47,7 +51,11 @@ export default {
             orders: this.attributes,
             date: moment().format('L'),
             menu: 'P',
-            status: '1'
+            status: '1',
+            foodType: {
+                am: '午餐',
+                pm: '晚餐'
+            }
         }
     },
     components: {
