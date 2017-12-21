@@ -13,7 +13,7 @@ class SpecialController extends Controller
      */
     public function index()
     {
-        $specials = Special::latest()->get();
+        $specials = Special::where('status', 1)->latest()->get();
         return view('pc/special/index', compact('specials'));
     }
 
@@ -24,6 +24,10 @@ class SpecialController extends Controller
      */
     public function show(Special $special)
     {
+        if ($special->status !== '1') {
+            return redirect()->back();
+        }
+
         return view('pc/special/show', compact('special'));
     }
 }

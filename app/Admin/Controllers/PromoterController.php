@@ -71,11 +71,11 @@ class PromoterController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->column('user.name', '推广人名称');
-            $grid->hospital('推广人医院');
-            $grid->department('推广人部门');
-            $grid->job_title('推广人职称');
-            $grid->crown('crown')->editable();
-            $grid->stars('stars')->editable();
+            $grid->hospital('推广人医院')->editable();
+            $grid->department('推广人部门')->editable();
+            $grid->job_title('推广人职称')->editable();
+            $grid->crown('皇冠')->editable()->sortable();
+            $grid->stars('星星')->editable()->sortable();
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');

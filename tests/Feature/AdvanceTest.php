@@ -24,6 +24,16 @@ class AdvanceTest extends TestCase
 
         $response = $this->get('advances');
 
+        $response->assertStatus(302);
+
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
+        $response = $this->get('/advances');
+
         $response->assertSee($scheduling->doctor->name);
     }
 

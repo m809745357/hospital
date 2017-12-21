@@ -11,6 +11,9 @@ Route::group([
 ], function (Router $router) {
     $router->get('/', 'HomeController@index');
     $router->resource('/banners', 'BannerController');
+    $router->resource('/users', 'UserController');
+    $router->resource('/ipads', 'IpadController');
+    $router->resource('/ipad-records', 'IpadRecordController');
     $router->resource('/dynamics', 'DynamicController');
     $router->resource('/specials', 'SpecialController');
     $router->resource('/doctors', 'DoctorController');

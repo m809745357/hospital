@@ -71,7 +71,7 @@ class DepartmentController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->slug('别名');
-            $grid->name('部门名称');
+            $grid->name('部门名称')->editable();
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');

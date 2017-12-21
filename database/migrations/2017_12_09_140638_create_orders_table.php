@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_time');
             $table->enum('status', Order::STATUS)->default(Order::STATUS[0]);
             $table->enum('pay_way', Order::PAY_WAYS)->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }

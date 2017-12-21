@@ -29,18 +29,4 @@ class Order extends Model
     {
         return $this->attributes['order_details'] = is_array($order_details) ? $order_details : unserialize($order_details);
     }
-
-    public function wechat()
-    {
-        $app = new Application(config('wechat'));
-        $payment = $app->payment;
-
-        $order = new \EasyWeChat\Payment\Order($this->getWechatOrder('JSAPI'));
-        $result = $payment->prepare($order);
-        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS') {
-            $prepayId = $result->prepay_id;
-            return $payment->configForJSSDKPayment($prepayId);
-        }
-        return false;
-    }
 }

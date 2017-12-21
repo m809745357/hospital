@@ -19,7 +19,8 @@
                             <div class="parcel-food-contact" 
                                 @click="detail(department_index, physical_index)" 
                                 v-for="(physical, physical_index) in department.physical" 
-                                :key="physical_index">
+                                :key="physical_index"
+                                v-if="physical.status === 1">
                                 <img :src="physical.image" alt="">
                                 <div class="parcel-food-desc">
                                     <h4>{{ physical.title }}</h4>
@@ -73,7 +74,7 @@
                     <div class="cart-food-item" 
                         v-for="(physical, physical_index) in department.physical" 
                         :key="physical_index"
-                        v-if="physical.num > 0">
+                        v-if="physical.num > 0 && physical.status === 1">
                         <h4>{{ physical.title }}</h4>
                         <span>￥ {{ physical.money }}</span>
                         <div class="cart-food-options">

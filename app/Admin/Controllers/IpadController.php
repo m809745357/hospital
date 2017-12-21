@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Special;
+use App\Models\Ipad;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -10,7 +10,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class SpecialController extends Controller
+class IpadController extends Controller
 {
     use ModelForm;
 
@@ -22,8 +22,8 @@ class SpecialController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-            $content->header('医疗特色');
-            $content->description('展示医疗特色信息');
+            $content->header('平板管理');
+            $content->description('所有的平板管理列表');
 
             $content->body($this->grid());
         });
@@ -38,8 +38,8 @@ class SpecialController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-            $content->header('医疗特色');
-            $content->description('展示医疗特色信息');
+            $content->header('平板管理');
+            $content->description('所有的平板管理列表');
 
             $content->body($this->form()->edit($id));
         });
@@ -53,8 +53,8 @@ class SpecialController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-            $content->header('医疗特色');
-            $content->description('展示医疗特色信息');
+            $content->header('平板管理');
+            $content->description('所有的平板管理列表');
 
             $content->body($this->form());
         });
@@ -67,16 +67,17 @@ class SpecialController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Special::class, function (Grid $grid) {
+        return Admin::grid(Ipad::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('图片')->image(50, 50);
-            $grid->title('标题')->limit(30)->editable();
-            $grid->desc('描述')->limit(50);
-            $grid->click_num('点击量')->editable()->sortable();
+            $grid->name('平板名称')->editable();
+            $grid->address('病房地址')->editable();
+            $grid->remark('备注')->limit(50)->editable();
+            $grid->money('累积收益')->sortable();
+            $grid->order_num('累积订单')->sortable();
             $states = [
-                'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
-                'off' => ['value' => 2, 'text' => '不展示', 'color' => 'default'],
+                'on' => ['value' => 1, 'text' => '可用', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不可用', 'color' => 'default'],
             ];
             $grid->status('状态')->switch($states);
 
@@ -92,15 +93,21 @@ class SpecialController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Special::class, function (Form $form) {
+        return Admin::form(Ipad::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->image('image', '图片')->removable()->crop(325, 213)->help('推荐像素 325 * 213');
-            $form->text('title', '标题')->help('最好少于5个字');
-            $form->textarea('desc', '描述')->help('最好少于10个字');
-            $form->number('click_num', '点击量');
-            $form->editor('body', '内容');
-            $form->switch('status', '状态')->options([1 => '展示', 2 => '不展示']);
+            $form->text('name', '姓名');
+            $form->text('address', '病房地址');
+            $form->text('money', '累积收益');
+            $form->number('order_num', '累积订单');
+            $form->remark('备注');
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '可用', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不可用', 'color' => 'default'],
+            ];
+
+            $form->switch('status', '状态')->states($states);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

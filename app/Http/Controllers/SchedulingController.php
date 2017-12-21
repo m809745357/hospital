@@ -28,7 +28,7 @@ class SchedulingController extends Controller
             return $doctors;
         }
 
-        $doctors = $doctors->latest()->get();
+        $doctors = $doctors->where('status', 1)->latest()->get();
         $departments = Department::latest()->get();
 
         return view('pc.scheduling.index', compact('doctors', 'departments'));

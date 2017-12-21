@@ -13,7 +13,7 @@ class DynamicController extends Controller
      */
     public function index()
     {
-        $dynamics = Dynamic::latest()->get();
+        $dynamics = Dynamic::where('status', 1)->latest()->get();
         return view('pc/dynamic/index', compact('dynamics'));
     }
 
@@ -24,6 +24,9 @@ class DynamicController extends Controller
      */
     public function show(Dynamic $dynamic)
     {
+        if ($dynamic->status !== '1') {
+            return redirect()->back();
+        }
         return view('pc/dynamic/show', compact('dynamic'));
     }
 }

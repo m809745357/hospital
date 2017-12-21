@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NurseRecord extends Model
+class IpadRecord extends Model
 {
     protected $guarded = [];
 
@@ -13,14 +13,14 @@ class NurseRecord extends Model
         static::bootTraits();
 
         static::created(function ($query) {
-            $query->nurse->increment('money', $query->order->money);
-            $query->nurse->increment('order_num');
+            $query->ipad->increment('money', $query->order->money);
+            $query->ipad->increment('order_num');
         });
     }
 
-    public function nurse()
+    public function ipad()
     {
-        return $this->belongsTo(Nurse::class, 'nurse_id');
+        return $this->belongsTo(Ipad::class, 'ipad_id');
     }
 
     public function order()

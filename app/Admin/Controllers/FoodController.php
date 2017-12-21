@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Food;
-
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -24,7 +23,6 @@ class FoodController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('餐品信息');
             $content->description('展示餐品信息列表');
 
@@ -41,7 +39,6 @@ class FoodController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
             $content->header('餐品信息');
             $content->description('展示餐品信息列表');
 
@@ -57,7 +54,6 @@ class FoodController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('餐品信息');
             $content->description('展示餐品信息列表');
 
@@ -76,16 +72,22 @@ class FoodController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->image('菜品图片')->image(50, 50);
-            $grid->column('channel.name', '菜品分类');
             $grid->title('菜品名称')->limit(30)->editable('textarea');
             $grid->desc('菜品描述')->limit(50)->editable('textarea');
-            $grid->money('菜品价格')->editable('textarea');
+            $grid->money('菜品价格')->editable('textarea')->sortable();
+            $grid->channel_id('菜品分类')->select(Channel::all()->pluck('name', 'id'));
             $grid->type('菜品时间')->select([
                 'am' => '上午',
                 'pm' => '下午',
                 'all' => '全天',
             ]);
-            
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '下架', 'color' => 'default'],
+            ];
+            $grid->status('状态')->switch($states);
+
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
         });
@@ -99,7 +101,6 @@ class FoodController extends Controller
     protected function form()
     {
         return Admin::form(Food::class, function (Form $form) {
-
             $form->display('id', 'ID');
 
             $form->text('title', '菜品名称');
@@ -115,6 +116,13 @@ class FoodController extends Controller
                 'pm' => '下午',
                 'all' => '全天',
             ]);
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '下架', 'color' => 'default'],
+            ];
+
+            $form->switch('status', '状态')->states($states);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

@@ -272,27 +272,16 @@ class AdminMenuTableSeeder extends Seeder
             ),
             23 => 
             array (
-                'id' => 25,
-                'parent_id' => 23,
-                'order' => 25,
-                'title' => '微信支付',
-                'icon' => 'fa-bars',
-                'uri' => 'wechat-records',
-                'created_at' => '2017-12-15 21:16:06',
-                'updated_at' => '2017-12-15 21:59:20',
-            ),
-            24 => 
-            array (
                 'id' => 26,
-                'parent_id' => 0,
-                'order' => 30,
-                'title' => '订单管理',
+                'parent_id' => 32,
+                'order' => 33,
+                'title' => '所有订单',
                 'icon' => 'fa-reorder',
                 'uri' => 'orders',
                 'created_at' => '2017-12-15 21:20:20',
-                'updated_at' => '2017-12-15 21:59:20',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
-            25 => 
+            24 => 
             array (
                 'id' => 27,
                 'parent_id' => 0,
@@ -301,9 +290,9 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-automobile',
                 'uri' => NULL,
                 'created_at' => '2017-12-15 21:23:24',
-                'updated_at' => '2017-12-15 21:59:20',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
-            26 => 
+            25 => 
             array (
                 'id' => 28,
                 'parent_id' => 27,
@@ -312,9 +301,9 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-briefcase',
                 'uri' => 'promoters',
                 'created_at' => '2017-12-15 21:26:48',
-                'updated_at' => '2017-12-15 21:59:20',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
-            27 => 
+            26 => 
             array (
                 'id' => 29,
                 'parent_id' => 27,
@@ -323,9 +312,9 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-align-justify',
                 'uri' => 'promoter-records',
                 'created_at' => '2017-12-15 21:27:38',
-                'updated_at' => '2017-12-15 21:59:20',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
-            28 => 
+            27 => 
             array (
                 'id' => 30,
                 'parent_id' => 27,
@@ -334,9 +323,9 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-archive',
                 'uri' => 'promoter-orders',
                 'created_at' => '2017-12-15 21:28:17',
-                'updated_at' => '2017-12-15 21:59:20',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
-            29 => 
+            28 => 
             array (
                 'id' => 31,
                 'parent_id' => 13,
@@ -346,6 +335,50 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'nurses',
                 'created_at' => '2017-12-15 21:59:14',
                 'updated_at' => '2017-12-15 21:59:20',
+            ),
+            29 => 
+            array (
+                'id' => 32,
+                'parent_id' => 0,
+                'order' => 30,
+                'title' => '用户管理',
+                'icon' => 'fa-users',
+                'uri' => NULL,
+                'created_at' => '2017-12-21 23:04:26',
+                'updated_at' => '2017-12-21 23:42:58',
+            ),
+            30 => 
+            array (
+                'id' => 33,
+                'parent_id' => 32,
+                'order' => 31,
+                'title' => '微信用户',
+                'icon' => 'fa-user',
+                'uri' => 'users',
+                'created_at' => '2017-12-21 23:05:23',
+                'updated_at' => '2017-12-21 23:42:58',
+            ),
+            31 => 
+            array (
+                'id' => 34,
+                'parent_id' => 23,
+                'order' => 25,
+                'title' => '平板支付',
+                'icon' => 'fa-clipboard',
+                'uri' => 'ipad-records',
+                'created_at' => '2017-12-21 23:22:43',
+                'updated_at' => '2017-12-21 23:43:12',
+            ),
+            32 => 
+            array (
+                'id' => 35,
+                'parent_id' => 32,
+                'order' => 32,
+                'title' => '平板管理',
+                'icon' => 'fa-mobile-phone',
+                'uri' => 'ipads',
+                'created_at' => '2017-12-21 23:42:42',
+                'updated_at' => '2017-12-21 23:42:58',
             ),
         ));
         

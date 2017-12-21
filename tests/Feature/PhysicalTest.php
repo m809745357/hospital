@@ -22,7 +22,17 @@ class PhysicalTest extends TestCase
 
         $physicals = factory('App\Models\Physical')->create();
 
-        $response = $this->get('physicals/single');
+        $response = $this->get('/physicals/single');
+
+        $response->assertStatus(302);
+
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
+        $response = $this->get('/physicals/single');
 
         $response->assertSee($physicals->title);
     }

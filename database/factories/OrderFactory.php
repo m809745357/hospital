@@ -14,6 +14,7 @@ $factory->define(App\Models\Order::class, function (Faker $faker) {
         'order_details' => serialize($food),
         'order_details_type' => 'App\Models\Food',
         'order_time' => '',
-        'remark' => 'am'
+        'remark' => 'am',
+        'paid_at' => ''
     ];
 });

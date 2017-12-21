@@ -14,6 +14,7 @@ $factory->define(Scheduling::class, function (Faker $faker) {
         'day' => rand(0, 6),
         'time' => rand(1, 3),
         'address' => $faker->word,
+        'status' => 1,
         'money' => $faker->randomNumber(2),
     ];
 });

@@ -4437,6 +4437,7 @@ th {
 .banner-button {
   top: 60%;
   left: 20%;
+  text-decoration: none;
   position: absolute;
   background-color: #3490dc;
   color: #ffffff;

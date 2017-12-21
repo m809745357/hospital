@@ -103,7 +103,7 @@ th {
 .banner-button {
     top: 60%;
     left: 20%;
-    @apply absolute bg-blue text-white text-lg font-normal shadow p-pc-10 rounded-4px;
+    @apply no-underline absolute bg-blue text-white text-lg font-normal shadow p-pc-10 rounded-4px;
 }
 
 .more {

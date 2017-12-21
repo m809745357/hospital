@@ -25,7 +25,6 @@ class PromoterOrderController extends Controller
     public function store(CreatePromoterOrderPost $request, Promoter $promoter)
     {
         $promoterOrder = $promoter->addOrder($request->validated());
-
         return response($promoterOrder, 201);
     }
 }

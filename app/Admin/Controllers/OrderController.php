@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\Admin\Extensions\Tools\OrderType;
 use Illuminate\Support\Facades\Request;
+use App\Admin\Extensions\Tools\OrderStatus;
+use App\Admin\Extensions\Tools\OrderPayWay;
 
 class OrderController extends Controller
 {
@@ -74,11 +76,41 @@ class OrderController extends Controller
 
             $grid->column('user.name', '下单用户');
             // $grid->order_details('订单详情');
-            $grid->order_details_type('订单类型');
-            $grid->money('订单价格');
+            $grid->order_details_type('订单类型')->display(function ($type) {
+                $types = [
+                    'App\\Models\\Food' => '微信点餐',
+                    'App\\Models\\Physical' => '单列体检',
+                    'App\\Models\\Package' => '套餐体检',
+                    'App\\Models\\Scheduling' => '预约挂号',
+                ];
+                return $types[$type];
+            });
+            $grid->money('订单价格（元）')->editable()->sortable();
             $grid->out_trade_no('订单编号');
-            $grid->remark('订单备注');
-            $grid->order_time('订单时间');
+            $grid->remark('订单备注')->display(function ($remark) {
+                if (empty($remark)) {
+                    return '暂无备注';
+                }
+                switch ($remark) {
+                    case 'am':
+                        return '午餐';
+                        break;
+
+                    case 'pm':
+                        return '晚餐';
+                        break;
+                    default:
+                        return $remark;
+                        break;
+                }
+            });
+            $grid->order_time('订单时间')->display(function ($order_time) {
+                if (empty($order_time)) {
+                    return '暂无预约时间';
+                } else {
+                    return $order_time;
+                }
+            });
             $grid->status('订单状态')->display(function ($status) {
                 $statuses = [
                     '1' => '未支付',
@@ -111,10 +143,20 @@ class OrderController extends Controller
 
             $grid->tools(function ($tools) {
                 $tools->append(new OrderType());
+                $tools->append(new OrderStatus());
+                $tools->append(new OrderPayWay());
             });
 
             if (in_array(Request::get('order-type'), ['App\\Models\\Food', 'App\\Models\\Physical', 'App\\Models\\Package', 'App\\Models\\Scheduling'])) {
                 $grid->model()->where('order_details_type', Request::get('order-type'));
+            }
+
+            if (in_array(Request::get('order-status'), ['1', '2', '3', '4', '5'])) {
+                $grid->model()->where('status', Request::get('order-status'));
+            }
+
+            if (in_array(Request::get('order-pay-way'), ['wechat', 'card', 'ipad'])) {
+                $grid->model()->where('pay_way', Request::get('order-pay-way'));
             }
         });
     }

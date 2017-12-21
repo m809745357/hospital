@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePackagesTable extends Migration
+class CreateIpadRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreatePackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('packages', function (Blueprint $table) {
+        Schema::create('ipad_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('image');
-            $table->integer('men_money');
-            $table->integer('women_money');
-            $table->text('body');
-            $table->integer('status');
+            $table->unsignedInteger('ipad_id');
+            $table->unsignedInteger('order_id');
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreatePackagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packages');
+        Schema::dropIfExists('ipad_records');
     }
 }

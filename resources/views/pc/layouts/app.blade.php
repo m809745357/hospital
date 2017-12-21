@@ -13,7 +13,7 @@
         window.App = <?php echo json_encode([
             'user' => Auth::user(),
             'signedIn' => Auth::check(),
-            'banners' => App\Models\Banner::latest()->get(),
+            'banners' => App\Models\Banner::where('status', 1)->latest()->get(),
             'configs' => App\Models\Config::all()->pluck('contact', 'slug')
         ]); ?>
     </script>
@@ -58,8 +58,8 @@
             <div class="w-full">
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-                        <img src="/images/slider-bg-1.png" alt="">
-                        <button class="banner-button hidden md:block" type="button" v-html="slide.title" ></button>
+                        <img :src="slide.image" alt="">
+                        <a :href="slide.url" class="banner-button hidden md:block" type="button" v-html="slide.title"></a>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>

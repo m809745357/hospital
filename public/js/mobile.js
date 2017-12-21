@@ -49759,20 +49759,22 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_wc_messagebox__["Alert"], {
 
 window.wx = __webpack_require__(297);
 
-// wx.config(JSON.parse(App.wxconfig));
-// wx.ready(function () {
-//     wx.onMenuShareTimeline({
-//         title: '宁波鄞州肛肠医院',
-//         link: 'https://nbyzgc.mandokg.com/user',
-//         imgUrl: 'https://lorempixel.com/200/200/?47750',
-//     });
-//     wx.onMenuShareAppMessage({
-//         title: '宁波鄞州肛肠医院',
-//         desc: '宁波鄞州肛肠医院',
-//         link: 'https://nbyzgc.mandokg.com/user',
-//         imgUrl: 'https://lorempixel.com/200/200/?47750',
-//     });
-// });
+if (App.wxconfig !== undefined) {
+    wx.config(JSON.parse(App.wxconfig));
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: '宁波鄞州肛肠医院',
+            link: 'https://nbyzgc.mandokg.com/user',
+            imgUrl: 'https://lorempixel.com/200/200/?47750'
+        });
+        wx.onMenuShareAppMessage({
+            title: '宁波鄞州肛肠医院',
+            desc: '宁波鄞州肛肠医院',
+            link: 'https://nbyzgc.mandokg.com/user',
+            imgUrl: 'https://lorempixel.com/200/200/?47750'
+        });
+    });
+}
 // Vue.use(Confirm, options)
 // Vue.use(Toast, duration)
 
@@ -54816,7 +54818,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['attributes'],
+    props: ['attributes', 'other'],
     data: function data() {
         return {
             channels: this.attributes,
@@ -54836,7 +54838,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
     },
-    created: function created() {},
+    created: function created() {
+        console.log(this.other);
+    },
 
     methods: {
         changeChannel: function changeChannel(slug) {
@@ -54877,6 +54881,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.money = 0;
             this.cart = false;
         },
+        url: function url() {
+            return this.other.id ? '/ipads/' + this.other.id + '/orders' : 'orders';
+        },
         settle: function settle() {
             var _this = this;
 
@@ -54888,13 +54895,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                 });
             });
-            axios.post('/orders', {
+            axios.post(this.url(), {
                 order_details: this.foods,
                 order_details_type: 'App\\Models\\Food',
                 menu: this.menu
             }).then(function (response) {
                 console.log(response);
-                window.location.href = '/orders/' + response.data.data.id;
+                window.location.href = 'orders/' + response.data.data.id;
             }).catch(function (error) {
                 if (error.response.status === 400) {
                     _this.$alert(error.response.data.data);
@@ -55491,7 +55498,8 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm._l(channel.food, function(food, food_index) {
-                        return food.type == _vm.menu || food.type == "all"
+                        return (food.type == _vm.menu || food.type == "all") &&
+                          food.status === 1
                           ? _c(
                               "div",
                               {
@@ -55733,7 +55741,8 @@ var render = function() {
                 { key: channel_index },
                 _vm._l(channel.food, function(food, food_index) {
                   return food.num > 0 &&
-                    (food.type == _vm.menu || food.type == "all")
+                    (food.type == _vm.menu || food.type == "all") &&
+                    food.status === 1
                     ? _c(
                         "div",
                         { key: food_index, staticClass: "cart-food-item" },
@@ -56017,7 +56026,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['attributes'],
+    props: ['attributes', 'other'],
     data: function data() {
         return {
             order: this.attributes,
@@ -56027,7 +56036,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             days: [],
             day: '',
             time: '',
-            img: ''
+            img: '',
+            json: {}
         };
     },
     created: function created() {
@@ -56035,6 +56045,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.days[index] = moment().add(index, 'days').format('L');
         }
         console.log(this.attributes.order_details_type !== 'App\\Models\\Scheduling');
+        if (this.other) {
+            this.payway = 'ipad';
+        }
     },
 
     methods: {
@@ -56048,6 +56061,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         back: function back() {
             window.location.href = '/orders';
+        },
+        onBridgeReady: function onBridgeReady() {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                "appId": this.json.appId, //公众号名称，由商户传入     
+                "timeStamp": this.json.timeStamp, //时间戳，自1970年以来的秒数     
+                "nonceStr": this.json.nonceStr, //随机串     
+                "package": this.json.package,
+                "signType": this.json.signType, //微信签名方式：     
+                "paySign": this.json.paySign //微信签名 
+            }, function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {} // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+            });
+        },
+        url: function url() {
+            var url = '/orders/' + this.order.id + '/' + this.payway;
+
+            if (this.payway == 'ipad') {
+                url = '/ipads/' + this.other.id + url;
+            }
+            return url;
         },
         pay: function pay() {
             var _this = this;
@@ -56074,7 +56107,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.show = true;
                 return;
             }
-            axios.post('/orders/' + this.order.id + '/' + this.payway, {
+            axios.post(this.url(), {
                 order_time: this.order.order_time,
                 pay_way: this.payway,
                 secret: this.secret
@@ -56091,14 +56124,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return;
                     }
                     if (_this.payway === 'wechat') {
-                        if (window.WeixinJSBridge !== undefined) {
-                            window.WeixinJSBridge.invoke('getBrandWCPayRequest', response.data, function (res) {
-                                if (res.err_msg == "get_brand_wcpay_request:ok") {
-                                    // 使用以上方式判断前端返回,微信团队郑重提示：
-                                    // res.err_msg将在用户支付成功后返回
-                                    // ok，但并不保证它绝对可靠。
-                                }
-                            });
+                        _this.json = response.data.data;
+                        if (typeof WeixinJSBridge == "undefined") {
+                            if (document.addEventListener) {
+                                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                            } else if (document.attachEvent) {
+                                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                            }
+                        } else {
+                            onBridgeReady();
                         }
                     }
                 }
@@ -56876,86 +56911,92 @@ var render = function() {
     _vm._v(" "),
     _vm.order.status == 1
       ? _c("div", { staticClass: "pays" }, [
-          _c(
-            "div",
-            {
-              staticClass: "pay",
-              on: {
-                click: function($event) {
-                  _vm.change("wechat")
-                }
-              }
-            },
-            [
-              _c("img", { attrs: { src: "/images/wechat.png", alt: "" } }),
-              _vm._v(" "),
-              _c("p", [_vm._v("微信支付")]),
-              _vm._v(" "),
-              _c("img", {
-                attrs: {
-                  src:
-                    _vm.payway == "wechat"
-                      ? "/images/choosed.png"
-                      : "/images/choose.png",
-                  alt: ""
-                }
-              })
-            ]
-          ),
+          !_vm.other
+            ? _c(
+                "div",
+                {
+                  staticClass: "pay",
+                  on: {
+                    click: function($event) {
+                      _vm.change("wechat")
+                    }
+                  }
+                },
+                [
+                  _c("img", { attrs: { src: "/images/wechat.png", alt: "" } }),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("微信支付")]),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src:
+                        _vm.payway == "wechat"
+                          ? "/images/choosed.png"
+                          : "/images/choose.png",
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "pay",
-              on: {
-                click: function($event) {
-                  _vm.change("card")
-                }
-              }
-            },
-            [
-              _c("img", { attrs: { src: "/images/card.png", alt: "" } }),
-              _vm._v(" "),
-              _c("p", [_vm._v("一卡通支付")]),
-              _vm._v(" "),
-              _c("img", {
-                attrs: {
-                  src:
-                    _vm.payway == "card"
-                      ? "/images/choosed.png"
-                      : "/images/choose.png",
-                  alt: ""
-                }
-              })
-            ]
-          ),
+          !_vm.other
+            ? _c(
+                "div",
+                {
+                  staticClass: "pay",
+                  on: {
+                    click: function($event) {
+                      _vm.change("card")
+                    }
+                  }
+                },
+                [
+                  _c("img", { attrs: { src: "/images/card.png", alt: "" } }),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("一卡通支付")]),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src:
+                        _vm.payway == "card"
+                          ? "/images/choosed.png"
+                          : "/images/choose.png",
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "pay",
-              on: {
-                click: function($event) {
-                  _vm.change("ipad")
-                }
-              }
-            },
-            [
-              _c("img", { attrs: { src: "/images/ipad.png", alt: "" } }),
-              _vm._v(" "),
-              _c("p", [_vm._v("Ipad支付")]),
-              _vm._v(" "),
-              _c("img", {
-                attrs: {
-                  src:
-                    _vm.payway == "ipad"
-                      ? "/images/choosed.png"
-                      : "/images/choose.png",
-                  alt: ""
-                }
-              })
-            ]
-          )
+          _vm.other
+            ? _c(
+                "div",
+                {
+                  staticClass: "pay",
+                  on: {
+                    click: function($event) {
+                      _vm.change("ipad")
+                    }
+                  }
+                },
+                [
+                  _c("img", { attrs: { src: "/images/ipad.png", alt: "" } }),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Ipad支付")]),
+                  _vm._v(" "),
+                  _c("img", {
+                    attrs: {
+                      src:
+                        _vm.payway == "ipad"
+                          ? "/images/choosed.png"
+                          : "/images/choose.png",
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            : _vm._e()
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -57607,6 +57648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -57790,83 +57832,89 @@ var render = function() {
                         physical,
                         physical_index
                       ) {
-                        return _c(
-                          "div",
-                          {
-                            key: physical_index,
-                            staticClass: "parcel-food-contact",
-                            on: {
-                              click: function($event) {
-                                _vm.detail(department_index, physical_index)
-                              }
-                            }
-                          },
-                          [
-                            _c("img", {
-                              attrs: { src: physical.image, alt: "" }
-                            }),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "parcel-food-desc" }, [
-                              _c("h4", [_vm._v(_vm._s(physical.title))]),
-                              _vm._v(" "),
-                              _c("p", [_vm._v(_vm._s(physical.desc))]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "parcel-food-footer" }, [
-                                _c("span", [
-                                  _vm._v("￥ " + _vm._s(physical.money))
-                                ]),
+                        return physical.status === 1
+                          ? _c(
+                              "div",
+                              {
+                                key: physical_index,
+                                staticClass: "parcel-food-contact",
+                                on: {
+                                  click: function($event) {
+                                    _vm.detail(department_index, physical_index)
+                                  }
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  attrs: { src: physical.image, alt: "" }
+                                }),
                                 _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "parcel-food-options" },
-                                  [
-                                    physical.num > 0
-                                      ? _c("img", {
-                                          staticClass: "reduce",
-                                          attrs: {
-                                            src: "/images/reduce.png",
-                                            alt: ""
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              $event.stopPropagation()
-                                              _vm.reduce(
-                                                department_index,
-                                                physical_index
-                                              )
+                                _c("div", { staticClass: "parcel-food-desc" }, [
+                                  _c("h4", [_vm._v(_vm._s(physical.title))]),
+                                  _vm._v(" "),
+                                  _c("p", [_vm._v(_vm._s(physical.desc))]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "parcel-food-footer" },
+                                    [
+                                      _c("span", [
+                                        _vm._v("￥ " + _vm._s(physical.money))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "parcel-food-options" },
+                                        [
+                                          physical.num > 0
+                                            ? _c("img", {
+                                                staticClass: "reduce",
+                                                attrs: {
+                                                  src: "/images/reduce.png",
+                                                  alt: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.stopPropagation()
+                                                    _vm.reduce(
+                                                      department_index,
+                                                      physical_index
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          physical.num > 0
+                                            ? _c("span", [
+                                                _vm._v(_vm._s(physical.num))
+                                              ])
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _c("img", {
+                                            staticClass: "plus",
+                                            attrs: {
+                                              src: "/images/plus.png",
+                                              alt: ""
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                $event.stopPropagation()
+                                                _vm.plus(
+                                                  department_index,
+                                                  physical_index
+                                                )
+                                              }
                                             }
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    physical.num > 0
-                                      ? _c("span", [
-                                          _vm._v(_vm._s(physical.num))
-                                        ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _c("img", {
-                                      staticClass: "plus",
-                                      attrs: {
-                                        src: "/images/plus.png",
-                                        alt: ""
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          $event.stopPropagation()
-                                          _vm.plus(
-                                            department_index,
-                                            physical_index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ])
-                          ]
-                        )
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          : _vm._e()
                       })
                     ],
                     2
@@ -58025,7 +58073,7 @@ var render = function() {
                 "div",
                 { key: department_index },
                 _vm._l(department.physical, function(physical, physical_index) {
-                  return physical.num > 0
+                  return physical.num > 0 && physical.status === 1
                     ? _c(
                         "div",
                         { key: physical_index, staticClass: "cart-food-item" },
@@ -58979,9 +59027,11 @@ var render = function() {
                 { staticClass: "content" },
                 _vm._l(_vm.schedulings, function(scheduling, index) {
                   return (_vm.keyword !== "" &&
-                    scheduling.doctor.name.indexOf(_vm.keyword) > -1) ||
+                    scheduling.doctor.name.indexOf(_vm.keyword) > -1 &&
+                    scheduling.doctor.status === 1) ||
                     (_vm.keyword === "" &&
-                      (_vm.week === "" || scheduling.day === _vm.week))
+                      (_vm.week === "" || scheduling.day === _vm.week) &&
+                      scheduling.doctor.status === 1)
                     ? _c("div", { key: index, staticClass: "doctor-item" }, [
                         _c("div", { staticClass: "doctor-item-left" }, [
                           _c("img", {

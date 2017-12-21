@@ -24,6 +24,16 @@ class ParcelTest extends TestCase
 
         $response = $this->get('/parcels');
 
+        $response->assertStatus(302);
+
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
+        $response = $this->get('/parcels');
+
         $response->assertSee($food->title);
     }
 
@@ -36,6 +46,12 @@ class ParcelTest extends TestCase
     public function the_authenticated_user_can_settle_order_orders()
     {
         $user = factory('App\User')->create();
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
         $this->actingAs($user);
 
         $food = factory('App\Models\Food')->create()->toArray();
@@ -46,7 +62,7 @@ class ParcelTest extends TestCase
                 $food,
             ],
             'order_details_type' => 'App\\Models\\Food',
-            'menu' => 'am'
+            'menu' => 'am',
         ]);
 
         $this->assertDatabaseHas('orders', ['user_id' => $user->id]);
@@ -61,6 +77,12 @@ class ParcelTest extends TestCase
     public function the_authenticated_users_can_preview_the_settlement_point_meal_interface()
     {
         $user = factory('App\User')->create();
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
         $this->actingAs($user);
 
         $food = factory('App\Models\Food')->create()->toArray();
@@ -72,6 +94,7 @@ class ParcelTest extends TestCase
             'order_details' => serialize($food),
             'order_details_type' => 'App\\Models\\Food',
             'order_time' => '',
+            'paid_at' => '',
             'remark' => 'am'
         ]);
 
@@ -89,6 +112,12 @@ class ParcelTest extends TestCase
     public function the_authenticated_users_can_use_one_card_payment_requires_a_nurse_to_enter_a_password()
     {
         $user = factory('App\User')->create();
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
         $this->actingAs($user);
 
         $order = factory('App\Models\Order')->create();

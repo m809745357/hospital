@@ -21,6 +21,7 @@ class CreateFoodsTable extends Migration
             $table->string('image');
             $table->string('desc');
             $table->integer('money');
+            $table->integer('status');
             $table->enum('type', Food::TYPES);
             $table->timestamps();
         });

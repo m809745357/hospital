@@ -13,7 +13,7 @@ class CreateSmsPost extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user();
+        return true;
     }
 
     /**

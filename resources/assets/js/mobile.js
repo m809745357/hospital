@@ -24,20 +24,22 @@ Vue.use(Alert, {
 
 window.wx = require('weixin-js-sdk');
 
-// wx.config(JSON.parse(App.wxconfig));
-// wx.ready(function () {
-//     wx.onMenuShareTimeline({
-//         title: '宁波鄞州肛肠医院',
-//         link: 'https://nbyzgc.mandokg.com/user',
-//         imgUrl: 'https://lorempixel.com/200/200/?47750',
-//     });
-//     wx.onMenuShareAppMessage({
-//         title: '宁波鄞州肛肠医院',
-//         desc: '宁波鄞州肛肠医院',
-//         link: 'https://nbyzgc.mandokg.com/user',
-//         imgUrl: 'https://lorempixel.com/200/200/?47750',
-//     });
-// });
+if (App.wxconfig !== undefined) {
+    wx.config(JSON.parse(App.wxconfig));
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: '宁波鄞州肛肠医院',
+            link: 'https://nbyzgc.mandokg.com/user',
+            imgUrl: 'https://lorempixel.com/200/200/?47750',
+        });
+        wx.onMenuShareAppMessage({
+            title: '宁波鄞州肛肠医院',
+            desc: '宁波鄞州肛肠医院',
+            link: 'https://nbyzgc.mandokg.com/user',
+            imgUrl: 'https://lorempixel.com/200/200/?47750',
+        });
+    });
+}
 // Vue.use(Confirm, options)
 // Vue.use(Toast, duration)
 

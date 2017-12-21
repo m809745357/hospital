@@ -72,13 +72,14 @@ class DoctorController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->image('图片')->image(50, 50);
-            $grid->name('姓名');
-            $grid->title('职称');
-            $grid->desc('擅长');
-            $grid->department()->name('部门');
+            $grid->name('姓名')->editable();
+            $grid->title('职称')->editable();
+            $grid->recep_num('诊断次数')->editable()->sortable();
+            $grid->desc('擅长')->editable('textarea');
+            $grid->department_id('部门')->select(Department::all()->pluck('name', 'id'));
             $states = [
                 'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
-                'off' => ['value' => 2, 'text' => '不展示', 'color' => 'default'],
+                'off' => ['value' => 0, 'text' => '不展示', 'color' => 'default'],
             ];
             $grid->status('状态')->switch($states);
 
@@ -100,11 +101,18 @@ class DoctorController extends Controller
             $form->text('name', '姓名');
             $form->image('image', '头像')->removable()->crop(200, 200)->help('推荐像素 200 * 200');
             $form->text('title', '职称')->help('最好少于10个字');
+            $form->number('recep_num', '诊断次数');
             $form->textarea('desc', '擅长')->help('最好少于50个字');
             $form->select('department_id', '部门')->options(function ($ids) {
                 return Department::find($ids)->pluck('name', 'id');
             });
-            $form->switch('status', '状态')->options([1 => '展示', 2 => '不展示']);
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不展示', 'color' => 'default'],
+            ];
+
+            $form->switch('status', '状态')->states($states);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

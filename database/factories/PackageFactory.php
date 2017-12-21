@@ -9,5 +9,6 @@ $factory->define(App\Models\Package::class, function (Faker $faker) {
         'body' => $faker->paragraph,
         'men_money' => $faker->randomNumber(2),
         'women_money' => $faker->randomNumber(2),
+        'status' => 1,
     ];
 });

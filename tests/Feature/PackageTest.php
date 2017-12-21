@@ -24,6 +24,16 @@ class PackageTest extends TestCase
 
         $response = $this->get('physicals/packages');
 
+        $response->assertStatus(302);
+
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
+        $response = $this->get('/physicals/packages');
+
         $response->assertSee($packages->title);
     }
 
@@ -36,6 +46,12 @@ class PackageTest extends TestCase
     public function the_authenticated_users_can_see_the_details_of_the_reservation_package_for_physical_examination()
     {
         $user = factory('App\User')->create();
+        $user->update([
+            'card' => '330681199309214559',
+            'mobile' => '18367831980',
+            'address' => 'NBYZGC0001',
+        ]);
+
         $this->actingAs($user);
 
         $package = factory('App\Models\Package')->create();

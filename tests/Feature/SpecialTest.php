@@ -33,8 +33,8 @@ class SpecialTest extends TestCase
      */
     public function any_user_can_see_a_special_detail_of_hospitals()
     {
-        $special = factory('App\Models\Special')->create();
-
+        $special = factory('App\Models\Special')->create(['status' => 1]);
+        // dd($special);
         $response = $this->get($special->path());
 
         $response->assertSee($special->title);

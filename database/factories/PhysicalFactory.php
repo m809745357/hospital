@@ -11,5 +11,6 @@ $factory->define(App\Models\Physical::class, function (Faker $faker) {
         'image' => $faker->imageUrl(200, 200),
         'desc' => $faker->sentence,
         'money' => $faker->randomNumber(2),
+        'status' => 1,
     ];
 });

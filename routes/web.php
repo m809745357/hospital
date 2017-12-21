@@ -29,21 +29,26 @@ Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/user/bind', 'UserController@bind')->name('user.bind');
 Route::post('/user', 'UserController@update')->name('user.update');
+Route::any('/wechat/payment/notify', 'OrderController@notify')->name('order.notify');
+Route::post('/sms', 'MobileController@store')->name('sms.store');
+Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
+
+Route::get('/ipads/{ipad}/parcels', 'ParcelController@index')->name('ipads.parcel.index');
+Route::post('/ipads/{ipad}/orders', 'OrderController@store')->name('ipads.order.store');
+Route::get('/ipads/{ipad}/orders/{order}', 'OrderController@show')->name('ipads.order.show');
+Route::post('/ipads/{ipad}/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
 
 Route::group(['middleware' => 'prefect'], function () {
     Route::get('/user', 'UserController@index')->name('user.index');
     Route::get('/user/room', 'UserController@room')->name('user.room');
-    Route::post('/sms', 'MobileController@store')->name('sms.store');
-    Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
 
-    Route::get('/parcels', 'ParcelController@index')->name('parcel.index')->middleware('address');
-    Route::post('/orders', 'OrderController@store')->name('order.store');
+    Route::get('/parcels', 'ParcelController@index')->name('parcel.index')->middleware(['address', 'auth']);
+    Route::post('/orders', 'OrderController@store')->name('order.store')->middleware(['auth']);
     Route::get('/orders', 'OrderController@index')->name('order.index');
     Route::get('/orders/promoter', 'PromoterController@promoter')->name('order.promoter');
-    Route::get('/orders/{order}', 'OrderController@show')->name('order.show');
+    Route::get('/orders/{order}', 'OrderController@show')->name('order.show')->middleware(['auth']);
     Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
     Route::post('/orders/{order}/wechat', 'OrderController@wechat')->name('order.wechat');
-    Route::post('/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
 
     Route::get('/physicals/single', 'PhysicalController@index')->name('physical.index');
     Route::get('/physicals/packages', 'PackageController@index')->name('package.index');

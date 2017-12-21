@@ -22,6 +22,7 @@ class CreateSchedulingsTable extends Migration
             $table->tinyInteger('time');
             $table->string('address');
             $table->integer('money');
+            $table->integer('status');
             $table->timestamps();
         });
     }

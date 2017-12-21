@@ -15,5 +15,6 @@ $factory->define(Food::class, function (Faker $faker) {
         'desc' => $faker->paragraph,
         'money' => $faker->randomNumber(2),
         'type' => $type[rand(0, 2)],
+        'status' => 1,
     ];
 });

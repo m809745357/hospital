@@ -70,9 +70,14 @@ class BannerController extends Controller
         return Admin::grid(Banner::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->title('标题')->limit(30);
-            $grid->image('图片')->image(960, 305);
-            $grid->url('链接');
+            $grid->title('标题')->limit(30)->editable('textarea');
+            // $grid->image('图片')->image(960, 305);
+            $grid->url('链接')->editable('textarea');
+            $states = [
+                'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不展示', 'color' => 'default'],
+            ];
+            $grid->status('状态')->switch($states);
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
@@ -92,6 +97,13 @@ class BannerController extends Controller
             $form->text('title', '标题');
             $form->image('image', '图片')->removable()->crop(1920, 610)->help('推荐像素 1920 * 610');
             $form->url('url', '链接');
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不展示', 'color' => 'default'],
+            ];
+
+            $form->switch('status', '状态')->states($states);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

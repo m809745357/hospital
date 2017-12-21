@@ -20,6 +20,7 @@ class CreatePhysicalsTable extends Migration
             $table->string('image');
             $table->string('desc');
             $table->integer('money');
+            $table->integer('status');
             $table->timestamps();
         });
     }

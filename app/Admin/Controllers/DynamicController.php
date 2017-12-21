@@ -71,9 +71,14 @@ class DynamicController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->image('图片')->image(50, 50);
-            $grid->title('标题')->limit(30);
+            $grid->title('标题')->limit(30)->editable();
             $grid->desc('描述')->limit(50);
-            $grid->click_num('点击量');
+            $grid->click_num('点击量')->editable()->sortable();
+            $states = [
+                'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
+                'off' => ['value' => 2, 'text' => '不展示', 'color' => 'default'],
+            ];
+            $grid->status('状态')->switch($states);
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
@@ -95,6 +100,7 @@ class DynamicController extends Controller
             $form->textarea('desc', '描述')->help('最好少于50个字');
             $form->number('click_num', '点击量');
             $form->editor('body', '内容');
+            $form->switch('status', '状态')->options([1 => '展示', 2 => '不展示']);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

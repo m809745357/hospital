@@ -18,6 +18,7 @@ class CreateNursesTable extends Migration
             $table->string('name');
             $table->string('avatar');
             $table->string('secret');
+            $table->integer('order_num');
             $table->integer('money');
             $table->timestamps();
         });

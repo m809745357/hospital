@@ -2,18 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\PromoterOrder;
-
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use App\Models\Promoter;
-use App\Models\Department;
+use App\User;
 
-class PromoterOrderController extends Controller
+class UserController extends Controller
 {
     use ModelForm;
 
@@ -25,9 +22,8 @@ class PromoterOrderController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-
-            $content->header('推广订单');
-            $content->description('展示推广订单信息');
+            $content->header('用户管理');
+            $content->description('管理用户相关信息展示');
 
             $content->body($this->grid());
         });
@@ -42,9 +38,8 @@ class PromoterOrderController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
-            $content->header('推广订单');
-            $content->description('展示推广订单信息');
+            $content->header('用户管理');
+            $content->description('管理用户相关信息展示');
 
             $content->body($this->form()->edit($id));
         });
@@ -58,9 +53,8 @@ class PromoterOrderController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-
-            $content->header('推广订单');
-            $content->description('展示推广订单信息');
+            $content->header('用户管理');
+            $content->description('管理用户相关信息展示');
 
             $content->body($this->form());
         });
@@ -73,24 +67,29 @@ class PromoterOrderController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(PromoterOrder::class, function (Grid $grid) {
-
+        return Admin::grid(User::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->department_id('部门')->select(Department::all()->pluck('name', 'id'));
-
-            $grid->promoter_id('推广人')->display(function ($promoter_id) {
-                return Promoter::find($promoter_id)->user->name;
-            });
+            $grid->avatar('头像')->image(50, 50);
             $grid->name('姓名')->editable();
-            $grid->gender('性别')->select([
-                'men' => '男', 'women' => '女'
-            ]);
+            $grid->openid('微信编号');
             $grid->mobile('手机号码')->editable();
-
+            $grid->card('身份证')->editable();
+            $grid->address('床位')->editable();
+            $grid->remark('备注')->editable('textarea');
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+
+            $grid->disableCreation();
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+            });
+            $grid->tools(function ($tools) {
+                $tools->batch(function ($batch) {
+                    $batch->disableDelete();
+                });
+            });
         });
     }
 
@@ -101,18 +100,14 @@ class PromoterOrderController extends Controller
      */
     protected function form()
     {
-        return Admin::form(PromoterOrder::class, function (Form $form) {
+        return Admin::form(User::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->select('department_id', '部门')->options(function ($ids) {
-                return Department::find($ids)->pluck('name', 'id');
-            });
-            $form->display('promoter_id', '推广人')->with(function ($id) {
-                return Promoter::find($id)->user->name;
-            });
             $form->text('name', '姓名');
-            $form->select('gender', '性别')->options(['men' => '男', 'women' => '女']);
-            $form->mobile('mobile', '手机号码')->options(['mask' => '999 9999 9999']);
+            $form->mobile('mobile', '手机号码')->options(['mask' => '99999999999']);
+            $form->text('card', '身份证');
+            $form->text('address', '床位');
+            $form->textarea('remark', '备注');
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

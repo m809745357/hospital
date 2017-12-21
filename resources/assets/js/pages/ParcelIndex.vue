@@ -19,7 +19,7 @@
                             <div class="parcel-food-contact" 
                                 @click="detail(channel_index, food_index)" 
                                 v-for="(food, food_index) in channel.food" 
-                                v-if="food.type == menu || food.type == 'all'"
+                                v-if="(food.type == menu || food.type == 'all') && food.status === 1"
                                 :key="food_index">
                                 <img :src="food.image" alt="">
                                 <div class="parcel-food-desc">
@@ -74,7 +74,7 @@
                     <div class="cart-food-item" 
                         v-for="(food, food_index) in channel.food" 
                         :key="food_index" 
-                        v-if="food.num > 0 && (food.type == menu || food.type == 'all')">
+                        v-if="food.num > 0 && (food.type == menu || food.type == 'all') && food.status === 1">
                         <h4>{{ food.title }}</h4>
                         <span>￥ {{ food.money }}</span>
                         <div class="cart-food-options">
@@ -95,7 +95,7 @@
 import scroll from '../components/Scroll.vue';
 import BScroll from 'better-scroll';
 export default {
-    props: ['attributes'],
+    props: ['attributes', 'other'],
     data () {
         return {
             channels: this.attributes,
@@ -115,7 +115,7 @@ export default {
         scroll
     },
     created () {
-
+        console.log(this.other);
     },
     methods: {
         changeChannel(slug) {
@@ -156,6 +156,9 @@ export default {
             this.money = 0;
             this.cart = false;
         },
+        url() {
+            return this.other.id ? `/ipads/${this.other.id}/orders` : `orders`;
+        },
         settle() {
             this.foods = [];
             this.channels.map((channel, channel_index) => {
@@ -165,14 +168,14 @@ export default {
                     }
                 })
             });
-            axios.post('/orders', {
+            axios.post(this.url(), {
                     order_details: this.foods,
                     order_details_type: 'App\\Models\\Food',
-                    menu: this.menu
+                    menu: this.menu,
                 })
                 .then(response => {
                     console.log(response);
-                    window.location.href = `/orders/${response.data.data.id}`;
+                    window.location.href = `orders/${response.data.data.id}`;
                 })
                 .catch(error => {
                     if (error.response.status === 400) {
