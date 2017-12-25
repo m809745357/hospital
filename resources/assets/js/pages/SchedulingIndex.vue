@@ -33,6 +33,9 @@
             <div class="h-pc-37 bg-grey-lightest border-b border-grey-lighter flex items-center justify-center p-pc-10 md-p-0">
                 <p class="text-sm text-red">重要说明：出诊信息仅供参考，如果有变动，以门诊公布为准</p>
             </div>
+            <div class="fixed w-full pin-t pin-l h-full flex items-center justify-center z-10" v-if="show" @click="show = false">
+                <img :src="qrcode" alt="">
+            </div>
             <div v-if="doctors" class="md:border md:border-grey-lighter flex flex-col md:flex-row max-w-full mb-pc-20 md:mt-0 mt-1 shadow" v-for="(doctor, index) in doctors" :key="index">
                 <div class="w-full md:w-1/5 md:border-r md:border-grey-ligter flex items-center md:ml-pc-50 py-pc-10">
                     <img :src="doctor.image" class="w-pc-60 h-pc-60 rounded-1/2 border border-grey-ligter">
@@ -66,7 +69,7 @@
                     </table>
                 </div>
                 <div class="hidden md:w-pc-165 md:flex items-center justify-center">
-                    <button class="bg-blue-light w-3/4 my-pc-10 md:w-pc-98 h-pc-30 text-sm text-blue-darkest" type="button">挂号</button>
+                    <button class="bg-blue-light w-3/4 my-pc-10 md:w-pc-98 h-pc-30 text-sm text-blue-darkest" @click="show = true" type="button">挂号</button>
                 </div>
             </div>
         </div>
@@ -92,7 +95,9 @@ export default {
             times: [
                 '上午', '下午', '全天'
             ],
-            source: ''
+            source: '',
+            qrcode: window.App.qrcode,
+            show: false
         }
     },
     created() {

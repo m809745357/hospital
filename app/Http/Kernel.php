@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'prefect' => \App\Http\Middleware\CheckPerfectInfo::class,
-        'address' => \App\Http\Middleware\CheckAddress::class
+        'address' => \App\Http\Middleware\CheckAddress::class,
+        'promoter' => \App\Http\Middleware\CheckPromoter::class
     ];
 }

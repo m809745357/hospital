@@ -22,6 +22,10 @@
                     <img src="/images/right.png" alt="">
                 </a>
             </div>
+            <div class="mt-1">
+                <p class="text-center text-lg">用户扫二维码转诊</p>
+                <img :src="qrcode" alt="">
+            </div>
         </div>
     </div>
 </template>
@@ -32,6 +36,7 @@ export default {
         return {
             promoter: this.attributes,
             user: window.App.user,
+            qrcode: window.App.promoter
         }
     },
     methods: {

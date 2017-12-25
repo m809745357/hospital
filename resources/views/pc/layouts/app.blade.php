@@ -14,7 +14,8 @@
             'user' => Auth::user(),
             'signedIn' => Auth::check(),
             'banners' => App\Models\Banner::where('status', 1)->latest()->get(),
-            'configs' => App\Models\Config::all()->pluck('contact', 'slug')
+            'configs' => App\Models\Config::all()->pluck('contact', 'slug'),
+            'qrcode' => 'data:image/png;base64, ' . base64_encode(QrCode::format('png')->size(400)->generate(config('app.url') . route('advance.index')))
         ]); ?>
     </script>
     <!-- Styles -->

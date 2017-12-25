@@ -53952,7 +53952,25 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0, false, false),
       _vm._v(" "),
-      _vm._m(1, false, false)
+      _c("div", { staticClass: "user-menu" }, [
+        _vm._m(1, false, false),
+        _vm._v(" "),
+        _vm._m(2, false, false),
+        _vm._v(" "),
+        _vm._m(3, false, false),
+        _vm._v(" "),
+        _vm.user.role === "promoter"
+          ? _c("a", { attrs: { href: "/user/promoter" } }, [
+              _c("img", { attrs: { src: "/images/spread.png", alt: "" } }),
+              _vm._v(" "),
+              _c("p", [_vm._v("我要推广")]),
+              _vm._v(" "),
+              _c("img", { attrs: { src: "/images/right.png", alt: "" } })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._m(4, false, false)
+      ])
     ])
   ])
 }
@@ -53982,46 +54000,48 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "user-menu" }, [
-      _c("a", { attrs: { href: "/user/room" } }, [
-        _c("img", { attrs: { src: "/images/room.png", alt: "" } }),
-        _vm._v(" "),
-        _c("p", [_vm._v("绑定床号")]),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-      ]),
+    return _c("a", { attrs: { href: "/user/room" } }, [
+      _c("img", { attrs: { src: "/images/room.png", alt: "" } }),
       _vm._v(" "),
-      _c("a", { attrs: { href: "/orders" } }, [
-        _c("img", { attrs: { src: "/images/orders.png", alt: "" } }),
-        _vm._v(" "),
-        _c("p", [_vm._v("我的订单")]),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-      ]),
+      _c("p", [_vm._v("绑定床号")]),
       _vm._v(" "),
-      _c("a", { attrs: { href: "/orders/promoter" } }, [
-        _c("img", { attrs: { src: "/images/promoters.png", alt: "" } }),
-        _vm._v(" "),
-        _c("p", [_vm._v("转诊订单")]),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-      ]),
+      _c("img", { attrs: { src: "/images/right.png", alt: "" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/orders" } }, [
+      _c("img", { attrs: { src: "/images/orders.png", alt: "" } }),
       _vm._v(" "),
-      _c("a", { attrs: { href: "/user/promoter" } }, [
-        _c("img", { attrs: { src: "/images/spread.png", alt: "" } }),
-        _vm._v(" "),
-        _c("p", [_vm._v("我要推广")]),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-      ]),
+      _c("p", [_vm._v("我的订单")]),
       _vm._v(" "),
-      _c("a", { attrs: { href: "/user/guide" } }, [
-        _c("img", { attrs: { src: "/images/guide.png", alt: "" } }),
-        _vm._v(" "),
-        _c("p", [_vm._v("用户指南")]),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-      ])
+      _c("img", { attrs: { src: "/images/right.png", alt: "" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/orders/promoter" } }, [
+      _c("img", { attrs: { src: "/images/promoters.png", alt: "" } }),
+      _vm._v(" "),
+      _c("p", [_vm._v("转诊订单")]),
+      _vm._v(" "),
+      _c("img", { attrs: { src: "/images/right.png", alt: "" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/user/guide" } }, [
+      _c("img", { attrs: { src: "/images/guide.png", alt: "" } }),
+      _vm._v(" "),
+      _c("p", [_vm._v("用户指南")]),
+      _vm._v(" "),
+      _c("img", { attrs: { src: "/images/right.png", alt: "" } })
     ])
   }
 ]
@@ -56037,7 +56057,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             day: '',
             time: '',
             img: '',
-            json: {}
+            json: {},
+            checkIpad: false
         };
     },
     created: function created() {
@@ -56045,8 +56066,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.days[index] = moment().add(index, 'days').format('L');
         }
         console.log(this.attributes.order_details_type !== 'App\\Models\\Scheduling');
-        if (this.other) {
+        if (this.other.id !== undefined) {
             this.payway = 'ipad';
+            this.checkIpad = true;
         }
     },
 
@@ -56071,7 +56093,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 "signType": this.json.signType, //微信签名方式：     
                 "paySign": this.json.paySign //微信签名 
             }, function (res) {
-                if (res.err_msg == "get_brand_wcpay_request:ok") {} // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                this.$alert(res.err_msg);
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    this.$alert('123');
+                } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
             });
         },
         url: function url() {
@@ -56133,7 +56158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
                             }
                         } else {
-                            onBridgeReady();
+                            _this.onBridgeReady();
                         }
                     }
                 }
@@ -56911,7 +56936,7 @@ var render = function() {
     _vm._v(" "),
     _vm.order.status == 1
       ? _c("div", { staticClass: "pays" }, [
-          !_vm.other
+          !_vm.checkIpad
             ? _c(
                 "div",
                 {
@@ -56940,7 +56965,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          !_vm.other
+          !_vm.checkIpad
             ? _c(
                 "div",
                 {
@@ -56969,7 +56994,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.other
+          _vm.checkIpad
             ? _c(
                 "div",
                 {
@@ -58446,7 +58471,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             order_time: '',
             days: [],
             day: '',
-            time: ''
+            time: '',
+            json: {}
         };
     },
 
@@ -58494,6 +58520,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error.reponse);
             });
         },
+        onBridgeReady: function onBridgeReady() {
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                "appId": this.json.appId, //公众号名称，由商户传入     
+                "timeStamp": this.json.timeStamp, //时间戳，自1970年以来的秒数     
+                "nonceStr": this.json.nonceStr, //随机串     
+                "package": this.json.package,
+                "signType": this.json.signType, //微信签名方式：     
+                "paySign": this.json.paySign //微信签名 
+            }, function (res) {
+                this.$alert(res.err_msg);
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    this.$alert('123');
+                } // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+            });
+        },
         pay: function pay() {
             var _this2 = this;
 
@@ -58501,7 +58542,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 order_time: this.order_time,
                 pay_way: this.payway
             }).then(function (response) {
-                if (response.status === 201) {}
+                if (response.status === 201) {
+                    _this2.json = response.data.data;
+                    if (typeof WeixinJSBridge == "undefined") {
+                        if (document.addEventListener) {
+                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                        } else if (document.attachEvent) {
+                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                        }
+                    } else {
+                        _this2.onBridgeReady();
+                    }
+                }
                 console.log(response.status);
             }).catch(function (error) {
                 if (error.response.status === 400) {
@@ -59028,10 +59081,10 @@ var render = function() {
                 _vm._l(_vm.schedulings, function(scheduling, index) {
                   return (_vm.keyword !== "" &&
                     scheduling.doctor.name.indexOf(_vm.keyword) > -1 &&
-                    scheduling.doctor.status === 1) ||
+                    scheduling.doctor.status === "1") ||
                     (_vm.keyword === "" &&
                       (_vm.week === "" || scheduling.day === _vm.week) &&
-                      scheduling.doctor.status === 1)
+                      scheduling.doctor.status === "1")
                     ? _c("div", { key: index, staticClass: "doctor-item" }, [
                         _c("div", { staticClass: "doctor-item-left" }, [
                           _c("img", {
@@ -59439,13 +59492,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['attributes'],
     data: function data() {
         return {
             promoter: this.attributes,
-            user: window.App.user
+            user: window.App.user,
+            qrcode: window.App.promoter
         };
     },
 
@@ -59482,7 +59540,15 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0, false, false)
+      _vm._m(0, false, false),
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-1" }, [
+        _c("p", { staticClass: "text-center text-lg" }, [
+          _vm._v("用户扫二维码转诊")
+        ]),
+        _vm._v(" "),
+        _c("img", { attrs: { src: _vm.qrcode, alt: "" } })
+      ])
     ])
   ])
 }

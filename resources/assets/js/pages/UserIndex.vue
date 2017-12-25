@@ -30,7 +30,7 @@
                     <p>转诊订单</p>
                     <img src="/images/right.png" alt="">
                 </a>
-                <a href="/user/promoter">
+                <a href="/user/promoter" v-if="user.role === 'promoter'">
                     <img src="/images/spread.png" alt="">
                     <p>我要推广</p>
                     <img src="/images/right.png" alt="">

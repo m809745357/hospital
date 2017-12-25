@@ -22,11 +22,22 @@ class AdminUsersTableSeeder extends Seeder
                 'id' => 1,
                 'username' => 'admin',
                 'password' => '$2y$10$ffnEW2ftbHLtY8I4gTlOSeHLumbGd3XVTPWhC1ZzD4ME/x2AOv0Cm',
-                'name' => 'Administrator',
+                'name' => '超级管理员',
                 'avatar' => NULL,
                 'remember_token' => NULL,
                 'created_at' => '2017-12-15 20:36:03',
-                'updated_at' => '2017-12-15 20:36:03',
+                'updated_at' => '2017-12-25 21:13:34',
+            ),
+            1 => 
+            array (
+                'id' => 2,
+                'username' => 'canteen',
+                'password' => '$2y$10$04NUQJwlzxKT1gjP.erJKO/HRZHCxV5NuxG.Xpw/izZEaF9.baQGG',
+                'name' => '食堂管理员',
+                'avatar' => 'images/YvgGjPXqhRXtRDwziYwg.png',
+                'remember_token' => NULL,
+                'created_at' => '2017-12-25 21:16:30',
+                'updated_at' => '2017-12-25 21:16:30',
             ),
         ));
         

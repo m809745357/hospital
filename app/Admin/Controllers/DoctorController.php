@@ -103,8 +103,8 @@ class DoctorController extends Controller
             $form->text('title', '职称')->help('最好少于10个字');
             $form->number('recep_num', '诊断次数');
             $form->textarea('desc', '擅长')->help('最好少于50个字');
-            $form->select('department_id', '部门')->options(function ($ids) {
-                return Department::find($ids)->pluck('name', 'id');
+            $form->select('department_id', '部门')->options(function () {
+                return Department::all()->pluck('name', 'id');
             });
 
             $states = [

@@ -71,7 +71,15 @@ class IpadController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->name('平板名称')->editable();
-            $grid->address('病房地址')->editable();
+
+            $grid->column('二维码 ')->display(function () {
+                return \QrCode::size(100)->generate(config('app.url') . '/ipads/' . $this->id . '/parcels');
+            });
+
+            $grid->column('订餐地址 ')->display(function () {
+                return config('app.url') . '/ipads/' . $this->id . '/parcels';
+            });
+            $grid->address('病房地址')->limit(20)->editable();
             $grid->remark('备注')->limit(50)->editable();
             $grid->money('累积收益')->sortable();
             $grid->order_num('累积订单')->sortable();

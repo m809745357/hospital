@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\User;
 
 class CreateUsersTable extends Migration
 {
@@ -22,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('card')->nullable();
             $table->string('address')->nullable();
             $table->text('remark')->nullable();
+            $table->enum('role', User::ROLES)->default('normal');
             $table->rememberToken();
             $table->timestamps();
         });

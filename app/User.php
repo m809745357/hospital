@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    const ROLES = ['normal', 'promoter'];
+
     use Notifiable;
 
     /**
@@ -94,5 +96,10 @@ class User extends Authenticatable
     public function checkAddress()
     {
         return $this->address === null || $this->address === '';
+    }
+
+    public function checkPromoter()
+    {
+        return $this->role === 'promoter';
     }
 }

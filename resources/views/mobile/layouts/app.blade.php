@@ -14,12 +14,13 @@
             'user' => Auth::user(),
             'signedIn' => Auth::check(),
             'configs' => App\Models\Config::all()->pluck('contact', 'slug'),
+            'promoter' => Auth::user()->promoter->exists ? 'data:image/png;base64, ' . base64_encode(QrCode::format('png')->size(400)->generate(config('app.url') . route('promoter.order.create', array('promoter' => Auth::user()->promoter->id)))) : false,
             // 'wxconfig' => app()->environment('testing') ? '' : $js->config(array(
-            //     'onMenuShareTimeline',
-            //     'onMenuShareAppMessage',
-            //     'onMenuShareQQ',
-            //     'onMenuShareWeibo',
-            //     'onMenuShareQZone',
+            //    'onMenuShareTimeline',
+            //    'onMenuShareAppMessage',
+            //    'onMenuShareQQ',
+            //    'onMenuShareWeibo',
+            //    'onMenuShareQZone',
             // ), false)
         ]); ?>
     </script>

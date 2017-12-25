@@ -55,12 +55,16 @@ Route::group(['middleware' => 'prefect'], function () {
     Route::get('/physicals/packages/{package}', 'PackageController@show')->name('package.show');
 
     Route::get('/advances', 'AdvanceController@index')->name('advance.index');
-    Route::get('/user/promoter', 'PromoterController@show')->name('promoter.show');
-    Route::get('/user/promoter/orders', 'PromoterController@order')->name('promoter.order');
-    Route::get('/user/promoter/records', 'PromoterController@record')->name('promoter.record');
-    Route::get('/user/promoter/confirms', 'PromoterController@confirm')->name('promoter.confirm');
-    Route::get('/promoter/create', 'PromoterController@create')->name('promoter.create');
+
+    Route::group(['middleware' => 'promoter'], function () {
+        Route::get('/user/promoter', 'PromoterController@show')->name('promoter.show');
+        Route::get('/user/promoter/orders', 'PromoterController@order')->name('promoter.order');
+        Route::get('/user/promoter/records', 'PromoterController@record')->name('promoter.record');
+        Route::get('/user/promoter/confirms', 'PromoterController@confirm')->name('promoter.confirm');
+        Route::get('/promoter/create', 'PromoterController@create')->name('promoter.create');
+        Route::post('/promoter', 'PromoterController@store')->name('promoter.store');
+    });
+
     Route::get('/promoter/{promoter}/order/create', 'PromoterOrderController@create')->name('promoter.order.create');
     Route::post('/promoter/{promoter}/order/create', 'PromoterOrderController@store')->name('promoter.order.store');
-    Route::post('/promoter', 'PromoterController@store')->name('promoter.store');
 });

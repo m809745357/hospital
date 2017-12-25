@@ -74,7 +74,7 @@ class SchedulingController extends Controller
         return Admin::grid(Scheduling::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->doctor()->name('医生')->editable();
+            $grid->doctor_id('医生')->select(Doctor::all()->pluck('name', 'id'));
             $grid->type('预约类型')->select([
                 'expert' => '专家门诊',
                 'general' => '普通门诊',
@@ -87,7 +87,7 @@ class SchedulingController extends Controller
                 '3' => '全天',
             ]);
 
-            $grid->address('地址')->editable();
+            $grid->address('门诊地址')->editable();
             $grid->money('门诊费（元）')->editable()->sortable();
 
             $states = [
@@ -123,8 +123,8 @@ class SchedulingController extends Controller
         return Admin::form(Scheduling::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->select('doctor_id', '医生')->options(function ($ids) {
-                return Doctor::find($ids)->pluck('name', 'id');
+            $form->select('doctor_id', '医生')->options(function () {
+                return Doctor::all()->pluck('name', 'id');
             });
             $form->text('address', '地址');
             $form->number('money', '门诊费');

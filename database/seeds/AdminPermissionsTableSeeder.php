@@ -20,7 +20,7 @@ class AdminPermissionsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'name' => 'All permission',
+                'name' => '全部权限',
                 'slug' => '*',
                 'http_method' => '',
                 'http_path' => '*',
@@ -30,7 +30,7 @@ class AdminPermissionsTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'Dashboard',
+                'name' => '仪表板',
                 'slug' => 'dashboard',
                 'http_method' => 'GET',
                 'http_path' => '/',
@@ -40,7 +40,7 @@ class AdminPermissionsTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'name' => 'Login',
+                'name' => '登录',
                 'slug' => 'auth.login',
                 'http_method' => '',
                 'http_path' => '/auth/login
@@ -51,7 +51,7 @@ class AdminPermissionsTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'name' => 'User setting',
+                'name' => '用户设置',
                 'slug' => 'auth.setting',
                 'http_method' => 'GET,PUT',
                 'http_path' => '/auth/setting',
@@ -61,7 +61,7 @@ class AdminPermissionsTableSeeder extends Seeder
             4 => 
             array (
                 'id' => 5,
-                'name' => 'Auth management',
+                'name' => '授权管理',
                 'slug' => 'auth.management',
                 'http_method' => '',
                 'http_path' => '/auth/roles

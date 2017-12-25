@@ -40273,6 +40273,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['attributes', 'categories'],
@@ -40289,7 +40292,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
             times: ['上午', '下午', '全天'],
-            source: ''
+            source: '',
+            qrcode: window.App.qrcode,
+            show: false
         };
     },
     created: function created() {
@@ -40575,6 +40580,22 @@ var render = function() {
         _vm._v(" "),
         _vm._m(1, false, false),
         _vm._v(" "),
+        _vm.show
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "fixed w-full pin-t pin-l h-full flex items-center justify-center z-10",
+                on: {
+                  click: function($event) {
+                    _vm.show = false
+                  }
+                }
+              },
+              [_c("img", { attrs: { src: _vm.qrcode, alt: "" } })]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _vm._l(_vm.doctors, function(doctor, index) {
           return _vm.doctors
             ? _c(
@@ -40704,7 +40725,29 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(3, true, false)
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "hidden md:w-pc-165 md:flex items-center justify-center"
+                    },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-blue-light w-3/4 my-pc-10 md:w-pc-98 h-pc-30 text-sm text-blue-darkest",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.show = true
+                            }
+                          }
+                        },
+                        [_vm._v("挂号")]
+                      )
+                    ]
+                  )
                 ]
               )
             : _vm._e()
@@ -40768,26 +40811,6 @@ var staticRenderFns = [
         _vm._v("诊查费")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "hidden md:w-pc-165 md:flex items-center justify-center" },
-      [
-        _c(
-          "button",
-          {
-            staticClass:
-              "bg-blue-light w-3/4 my-pc-10 md:w-pc-98 h-pc-30 text-sm text-blue-darkest",
-            attrs: { type: "button" }
-          },
-          [_vm._v("挂号")]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -41189,7 +41212,11 @@ var render = function() {
               _vm._m(0, false, false),
               _vm._v(" "),
               _c("img", {
-                attrs: { src: "/uploads/" + _vm.configs.qrcode, alt: "" }
+                attrs: {
+                  src: "/uploads/" + _vm.configs.qrcode,
+                  alt: "",
+                  width: "200px"
+                }
               })
             ]
           )
