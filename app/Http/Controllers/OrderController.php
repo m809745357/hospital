@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Nurse;
 use EasyWeChat\Foundation\Application;
 use App\Models\Ipad;
+use App\User;
 
 class OrderController extends Controller
 {
@@ -59,7 +60,7 @@ class OrderController extends Controller
             return view('mobile.orders.show', compact('order', 'ipad'));
         }
 
-        if (!$ipad && auth()->user()->can('view', $order)) {
+        if (!$ipad->exists && auth()->user()->can('view', $order)) {
             return view('mobile.orders.show', compact('order', 'ipad'));
         }
 
@@ -273,6 +274,7 @@ class OrderController extends Controller
             } else { // 用户支付失败
                 $order->status = '5';
             }
+            $order->order_details = serialize($order->order_details);
             $order->save(); // 保存订单
             \Log::info($order);
             return true; // 返回处理完成

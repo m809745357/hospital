@@ -24,7 +24,7 @@ class DynamicController extends Controller
      */
     public function show(Dynamic $dynamic)
     {
-        if ($dynamic->status !== '1') {
+        if ($dynamic->status !== 1) {
             return redirect()->back();
         }
         return view('pc/dynamic/show', compact('dynamic'));

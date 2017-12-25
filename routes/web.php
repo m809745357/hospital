@@ -29,7 +29,7 @@ Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/user/bind', 'UserController@bind')->name('user.bind');
 Route::post('/user', 'UserController@update')->name('user.update');
-Route::any('/wechat/payment/notify', 'OrderController@notify')->name('order.notify');
+Route::any('/payment/wechat/notify', 'OrderController@notify')->name('order.notify');
 Route::post('/sms', 'MobileController@store')->name('sms.store');
 Route::post('/sms/{mobile}', 'MobileController@update')->name('sms.update');
 

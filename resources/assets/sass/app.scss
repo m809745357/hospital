@@ -46,7 +46,11 @@
   * @import "utilities/background-patterns";
   * @import "utilities/skew-transforms";
   */
-
+select {
+    background-color:transparent; 
+    border-color:transparent;
+    -webkit-appearance:none;
+}
 .swiper-button-prev {
     position: relative !important;
     top: -235px !important;

@@ -24,7 +24,7 @@ class SpecialController extends Controller
      */
     public function show(Special $special)
     {
-        if ($special->status !== '1') {
+        if ($special->status !== 1) {
             return redirect()->back();
         }
 

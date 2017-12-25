@@ -35,7 +35,7 @@ return [
     /*
      * Laravel-admin html title.
      */
-    'title' => 'Admin',
+    'title' => '宁波鄞州肛肠医院后台管理中心',
 
     /*
      * Use `https`.

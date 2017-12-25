@@ -18,7 +18,7 @@
         ]); ?>
     </script>
     <!-- Styles -->
-    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=TPDBZ-6CC3P-RLDDE-VOYUL-DIKDQ-PHBS7"></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=TPDBZ-6CC3P-RLDDE-VOYUL-DIKDQ-PHBS7"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-brand h-screen font-sans">
@@ -59,7 +59,7 @@
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
                         <img :src="slide.image" alt="">
-                        <a :href="slide.url" class="banner-button hidden md:block" type="button" v-html="slide.title"></a>
+                        <a :href="slide.url" class="banner-button hidden md:block" v-html="slide.title"></a>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>

@@ -76,7 +76,7 @@ class LoginController extends Controller
             $user = $app->oauth->user();
             session(['wechat.oauth_user' => $user]);
         }
-        return redirect('/users');
+        return redirect('/user');
     }
 
     /**

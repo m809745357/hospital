@@ -125,17 +125,17 @@
             <span class="sum">合计：￥ {{ order.money }}</span>
         </div>
         <div class="pays" v-if="order.status == 1">
-            <div class="pay" @click="change('wechat')" v-if="!other">
+            <div class="pay" @click="change('wechat')" v-if="!checkIpad">
                 <img src="/images/wechat.png" alt="">
                 <p>微信支付</p>
                 <img :src="payway == 'wechat' ? '/images/choosed.png' : '/images/choose.png'" alt="">
             </div>
-            <div class="pay" @click="change('card')" v-if="!other">
+            <div class="pay" @click="change('card')" v-if="!checkIpad">
                 <img src="/images/card.png" alt="">
                 <p>一卡通支付</p>
                 <img :src="payway == 'card' ? '/images/choosed.png' : '/images/choose.png'" alt="">
             </div>
-            <div class="pay" @click="change('ipad')" v-if="other">
+            <div class="pay" @click="change('ipad')" v-if="checkIpad">
                 <img src="/images/ipad.png" alt="">
                 <p>Ipad支付</p>
                 <img :src="payway == 'ipad' ? '/images/choosed.png' : '/images/choose.png'" alt="">
@@ -174,7 +174,8 @@ export default {
             day: '',
             time: '',
             img: '',
-            json: {}
+            json: {},
+            checkIpad: false
         }
     },
     created () {
@@ -182,8 +183,9 @@ export default {
             this.days[index] = moment().add(index, 'days').format('L')
         }
         console.log(this.attributes.order_details_type !== 'App\\Models\\Scheduling');
-        if (this.other) {
+        if (this.other.id !== undefined) {
             this.payway = 'ipad';
+            this.checkIpad = true;
         }
     },
     methods: {
@@ -209,7 +211,9 @@ export default {
                     "paySign": this.json.paySign //微信签名 
                 },
                 function(res){
+                    this.$alert(res.err_msg);
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                        this.$alert('123');
                     }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
                 }
             ); 
@@ -273,7 +277,7 @@ export default {
                                     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
                                 }
                             }else{
-                                onBridgeReady();
+                                this.onBridgeReady();
                             }
                         }
                     }
