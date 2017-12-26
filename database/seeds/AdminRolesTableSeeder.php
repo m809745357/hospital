@@ -28,8 +28,16 @@ class AdminRolesTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => '食堂',
+                'name' => '食堂管理员',
                 'slug' => 'canteen',
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => '推广管理员',
+                'slug' => 'promoter',
                 'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-25 21:13:05',
             ),

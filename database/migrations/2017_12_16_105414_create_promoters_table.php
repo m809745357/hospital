@@ -16,11 +16,13 @@ class CreatePromotersTable extends Migration
         Schema::create('promoters', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('hospital');
-            $table->string('department');
-            $table->string('job_title');
+            $table->string('hospital')->nullable();
+            $table->string('department')->nullable();
+            $table->string('job_title')->nullable();
             $table->integer('crown')->default(0);
             $table->integer('stars')->default(0);
+            $table->integer('status');
+            $table->unsignedInteger('admin_user_id');
             $table->timestamps();
         });
     }

@@ -25,7 +25,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '系统管理',
                 'icon' => 'fa-tasks',
                 'uri' => NULL,
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             1 => 
@@ -36,7 +36,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '后台用户',
                 'icon' => 'fa-users',
                 'uri' => 'auth/users',
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             2 => 
@@ -47,7 +47,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '用户角色',
                 'icon' => 'fa-user',
                 'uri' => 'auth/roles',
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             3 => 
@@ -58,7 +58,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '后台权限',
                 'icon' => 'fa-ban',
                 'uri' => 'auth/permissions',
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             4 => 
@@ -69,7 +69,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '菜单管理',
                 'icon' => 'fa-bars',
                 'uri' => 'auth/menu',
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             5 => 
@@ -80,7 +80,7 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '操作日志',
                 'icon' => 'fa-history',
                 'uri' => 'auth/logs',
-                'created_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
                 'updated_at' => '2017-12-15 21:24:05',
             ),
             6 => 

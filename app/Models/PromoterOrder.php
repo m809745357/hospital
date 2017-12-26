@@ -20,6 +20,6 @@ class PromoterOrder extends Model
 
     public function promoter()
     {
-        return $this->belongsTo(promoter::class, 'promoter_id');
+        return $this->belongsTo(Promoter::class, 'promoter_id');
     }
 }

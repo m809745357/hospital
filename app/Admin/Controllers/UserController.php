@@ -76,10 +76,13 @@ class UserController extends Controller
             $grid->mobile('手机号码')->editable();
             $grid->card('身份证')->editable();
             $grid->address('床位')->editable();
-            $grid->role('角色')->select([
-                'normal' => '普通用户',
-                'promoter' => '转诊医生',
-            ]);
+            $grid->role('角色')->display(function ($role) {
+                $roles = [
+                    'normal' => '普通用户',
+                    'promoter' => '转诊医生',
+                ];
+                return $roles[$role];
+            });
 
             $grid->remark('备注')->editable('textarea');
 
@@ -113,10 +116,10 @@ class UserController extends Controller
             $form->text('card', '身份证');
             $form->text('address', '床位');
             $form->textarea('remark', '备注');
-            $form->select('role', '角色')->options([
-                'normal' => '普通用户',
-                'promoter' => '转诊医生',
-            ]);
+            // $form->select('role', '角色')->options([
+            //     'normal' => '普通用户',
+            //     'promoter' => '转诊医生',
+            // ]);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

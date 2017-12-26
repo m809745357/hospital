@@ -11,6 +11,8 @@ $factory->define(App\Models\Promoter::class, function (Faker $faker) {
         'department' => '皮肤科',
         'job_title' => '职称',
         'crown' => 0,
-        'stars' => 0
+        'stars' => 0,
+        'status' => 1,
+        'admin_user_id' => 3
     ];
 });

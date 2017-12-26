@@ -29,4 +29,9 @@ class Promoter extends Model
     {
         return $this->belongsTo(\App\User::class, 'user_id');
     }
+
+    public function admin_user()
+    {
+        return $this->belongsTo(AdminUser::class, 'admin_user_id');
+    }
 }

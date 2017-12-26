@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use App\Models\AdminUser;
 
 class PromoterController extends Controller
 {
@@ -69,6 +70,9 @@ class PromoterController extends Controller
     {
         return Admin::grid(Promoter::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
+            if (Admin::user()->isRole('promoter')) {
+                $grid->model()->where('admin_user_id', Admin::user()->id);
+            }
 
             $grid->column('user.name', '推广人名称');
             $grid->hospital('推广人医院')->editable();
@@ -76,9 +80,25 @@ class PromoterController extends Controller
             $grid->job_title('推广人职称')->editable();
             $grid->crown('皇冠')->editable()->sortable();
             $grid->stars('星星')->editable()->sortable();
+            $grid->column('admin_user.name', '管理员名称');
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
+            ];
+            $grid->status('状态')->switch($states);
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+            });
+            $grid->tools(function ($tools) {
+                $tools->batch(function ($batch) {
+                    $batch->disableDelete();
+                });
+            });
         });
     }
 
@@ -92,14 +112,45 @@ class PromoterController extends Controller
         return Admin::form(Promoter::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->select('user_id', '用户')->options(function ($value) {
-                return \App\User::all()->pluck('name', 'id');
+            $form->select('user_id', '用户')->options(function ($user_id) {
+                if ($user_id) {
+                    $user = \App\User::find($user_id);
+                    return [
+                        $user_id => "姓名：{$user->name} 手机：{$user->mobile}"
+                    ];
+                }
+                return \App\User::with('promoter')->get()->map(function ($item) use ($user_id) {
+                    if ($item->promoter == null || $user_id === $item->id) {
+                        $item->value = "姓名：{$item->name} 手机：{$item->mobile}";
+                        return $item;
+                    }
+                })->pluck('value', 'id');
             });
             $form->text('hospital', '医院');
             $form->text('department', '部门');
             $form->text('job_title', '职称');
             $form->number('crown', '皇冠');
             $form->number('stars', '星星');
+
+            $states = [
+                'on' => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
+            ];
+
+            $form->switch('status', '状态')->states($states);
+
+            if (Admin::user()->isAdministrator()) {
+                $form->select('admin_user_id', '用户')->options(function ($value) {
+                    return AdminUser::all()->pluck('name', 'id');
+                });
+            } else {
+                $form->hidden('admin_user_id');
+
+                $form->saving(function (Form $form) {
+                    $form->admin_user_id = Admin::user()->id;
+                    \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                });
+            }
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

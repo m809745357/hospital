@@ -70,14 +70,53 @@ class PromoterRecordController extends Controller
     {
         return Admin::grid(PromoterRecord::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
+            if (Admin::user()->isRole('promoter')) {
+                $grid->model()->whereHas('order', function ($query) {
+                    $query->whereHas('promoter', function ($query) {
+                        $query->where('admin_user_id', Admin::user()->id);
+                    });
+                });
+            }
 
-            $grid->column('order.order_no', '订单编号');
+            $user = \App\User::all()->pluck('name', 'id');
+
+            $grid->column('管理员')->display(function () {
+                return Admin::user()->name;
+            });
+
+            $grid->column('order.promoter_id', '转诊医生')->display(function ($id) use ($user) {
+                return $user[$id];
+            });
+
+            $grid->column('order.order_no', '转诊订单编号');
+
             $grid->crown('皇冠');
             $grid->stars('星星');
-            $grid->status('是否兑换');
+            $grid->status('是否兑换')->display(function ($stauts) {
+                $statuses = [
+                    0 => '没有兑换',
+                    1 => '申请兑换',
+                    2 => '兑换成功'
+                ];
+                return $statuses[$stauts];
+            })->label();
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+
+                $filter->where(function ($query) {
+                    $query->whereHas('order', function ($query) {
+                        $query->where('order_no', 'like', "%{$this->input}%")
+                                ->orWhere('order_no', 'like', "%{$this->input}%");
+                    });
+                }, '转诊订单编号');
+            });
         });
     }
 
@@ -91,11 +130,20 @@ class PromoterRecordController extends Controller
         return Admin::form(PromoterRecord::class, function (Form $form) {
             $form->display('id', 'ID');
 
-            $form->select('promoter_order_id', '转诊订单编号')->options(function ($value) {
-                return PromoterOrder::doesntHave('record')->get()->pluck('order_no', 'id');
+            $form->select('promoter_order_id', '转诊订单编号')->options(function ($promoter_order_id) {
+                if ($promoter_order_id) {
+                    $promoterOrder = PromoterOrder::find($promoter_order_id);
+                    return [
+                        $promoter_order_id => "姓名：{$promoterOrder->name} 单号：{$promoterOrder->order_no}"
+                    ];
+                }
+                return PromoterOrder::with('record')->get()->map(function ($item) use ($promoter_order_id) {
+                    if ($item->record == null || $promoter_order_id === $item->id) {
+                        $item->value = "姓名：{$item->name} 单号：{$item->mobile}";
+                        return $item;
+                    }
+                })->pluck('value', 'id');
             });
-
-            $form->promoter_order_id('promoter_order_id', '订单编号');
 
             $form->number('crown', '皇冠');
             $form->number('stars', '星星');

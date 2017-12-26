@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Models\PromoterOrder;
-
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -25,7 +24,6 @@ class PromoterOrderController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('推广订单');
             $content->description('展示推广订单信息');
 
@@ -42,7 +40,6 @@ class PromoterOrderController extends Controller
     public function edit($id)
     {
         return Admin::content(function (Content $content) use ($id) {
-
             $content->header('推广订单');
             $content->description('展示推广订单信息');
 
@@ -58,7 +55,6 @@ class PromoterOrderController extends Controller
     public function create()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('推广订单');
             $content->description('展示推广订单信息');
 
@@ -74,8 +70,14 @@ class PromoterOrderController extends Controller
     protected function grid()
     {
         return Admin::grid(PromoterOrder::class, function (Grid $grid) {
-
             $grid->id('ID')->sortable();
+            if (Admin::user()->isRole('promoter')) {
+                $grid->model()->whereHas('promoter', function ($query) {
+                    $query->where('admin_user_id', Admin::user()->id);
+                });
+            }
+
+            $grid->order_no('订单编号');
 
             $grid->department_id('部门')->select(Department::all()->pluck('name', 'id'));
 
@@ -88,9 +90,20 @@ class PromoterOrderController extends Controller
             ]);
             $grid->mobile('手机号码')->editable();
 
-
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+
+                $filter->where(function ($query) {
+                    $query->where('order_no', 'like', "%{$this->input}%")
+                        ->orWhere('order_no', 'like', "%{$this->input}%");
+                }, '订单编号');
+            });
         });
     }
 

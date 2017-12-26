@@ -74,6 +74,10 @@ class OrderController extends Controller
         return Admin::grid(Order::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
+            if (Admin::user()->isRole('canteen')) {
+                $grid->model()->where('status', 'App\\Models\\Food');
+            }
+
             $grid->column('user.name', '下单用户');
             // $grid->order_details('订单详情');
             $grid->order_details_type('订单类型')->display(function ($type) {
@@ -140,23 +144,24 @@ class OrderController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+            if (Admin::user()->isAdministrator()) {
+                $grid->tools(function ($tools) {
+                    $tools->append(new OrderType());
+                    $tools->append(new OrderStatus());
+                    $tools->append(new OrderPayWay());
+                });
 
-            $grid->tools(function ($tools) {
-                $tools->append(new OrderType());
-                $tools->append(new OrderStatus());
-                $tools->append(new OrderPayWay());
-            });
+                if (in_array(Request::get('order-type'), ['App\\Models\\Food', 'App\\Models\\Physical', 'App\\Models\\Package', 'App\\Models\\Scheduling'])) {
+                    $grid->model()->where('order_details_type', Request::get('order-type'));
+                }
 
-            if (in_array(Request::get('order-type'), ['App\\Models\\Food', 'App\\Models\\Physical', 'App\\Models\\Package', 'App\\Models\\Scheduling'])) {
-                $grid->model()->where('order_details_type', Request::get('order-type'));
-            }
+                if (in_array(Request::get('order-status'), ['1', '2', '3', '4', '5'])) {
+                    $grid->model()->where('status', Request::get('order-status'));
+                }
 
-            if (in_array(Request::get('order-status'), ['1', '2', '3', '4', '5'])) {
-                $grid->model()->where('status', Request::get('order-status'));
-            }
-
-            if (in_array(Request::get('order-pay-way'), ['wechat', 'card', 'ipad'])) {
-                $grid->model()->where('pay_way', Request::get('order-pay-way'));
+                if (in_array(Request::get('order-pay-way'), ['wechat', 'card', 'ipad'])) {
+                    $grid->model()->where('pay_way', Request::get('order-pay-way'));
+                }
             }
         });
     }

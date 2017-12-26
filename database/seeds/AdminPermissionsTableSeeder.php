@@ -24,8 +24,8 @@ class AdminPermissionsTableSeeder extends Seeder
                 'slug' => '*',
                 'http_method' => '',
                 'http_path' => '*',
-                'created_at' => NULL,
-                'updated_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
             ),
             1 => 
             array (
@@ -34,8 +34,8 @@ class AdminPermissionsTableSeeder extends Seeder
                 'slug' => 'dashboard',
                 'http_method' => 'GET',
                 'http_path' => '/',
-                'created_at' => NULL,
-                'updated_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
             ),
             2 => 
             array (
@@ -45,8 +45,8 @@ class AdminPermissionsTableSeeder extends Seeder
                 'http_method' => '',
                 'http_path' => '/auth/login
 /auth/logout',
-                'created_at' => NULL,
-                'updated_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
             ),
             3 => 
             array (
@@ -55,8 +55,8 @@ class AdminPermissionsTableSeeder extends Seeder
                 'slug' => 'auth.setting',
                 'http_method' => 'GET,PUT',
                 'http_path' => '/auth/setting',
-                'created_at' => NULL,
-                'updated_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
             ),
             4 => 
             array (
@@ -68,8 +68,32 @@ class AdminPermissionsTableSeeder extends Seeder
 /auth/permissions
 /auth/menu
 /auth/logs',
-                'created_at' => NULL,
-                'updated_at' => NULL,
+                'created_at' => '2017-12-25 21:13:05',
+                'updated_at' => '2017-12-25 21:13:05',
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'name' => '推广管理',
+                'slug' => 'promoter',
+                'http_method' => '',
+                'http_path' => '/promoters*
+/promoter-records*
+/promoter-orders*',
+                'created_at' => '2017-12-26 22:10:03',
+                'updated_at' => '2017-12-26 22:10:03',
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => '微信点餐',
+                'slug' => 'canteen',
+                'http_method' => '',
+                'http_path' => '/channels*
+/foods*
+/orders*',
+                'created_at' => '2017-12-27 00:22:42',
+                'updated_at' => '2017-12-27 00:23:20',
             ),
         ));
         
