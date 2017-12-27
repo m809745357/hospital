@@ -18,8 +18,8 @@ class PromoterRecord extends Model
         static::bootTraits();
 
         static::created(function ($query) {
-            $query->order->promoter->increment('crown', $query->crown);
-            $query->order->promoter->increment('stars', $query->stars);
+            // $query->order->promoter->increment('crown', $query->crown);
+            // $query->order->promoter->increment('stars', $query->stars);
         });
     }
 

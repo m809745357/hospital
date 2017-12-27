@@ -5824,7 +5824,6 @@ th {
 }
 
 .promoter .content span {
-  width: 20%;
   text-align: center;
 }
 
@@ -5833,7 +5832,8 @@ th {
   border-bottom-width: 10px;
 }
 
-.promoter .content button {
+.promoter .content button,
+.promoter .content a {
   width: 1.4rem;
   height: 0.7rem;
   background-color: #3490dc;

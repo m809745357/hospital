@@ -13,6 +13,9 @@ use App\Admin\Extensions\Tools\OrderType;
 use Illuminate\Support\Facades\Request;
 use App\Admin\Extensions\Tools\OrderStatus;
 use App\Admin\Extensions\Tools\OrderPayWay;
+use App\Admin\Extensions\Actions\OrderExchange;
+use App\Admin\Extensions\Actions\OrderDeliver;
+use App\Admin\Extensions\Actions\OrderRefund;
 
 class OrderController extends Controller
 {
@@ -79,7 +82,8 @@ class OrderController extends Controller
             }
 
             $grid->column('user.name', '下单用户');
-            // $grid->order_details('订单详情');
+            $grid->order_details('订单详情')->display(function ($order_details) {
+            });
             $grid->order_details_type('订单类型')->display(function ($type) {
                 $types = [
                     'App\\Models\\Food' => '微信点餐',
@@ -163,6 +167,12 @@ class OrderController extends Controller
                     $grid->model()->where('pay_way', Request::get('order-pay-way'));
                 }
             }
+
+            $grid->actions(function ($actions) {
+                $actions->append(new OrderExchange($actions->getKey()));
+                $actions->append(new OrderDeliver($actions->getKey()));
+                $actions->append(new OrderRefund($actions->getKey()));
+            });
         });
     }
 

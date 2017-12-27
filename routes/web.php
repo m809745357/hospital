@@ -46,6 +46,7 @@ Route::group(['middleware' => 'prefect'], function () {
     Route::post('/orders', 'OrderController@store')->name('order.store')->middleware(['auth']);
     Route::get('/orders', 'OrderController@index')->name('order.index');
     Route::get('/orders/promoter', 'PromoterController@promoter')->name('order.promoter');
+    Route::post('/orders/promoter/records', 'PromoterController@update')->name('order.promoter.update');
     Route::get('/orders/{order}', 'OrderController@show')->name('order.show')->middleware(['auth']);
     Route::post('/orders/{order}/card', 'OrderController@card')->name('order.card');
     Route::post('/orders/{order}/wechat', 'OrderController@wechat')->name('order.wechat');

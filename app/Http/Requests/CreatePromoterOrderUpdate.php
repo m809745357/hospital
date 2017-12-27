@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePromoterOrderPost extends FormRequest
+class CreatePromoterOrderUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class CreatePromoterOrderPost extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'mobile' => [
-                'required',
-                'regex:/^1[34578][0-9]{9}$/'
-            ],
-            'gender' => 'required',
-            'department_id' => 'required'
+            'id' => 'required|exists:promoter_orders,id',
+            'secret' => 'required'
         ];
     }
 
@@ -42,11 +37,9 @@ class CreatePromoterOrderPost extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => '请输入姓名',
-            'mobile.required' => '请输入手机号码',
-            'mobile.regex' => '请输入正确的手机号码',
-            'gender.required' => '请输入性别',
-            'department_id.required' => '请输入部门',
+            'id.required' => '请输入编号',
+            'id.exists' => '请输入正确的编号',
+            'secret.required' => '请输入兑换密码',
         ];
     }
 }

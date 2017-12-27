@@ -21,6 +21,7 @@ class Promoter extends Model
     public function addOrder($order)
     {
         $order['order_no'] = date('YmdHis') . rand(1000, 9999);
+        $order['user_id'] = auth()->id();
 
         return $this->order()->create($order);
     }

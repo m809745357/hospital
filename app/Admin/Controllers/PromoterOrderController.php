@@ -71,6 +71,7 @@ class PromoterOrderController extends Controller
     {
         return Admin::grid(PromoterOrder::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
+            $grid->model()->with('record');
             if (Admin::user()->isRole('promoter')) {
                 $grid->model()->whereHas('promoter', function ($query) {
                     $query->where('admin_user_id', Admin::user()->id);
@@ -89,6 +90,13 @@ class PromoterOrderController extends Controller
                 'men' => '男', 'women' => '女'
             ]);
             $grid->mobile('手机号码')->editable();
+            $grid->status('是否兑换')->display(function ($status) {
+                $statuses = [
+                    '0' => '未兑换',
+                    '1' => '已兑换'
+                ];
+                return $statuses[$status];
+            })->sortable();
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');

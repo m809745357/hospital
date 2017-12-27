@@ -62,8 +62,10 @@ export default {
             this.form.post(this.url())
                 .then(response => {
                     console.log(response);
-                    this.$alert('预约成功');
-                    // window.location.href = '/user/promoter'
+                    this.$alert('预约成功')
+                        .then(response => {
+                            window.location.href = '/orders/promoter';
+                        });
                 })
                 .catch(error => {
                     if (error.response.status === 400) {

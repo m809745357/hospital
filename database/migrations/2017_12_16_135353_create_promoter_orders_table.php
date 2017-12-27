@@ -22,6 +22,7 @@ class CreatePromoterOrdersTable extends Migration
             $table->string('name');
             $table->string('gender');
             $table->string('mobile');
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }

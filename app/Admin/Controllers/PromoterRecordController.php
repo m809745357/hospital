@@ -70,6 +70,7 @@ class PromoterRecordController extends Controller
     {
         return Admin::grid(PromoterRecord::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
+            $grid->model()->with('order.promoter.user', 'order.promoter.admin_user');
             if (Admin::user()->isRole('promoter')) {
                 $grid->model()->whereHas('order', function ($query) {
                     $query->whereHas('promoter', function ($query) {
@@ -78,14 +79,10 @@ class PromoterRecordController extends Controller
                 });
             }
 
-            $user = \App\User::all()->pluck('name', 'id');
+            $adminUser = \App\Models\AdminUser::all()->pluck('name', 'id');
 
-            $grid->column('管理员')->display(function () {
-                return Admin::user()->name;
-            });
-
-            $grid->column('order.promoter_id', '转诊医生')->display(function ($id) use ($user) {
-                return $user[$id];
+            $grid->column('order.promoter', '业务员/转诊医生')->display(function ($promoter) use ($adminUser) {
+                return $adminUser[$promoter['admin_user_id']] . '/' . $promoter['user']['name'];
             });
 
             $grid->column('order.order_no', '转诊订单编号');
@@ -155,6 +152,15 @@ class PromoterRecordController extends Controller
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');
+
+            $form->saving(function (Form $form) {
+                $form->model()->order->promoter->decrement('crown', $form->model()->crown);
+                $form->model()->order->promoter->decrement('stars', $form->model()->stars);
+            });
+            $form->saved(function (Form $form) {
+                $form->model()->order->promoter->increment('crown', $form->model()->crown);
+                $form->model()->order->promoter->increment('stars', $form->model()->stars);
+            });
         });
     }
 }

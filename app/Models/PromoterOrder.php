@@ -22,4 +22,9 @@ class PromoterOrder extends Model
     {
         return $this->belongsTo(Promoter::class, 'promoter_id');
     }
+
+    public function addRecord($record)
+    {
+        return $this->record()->create($record);
+    }
 }

@@ -6,17 +6,31 @@
                 <span>姓名</span>
                 <span>性别</span>
                 <span>科室</span>
+                <span>状态</span>
             </li>
-            <scroll class="promoter-content warpper" :date="orders">
-                <div>
+            <scroll class="promoter-content warpper" :date="orders" >
+                <div >
                     <li class="content" v-for="(order, index) in orders" :key="index">
                         <span>{{ order.created_at.substr(0, 10) }}</span>
                         <span>{{ order.name }}</span>
                         <span>{{ order.gender }}</span>
                         <span>{{ order.department.name }}</span>
+                        <span v-if="order.record && typeof order.record == 'object'">已兑换</span>
+                        <span v-else>
+                            <a class="block no-underline flex items-center justify-center" href="javascript:;" @click="change(order.id)">兑换</a>
+                        </span>
                     </li>
                 </div>
             </scroll>
+            <div class="pay-model" v-show="show" @click="cancel" >
+                <div class="model-desc" @click.stop="">
+                    <div class="from-group">
+                        <label for="">兑换码</label>
+                        <input type="password" v-model="data.secret" placeholder="请找医院输入">
+                    </div>
+                    <button type="button" @click="exchange">确定</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -30,18 +44,48 @@ export default {
         return {
             orders: this.attributes.order === undefined ? this.attributes : this.attributes.order,
             user: window.App.user,
+            show: false,
+            data: {
+                id: '',
+                secret: '',
+            }
         }
     },
     components: {
         scroll
     },
     created () {
-        console.log(this.order);  
+        console.log(this.orders);  
     },
     methods: {
         touch() {
             event.preventDefault();
         },
+        cancel() {
+            this.show = false;
+        },
+        change(id) {
+            this.data.id = id;
+            this.show = true;
+        },
+        exchange() {
+            axios.post(`/orders/promoter/records`, this.data)
+                .then(response => {
+                    console.log(response.data);
+                    this.$alert('兑换成功')
+                        .then(response => {
+                            window.location.href = '/orders/promoter';
+                        });
+                })
+                .catch(error => {
+                    if (error.response.status === 422) {
+                        this.$alert(error.response.data.errors.secret[0])
+                        return ;
+                    }
+                    this.$alert(error.response.data.data)
+                    console.log(error.response);
+                });
+        }
     }
 }
 </script>

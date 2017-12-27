@@ -59666,6 +59666,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -59675,7 +59689,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             orders: this.attributes.order === undefined ? this.attributes : this.attributes.order,
-            user: window.App.user
+            user: window.App.user,
+            show: false,
+            data: {
+                id: '',
+                secret: ''
+            }
         };
     },
 
@@ -59683,12 +59702,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         scroll: __WEBPACK_IMPORTED_MODULE_0__components_Scroll_vue___default.a
     },
     created: function created() {
-        console.log(this.order);
+        console.log(this.orders);
     },
 
     methods: {
         touch: function touch() {
             event.preventDefault();
+        },
+        cancel: function cancel() {
+            this.show = false;
+        },
+        change: function change(id) {
+            this.data.id = id;
+            this.show = true;
+        },
+        exchange: function exchange() {
+            var _this = this;
+
+            axios.post('/orders/promoter/records', this.data).then(function (response) {
+                console.log(response.data);
+                _this.$alert('兑换成功').then(function (response) {
+                    window.location.href = '/orders/promoter';
+                });
+            }).catch(function (error) {
+                if (error.response.status === 422) {
+                    _this.$alert(error.response.data.errors.secret[0]);
+                    return;
+                }
+                _this.$alert(error.response.data.data);
+                console.log(error.response);
+            });
         }
     }
 });
@@ -59725,9 +59768,89 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", [_vm._v(_vm._s(order.gender))]),
                   _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(order.department.name))])
+                  _c("span", [_vm._v(_vm._s(order.department.name))]),
+                  _vm._v(" "),
+                  order.record && typeof order.record == "object"
+                    ? _c("span", [_vm._v("已兑换")])
+                    : _c("span", [
+                        _c(
+                          "a",
+                          {
+                            staticClass:
+                              "block no-underline flex items-center justify-center",
+                            attrs: { href: "javascript:;" },
+                            on: {
+                              click: function($event) {
+                                _vm.change(order.id)
+                              }
+                            }
+                          },
+                          [_vm._v("兑换")]
+                        )
+                      ])
                 ])
               })
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.show,
+                expression: "show"
+              }
+            ],
+            staticClass: "pay-model",
+            on: { click: _vm.cancel }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "model-desc",
+                on: {
+                  click: function($event) {
+                    $event.stopPropagation()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "from-group" }, [
+                  _c("label", { attrs: { for: "" } }, [_vm._v("兑换码")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.data.secret,
+                        expression: "data.secret"
+                      }
+                    ],
+                    attrs: { type: "password", placeholder: "请找医院输入" },
+                    domProps: { value: _vm.data.secret },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.data, "secret", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { attrs: { type: "button" }, on: { click: _vm.exchange } },
+                  [_vm._v("确定")]
+                )
+              ]
             )
           ]
         )
@@ -59748,7 +59871,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("span", [_vm._v("性别")]),
       _vm._v(" "),
-      _c("span", [_vm._v("科室")])
+      _c("span", [_vm._v("科室")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("状态")])
     ])
   }
 ]
@@ -59882,8 +60007,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.form.post(this.url()).then(function (response) {
                 console.log(response);
-                _this.$alert('预约成功');
-                // window.location.href = '/user/promoter'
+                _this.$alert('预约成功').then(function (response) {
+                    window.location.href = '/orders/promoter';
+                });
             }).catch(function (error) {
                 if (error.response.status === 400) {
                     _this.$alert(error.response.data.data);

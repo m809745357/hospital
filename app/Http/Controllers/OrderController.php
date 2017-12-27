@@ -9,6 +9,8 @@ use App\Models\Nurse;
 use EasyWeChat\Foundation\Application;
 use App\Models\Ipad;
 use App\User;
+use App\Jobs\CancelOrder;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -50,6 +52,9 @@ class OrderController extends Controller
                 'remark' => $request->menu,
             ]);
         }
+
+        // CancelOrder::dispatch($order)
+        //         ->delay(Carbon::now()->addMinutes(15));
 
         return response(['data' => $order], 201);
     }

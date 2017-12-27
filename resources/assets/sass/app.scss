@@ -721,7 +721,6 @@ th {
         @apply text-grey-dark flex flex-row justify-around items-center border-b border-grey-lighter;
 
         span {
-            width: 20%;
             text-align: center;
         }
         
@@ -730,7 +729,7 @@ th {
             border-bottom-width: 10px;
         }
 
-        button {
+        button, a {
             width: 1.4rem;
             height: 0.7rem;
             @apply bg-blue shadow text-white text-sm;

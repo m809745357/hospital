@@ -15,7 +15,7 @@ class CreatePromoterRecordsTable extends Migration
     {
         Schema::create('promoter_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('promoter_order_id');
+            $table->unsignedInteger('promoter_order_id')->unique();
             $table->integer('crown')->default(0);
             $table->integer('stars')->default(0);
             $table->integer('status')->default(0);

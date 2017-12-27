@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePromoterPost;
+use App\Http\Requests\CreatePromoterOrderUpdate;
+use App\Models\PromoterOrder;
+use App\Models\Config;
 
 class PromoterController extends Controller
 {
@@ -57,7 +60,26 @@ class PromoterController extends Controller
 
     public function promoter()
     {
-        $promoterOrders = auth()->user()->promoterOrder->load('department');
+        $promoterOrders = auth()->user()->promoterOrder()->with('department', 'record')->latest()->get();
         return view('mobile.promoters.order', compact('promoterOrders'));
+    }
+
+    public function update(CreatePromoterOrderUpdate $request)
+    {
+        $promoterOrder = PromoterOrder::find($request->id);
+
+        if (!Config::where(['slug' => 'secret', 'contact' => $request->secret])->exists()) {
+            return response(['data' => '请输入正确的兑换密码'], 400);
+        }
+
+        $promoterOrder->addRecord([
+            'status' => '0'
+        ]);
+
+        $promoterOrder->update([
+            'status' => 1
+        ]);
+
+        return response(['data' => '兑换成功'], 201);
     }
 }
