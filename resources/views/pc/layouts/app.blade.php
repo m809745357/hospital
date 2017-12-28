@@ -26,13 +26,13 @@
     <div id="app">
         <nav class="h-pc-80 md:h-pc-131"></nav>
         <nav class="bg-white h-pc-80 md:h-pc-131 shadow fixed z-20 w-full pin-t">
-            <div class="container mx-auto h-full">
+            <div class="container mx-auto h-full" v-cloak>
                 <div class="flex items-center justify-end md:h-pc-131 h-full">
                     <div class="md:absolute pin-l md:ml-pc-200 m-1 md:m-0 h-full flex items-center">
-                        <a href="{{ url('/home') }}" class="no-underline">
-                            <img :src="`/uploads/${configs.logo}`" class="w-3/4 md:w-full">
+                        <a href="{{ url('/home') }}" class="no-underline w-3/4 md:w-full">
+                            <img :src="`/uploads/${configs.logo}`" class="w-full md:w-374px">
                         </a>
-                        <div class="block md:hidden"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
+                        <div class="block md:hidden flex-1 text-right"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
                     </div>
                     <div class="text-right md:flex items-center justify-around md:w-pc-800 hidden">
                         <a class="no-underline hover:underline hover:text-blue text-grey-darker text-lg" href="{{ url('/home') }}">首页</a>
@@ -55,7 +55,7 @@
                 <a href="{{ url('/contact') }}" class="no-underline text-lg my-1 text-grey-darker">联系我们</a>
             </div>
         </nav>
-        <div class="flex items-center w-full flex-col">
+        <div class="flex items-center w-full flex-col" v-cloak>
             <div class="w-full">
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
@@ -67,7 +67,7 @@
             </div>
             @yield('content')
         </div>
-        <footer class="container mx-auto md:mt-pc-176">
+        <footer class="container mx-auto md:mt-pc-176" v-cloak>
             <div class="flex md:flex-row justify-between flex-col m-4 md:m-0">
                 <div class="flex flex-row md:pl-pc-50 md:w-pc-540 w-full justify-between">
                     <img :src="`/uploads/${configs.bottom_logo}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">

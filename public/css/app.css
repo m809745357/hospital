@@ -4328,6 +4328,10 @@ button,
   width: 60px;
 }
 
+.w-374px {
+  width: 374px;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -4369,6 +4373,10 @@ button,
   * @import "utilities/background-patterns";
   * @import "utilities/skew-transforms";
   */
+[v-cloak] {
+  display: none;
+}
+
 select {
   background-color: transparent;
   border-color: transparent;
@@ -5799,6 +5807,14 @@ th {
   color: #ffffff;
 }
 
+.promoter-content {
+  height: calc(100vh - 45px);
+}
+
+.promoter-content-record {
+  height: calc(100vh - 150px);
+}
+
 .promoter {
   font-size: 14px;
   color: #a9a9a9;
@@ -5825,10 +5841,23 @@ th {
 
 .promoter .content span {
   text-align: center;
+  width: 20%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .promoter .content.title {
   color: #333333;
+  position: relative;
+  z-index: 10;
+  background-color: #ffffff;
   border-bottom-width: 10px;
 }
 
@@ -9844,6 +9873,10 @@ th {
     width: 60px;
   }
 
+  .sm\:w-374px {
+    width: 374px;
+  }
+
   .sm\:z-0 {
     z-index: 0;
   }
@@ -13644,6 +13677,10 @@ th {
 
   .md\:w-pc-60 {
     width: 60px;
+  }
+
+  .md\:w-374px {
+    width: 374px;
   }
 
   .md\:z-0 {
@@ -17448,6 +17485,10 @@ th {
     width: 60px;
   }
 
+  .lg\:w-374px {
+    width: 374px;
+  }
+
   .lg\:z-0 {
     z-index: 0;
   }
@@ -21248,6 +21289,10 @@ th {
 
   .xl\:w-pc-60 {
     width: 60px;
+  }
+
+  .xl\:w-374px {
+    width: 374px;
   }
 
   .xl\:z-0 {

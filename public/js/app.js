@@ -41215,7 +41215,7 @@ var render = function() {
                 attrs: {
                   src: "/uploads/" + _vm.configs.qrcode,
                   alt: "",
-                  width: "200px"
+                  width: "180px"
                 }
               })
             ]

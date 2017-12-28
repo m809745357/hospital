@@ -53967,9 +53967,7 @@ var render = function() {
               _vm._v(" "),
               _c("img", { attrs: { src: "/images/right.png", alt: "" } })
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm._m(4, false, false)
+          : _vm._e()
       ])
     ])
   ])
@@ -54028,18 +54026,6 @@ var staticRenderFns = [
       _c("img", { attrs: { src: "/images/promoters.png", alt: "" } }),
       _vm._v(" "),
       _c("p", [_vm._v("转诊订单")]),
-      _vm._v(" "),
-      _c("img", { attrs: { src: "/images/right.png", alt: "" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "/user/guide" } }, [
-      _c("img", { attrs: { src: "/images/guide.png", alt: "" } }),
-      _vm._v(" "),
-      _c("p", [_vm._v("用户指南")]),
       _vm._v(" "),
       _c("img", { attrs: { src: "/images/right.png", alt: "" } })
     ])
@@ -59680,6 +59666,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -59755,7 +59742,7 @@ var render = function() {
           "scroll",
           {
             staticClass: "promoter-content warpper",
-            attrs: { date: _vm.orders }
+            attrs: { data: _vm.orders }
           },
           [
             _c(
@@ -59770,23 +59757,28 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", [_vm._v(_vm._s(order.department.name))]),
                   _vm._v(" "),
-                  order.record && typeof order.record == "object"
+                  order.status == "1"
                     ? _c("span", [_vm._v("已兑换")])
                     : _c("span", [
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "block no-underline flex items-center justify-center",
-                            attrs: { href: "javascript:;" },
-                            on: {
-                              click: function($event) {
-                                _vm.change(order.id)
-                              }
-                            }
-                          },
-                          [_vm._v("兑换")]
-                        )
+                        _vm.user.promoter &&
+                        typeof _vm.user.promoter == "object"
+                          ? _c("p", { attrs: { href: "javascript:;" } }, [
+                              _vm._v("未兑换")
+                            ])
+                          : _c(
+                              "a",
+                              {
+                                staticClass:
+                                  "block no-underline flex items-center justify-center",
+                                attrs: { href: "javascript:;" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.change(order.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("兑换")]
+                            )
                       ])
                 ])
               })
@@ -60316,11 +60308,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['attributes'],
+    props: ['attributes', 'message'],
     data: function data() {
         return {
             orders: this.attributes.order,
-            user: window.App.user
+            user: window.App.user,
+            info: JSON.parse(this.message)
         };
     },
 
@@ -60362,17 +60355,26 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _vm._m(0, false, false)
+            _c("h4", [
+              _c("strong", [_vm._v("本月收益：")]),
+              _vm._v(
+                " " +
+                  _vm._s(_vm.info[0]["crown"]) +
+                  "皇冠 " +
+                  _vm._s(_vm.info[0]["stars"]) +
+                  "星星"
+              )
+            ])
           ])
         ]),
         _vm._v(" "),
-        _vm._m(1, false, false),
+        _vm._m(0, false, false),
         _vm._v(" "),
         _c(
           "scroll",
           {
-            staticClass: "promoter-content warpper",
-            attrs: { date: _vm.orders }
+            staticClass: "promoter-content-record warpper",
+            attrs: { data: _vm.orders }
           },
           [
             _c(
@@ -60391,12 +60393,9 @@ var render = function() {
                       _c("span", [_vm._v("门诊")]),
                       _vm._v(" "),
                       _c("span", [
-                        _vm._v(
-                          _vm._s(order.record.crown) +
-                            "皇冠 " +
-                            _vm._s(order.record.stars) +
-                            "星星"
-                        )
+                        _vm._v(_vm._s(order.record.crown) + "皇冠"),
+                        _c("br"),
+                        _vm._v(_vm._s(order.record.stars) + "星星")
                       ])
                     ])
                   : _vm._e()
@@ -60410,12 +60409,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h4", [_c("strong", [_vm._v("本月收益：")])])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -60520,6 +60513,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -60528,7 +60522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['attributes'],
     data: function data() {
         return {
-            orders: this.attributes.order,
+            orders: this.attributes,
             user: window.App.user
         };
     },
@@ -60562,28 +60556,35 @@ var render = function() {
           "scroll",
           {
             staticClass: "promoter-content warpper",
-            attrs: { date: _vm.orders }
+            attrs: { data: _vm.orders }
           },
           [
             _c(
               "div",
               _vm._l(_vm.orders, function(order, index) {
-                return order.record !== null && order.record.status > 0
-                  ? _c("li", { key: index, staticClass: "content" }, [
-                      _c("span", [_vm._v(_vm._s(order.created_at))]),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          _vm._s(order.record.crown) +
-                            "皇冠 " +
-                            _vm._s(order.record.stars) +
-                            "星星"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("button", [_vm._v("兑换")])
-                    ])
-                  : _vm._e()
+                return _c("li", { key: index, staticClass: "content" }, [
+                  _c("span", [_vm._v(_vm._s(order.date))]),
+                  _vm._v(" "),
+                  _c("span", { staticStyle: { width: "33%" } }, [
+                    _vm._v(
+                      _vm._s(order.crown) +
+                        "皇冠 " +
+                        _vm._s(order.stars) +
+                        "星星"
+                    )
+                  ]),
+                  _vm._v(" "),
+                  order.status === 0
+                    ? _c(
+                        "a",
+                        {
+                          staticClass:
+                            "block no-underline flex items-center justify-center"
+                        },
+                        [_vm._v("兑换")]
+                      )
+                    : _c("span", [_vm._v("已兑换")])
+                ])
               })
             )
           ]

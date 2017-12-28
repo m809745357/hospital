@@ -15,7 +15,8 @@
         "orangehill/iseed": "^2.5",
         "overtrue/easy-sms": "^0.0.10",
         "overtrue/laravel-wechat": "^3.1",
-        "simplesoftwareio/simple-qrcode": "^2.0"
+        "simplesoftwareio/simple-qrcode": "^2.0",
+        "viacreative/sudo-su": "^1.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

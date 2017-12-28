@@ -46,6 +46,9 @@
   * @import "utilities/background-patterns";
   * @import "utilities/skew-transforms";
   */
+[v-cloak] {
+    display: none;
+}
 select {
     background-color:transparent; 
     border-color:transparent;
@@ -713,6 +716,12 @@ th {
         }
     }
 }
+.promoter-content {
+    height: calc(100vh - 45px);
+}
+.promoter-content-record {
+    height: calc(100vh - 150px);
+}
 .promoter {
     @apply text-sm text-grey-dark;
 
@@ -722,10 +731,14 @@ th {
 
         span {
             text-align: center;
+            width: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         &.title {
-            @apply text-grey-darkest;
+            @apply text-grey-darkest relative z-10 bg-white;
             border-bottom-width: 10px;
         }
 

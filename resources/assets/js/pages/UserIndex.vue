@@ -35,11 +35,11 @@
                     <p>我要推广</p>
                     <img src="/images/right.png" alt="">
                 </a>
-                <a href="/user/guide">
+                <!-- <a href="/user/guide">
                     <img src="/images/guide.png" alt="">
                     <p>用户指南</p>
                     <img src="/images/right.png" alt="">
-                </a>
+                </a> -->
             </div>
         </div>
     </div>

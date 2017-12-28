@@ -6,12 +6,13 @@
                 <span>数量</span>
                 <span>是否兑换</span>
             </li>
-            <scroll class="promoter-content warpper" :date="orders">
+            <scroll class="promoter-content warpper" :data="orders">
                 <div>
-                    <li class="content" v-for="(order, index) in orders" :key="index" v-if="order.record !== null && order.record.status > 0">
-                        <span>{{ order.created_at }}</span>
-                        <span>{{ order.record.crown }}皇冠 {{ order.record.stars }}星星</span>
-                        <button>兑换</button>
+                    <li class="content" v-for="(order, index) in orders" :key="index">
+                        <span>{{ order.date }}</span>
+                        <span style="width: 33%">{{ order.crown }}皇冠 {{ order.stars }}星星</span>
+                        <a class="block no-underline flex items-center justify-center" v-if="order.status === 0">兑换</a>
+                        <span v-else>已兑换</span>
                     </li>
                 </div>
             </scroll>
@@ -27,7 +28,7 @@ export default {
     props: ['attributes'],
     data () {
         return {
-            orders: this.attributes.order,
+            orders: this.attributes,
             user: window.App.user,
         }
     },

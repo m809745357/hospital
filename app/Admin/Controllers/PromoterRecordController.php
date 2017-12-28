@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\Models\PromoterRecord;
 use App\Models\PromoterOrder;
+use App\Models\PromoterRecordStatistics;
 
 class PromoterRecordController extends Controller
 {
@@ -92,8 +93,7 @@ class PromoterRecordController extends Controller
             $grid->status('是否兑换')->display(function ($stauts) {
                 $statuses = [
                     0 => '没有兑换',
-                    1 => '申请兑换',
-                    2 => '兑换成功'
+                    1 => '兑换成功'
                 ];
                 return $statuses[$stauts];
             })->label();
@@ -146,8 +146,7 @@ class PromoterRecordController extends Controller
             $form->number('stars', '星星');
             $form->select('status', '状态')->options([
                 0 => '没有兑换',
-                1 => '申请兑换',
-                2 => '兑换成功'
+                1 => '兑换成功'
             ]);
 
             $form->display('created_at', '创建时间');
@@ -156,10 +155,30 @@ class PromoterRecordController extends Controller
             $form->saving(function (Form $form) {
                 $form->model()->order->promoter->decrement('crown', $form->model()->crown);
                 $form->model()->order->promoter->decrement('stars', $form->model()->stars);
+                $date = substr($form->model()->created_at, 0, 7);
+                $user_id = $form->model()->order->promoter->user_id;
+                if (PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->exists()) {
+                    $statistics = PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->first();
+                } else {
+                    $statistics = PromoterRecordStatistics::create(['date' => $date, 'user_id' => $user_id]);
+                }
+                $statistics->where('date', $date)->decrement('crown', $form->model()->crown);
+                $statistics->where('date', $date)->decrement('stars', $form->model()->stars);
             });
             $form->saved(function (Form $form) {
                 $form->model()->order->promoter->increment('crown', $form->model()->crown);
                 $form->model()->order->promoter->increment('stars', $form->model()->stars);
+                $date = substr($form->model()->created_at, 0, 7);
+                $user_id = $form->model()->order->promoter->user_id;
+
+                if (PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->exists()) {
+                    $statistics = PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->first();
+                } else {
+                    $statistics = PromoterRecordStatistics::create(['date' => $date, 'user_id' => $user_id]);
+                }
+                $statistics->where('date', $date)->increment('crown', $form->model()->crown);
+                $statistics->where('date', $date)->increment('stars', $form->model()->stars);
+
             });
         });
     }

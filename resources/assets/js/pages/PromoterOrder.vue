@@ -8,16 +8,17 @@
                 <span>科室</span>
                 <span>状态</span>
             </li>
-            <scroll class="promoter-content warpper" :date="orders" >
+            <scroll class="promoter-content warpper" :data="orders" >
                 <div >
                     <li class="content" v-for="(order, index) in orders" :key="index">
                         <span>{{ order.created_at.substr(0, 10) }}</span>
                         <span>{{ order.name }}</span>
                         <span>{{ order.gender }}</span>
                         <span>{{ order.department.name }}</span>
-                        <span v-if="order.record && typeof order.record == 'object'">已兑换</span>
+                        <span v-if="order.status == '1'">已兑换</span>
                         <span v-else>
-                            <a class="block no-underline flex items-center justify-center" href="javascript:;" @click="change(order.id)">兑换</a>
+                            <p v-if="user.promoter && typeof user.promoter == 'object'" href="javascript:;">未兑换</p>
+                            <a v-else class="block no-underline flex items-center justify-center" href="javascript:;" @click="change(order.id)">兑换</a>
                         </span>
                     </li>
                 </div>

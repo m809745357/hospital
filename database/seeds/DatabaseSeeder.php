@@ -40,7 +40,8 @@ class DatabaseSeeder extends Seeder
             'avatar' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0'
         ]);
 
-        factory('App\Models\Promoter', 3)->create();
+        $promoter = factory('App\Models\Promoter')->create();
+        $promoter->user->update(['role' => 'promoter']);
 
         for ($i = 1; $i <= 6; $i++) {
             factory('App\Models\Food', 3)->create(['channel_id' => $i]);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePromoterPost;
 use App\Http\Requests\CreatePromoterOrderUpdate;
 use App\Models\PromoterOrder;
+use App\Models\PromoterRecord;
 use App\Models\Config;
 
 class PromoterController extends Controller
@@ -26,20 +27,25 @@ class PromoterController extends Controller
 
     public function order()
     {
-        $promoterOrders = auth()->user()->promoter->load('order.department');
+        $promoterOrders = auth()->user()->promoter->load(['order' => function ($query) {
+            $query->orderBy('status', 'asc');
+        }, 'order.department']);
         return view('mobile.promoters.order', compact('promoterOrders'));
     }
 
     public function confirm()
     {
-        $promoterRecords = auth()->user()->promoter->load('order.record', 'order.department');
+        $promoterRecords = auth()->user()->statistics;
         return view('mobile.promoters.confirm', compact('promoterRecords'));
     }
 
     public function record()
     {
         $promoterRecords = auth()->user()->promoter->load('order.record', 'order.department');
-        return view('mobile.promoters.record', compact('promoterRecords'));
+
+        $info = \DB::select('select sum(crown) as crown, sum(stars) as stars from promoter_orders as a join promoter_records as b on a.id = b.promoter_order_id where promoter_id = :promoter_id and MONTH(a.created_at) = MONTH(NOW())', ['promoter_id' => auth()->user()->promoter->id]);
+        $message = json_encode($info);
+        return view('mobile.promoters.record', compact('promoterRecords', 'message'));
     }
 
     public function create()

@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <script>
         window.App = <?php echo json_encode([
-            'user' => Auth::user(),
+            'user' => Auth::user()->load('promoter'),
             'signedIn' => Auth::check(),
             'configs' => App\Models\Config::all()->pluck('contact', 'slug'),
             'promoter' => Auth::user()->promoter()->exists() ? 'data:image/png;base64, ' . base64_encode(QrCode::format('png')->size(400)->generate(config('app.url') . route('promoter.order.create', array('promoter' => Auth::user()->promoter->id)))) : false,
@@ -31,7 +31,9 @@
     <div id="app">
         @yield('content')
     </div>
-
+    @if (config('app.debug'))
+        @include('sudosu::user-selector')
+    @endif
     <!-- Scripts -->
     <script src="{{ asset('js/mobile.js') }}"></script>
 </body>

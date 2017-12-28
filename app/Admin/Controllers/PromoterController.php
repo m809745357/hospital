@@ -129,8 +129,8 @@ class PromoterController extends Controller
             $form->text('hospital', '医院');
             $form->text('department', '部门');
             $form->text('job_title', '职称');
-            $form->number('crown', '皇冠');
-            $form->number('stars', '星星');
+            // $form->number('crown', '皇冠');
+            // $form->number('stars', '星星');
 
             $states = [
                 'on' => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
@@ -140,7 +140,7 @@ class PromoterController extends Controller
             $form->switch('status', '状态')->states($states);
 
             if (Admin::user()->isAdministrator()) {
-                $form->select('admin_user_id', '用户')->options(function ($value) {
+                $form->select('admin_user_id', '推广员')->options(function ($value) {
                     return AdminUser::all()->pluck('name', 'id');
                 });
             } else {

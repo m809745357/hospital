@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->hasMany(Models\Order::class, 'user_id');
     }
 
+    public function statistics()
+    {
+        return $this->hasMany(Models\PromoterRecordStatistics::class, 'user_id');
+    }
+
     public function checkPrefect()
     {
         return $this->mobile === null;
