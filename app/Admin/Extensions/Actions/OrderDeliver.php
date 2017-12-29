@@ -3,6 +3,7 @@
 namespace App\Admin\Extensions\Actions;
 
 use Encore\Admin\Admin;
+use Illuminate\Support\Facades\Request;
 
 class OrderDeliver
 {
@@ -15,6 +16,8 @@ class OrderDeliver
 
     protected function script()
     {
+        $url = Request::fullUrl();
+
         return <<<SCRIPT
 
 $('.order-deliver').on('click', function () {

@@ -16,6 +16,7 @@ use App\Admin\Extensions\Tools\OrderPayWay;
 use App\Admin\Extensions\Actions\OrderExchange;
 use App\Admin\Extensions\Actions\OrderDeliver;
 use App\Admin\Extensions\Actions\OrderRefund;
+use EasyWeChat\Foundation\Application;
 
 class OrderController extends Controller
 {
@@ -76,13 +77,32 @@ class OrderController extends Controller
     {
         return Admin::grid(Order::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
-
             if (Admin::user()->isRole('canteen')) {
                 $grid->model()->where('status', 'App\\Models\\Food');
             }
 
             $grid->column('user.name', '下单用户');
-            $grid->order_details('订单详情')->display(function ($order_details) {
+            $grid->column('订单详情')->display(function () {
+                switch ($this->order_details_type) {
+                    case 'App\\Models\\Food':
+                        foreach ($this->order_details as $key => $value) {
+                            $arr[] = "菜品：{$value['title']} 数量：{$value['num']} 单价：{$value['money']}";
+                        }
+                        return implode("<br/>", $arr);
+                        break;
+                    case 'App\\Models\\Physical':
+                        foreach ($this->order_details as $key => $value) {
+                            $arr[] = "体检：{$value['title']} 数量：{$value['num']} 单价：{$value['money']}";
+                        }
+                        return implode("<br/>", $arr);
+                        break;
+                    case 'App\\Models\\Package':
+                        return "体检套餐：{$this->order_details['title']} <br/>数量：{$this->order_details['num']} <br/>价格（女）：{$this->order_details['women_money']} <br/>价格（男）：{$this->order_details['men_money']}";
+                        break;
+                    case 'App\\Models\\Scheduling':
+                        return "部门：{$this->order_details['doctor']['department']['name']} <br/>医生：{$this->order_details['doctor']['name']} <br/>地址：{$this->order_details['address']}";
+                        break;
+                }
             });
             $grid->order_details_type('订单类型')->display(function ($type) {
                 $types = [
@@ -119,16 +139,7 @@ class OrderController extends Controller
                     return $order_time;
                 }
             });
-            $grid->status('订单状态')->display(function ($status) {
-                $statuses = [
-                    '1' => '未支付',
-                    '2' => '已支付',
-                    '3' => '已完成',
-                    '4' => '已取消',
-                    '5' => '已配送'
-                ];
-                return $statuses[$status];
-            });
+            $grid->status('订单状态')->select(['1' => '未支付', '2' => '已支付', '3' => '已兑换/已配送', '4' => '已完成', '5' => '已取消']);
             $grid->pay_way('支付方式')->display(function ($pay_way) {
                 if (is_null($pay_way)) {
                     return '未选择';
@@ -169,9 +180,15 @@ class OrderController extends Controller
             }
 
             $grid->actions(function ($actions) {
-                $actions->append(new OrderExchange($actions->getKey()));
-                $actions->append(new OrderDeliver($actions->getKey()));
-                $actions->append(new OrderRefund($actions->getKey()));
+                switch ($actions->row->order_details_type) {
+                    case 'App\\Models\\Food':
+                        $actions->row->status === '2' && $actions->append(new OrderDeliver($actions->getKey()));
+                        break;
+                    default:
+                        $actions->row->status === '2' && $actions->append(new OrderExchange($actions->getKey()));
+                        $actions->row->status === '5' && $actions->append(new OrderRefund($actions->getKey()));
+                        break;
+                }
             });
         });
     }
@@ -185,6 +202,65 @@ class OrderController extends Controller
     {
         return Admin::form(Order::class, function (Form $form) {
             $form->display('id', 'ID');
+
+            $form->select('status', '状态')->options(function () {
+                return ['1' => '未支付', '2' => '已支付', '3' => '已兑换/已配送', '4' => '已完成', '5' => '已取消', '6' => '已退款'];
+            });
+
+            $form->saving(function (Form $form) {
+                $form->model()->order_details = serialize($form->model()->order_details);
+            });
+
+            $form->saved(function (Form $form) {
+                $status = $form->model()->status;
+                $user = $form->model()->user;
+                switch ($status) {
+                    case '3':
+                        $data = [
+                            'first' => $user->name . '，您的订单已兑换/已配送',
+                            'keyword1' => date('Y年m月d日'),
+                            'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
+                            'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case '4':
+                        $data = [
+                            'first' => $user->name . '，您的订单已成功',
+                            'keyword1' => date('Y年m月d日'),
+                            'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
+                            'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case '5':
+                        $data = [
+                            'first' => $user->name . '，您的订单已取消',
+                            'keyword1' => date('Y年m月d日'),
+                            'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
+                            'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case '5':
+                        $data = [
+                            'first' => $user->name . '，您的订单已退款',
+                            'keyword1' => date('Y年m月d日'),
+                            'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
+                            'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                }
+                $app = new Application(config('wechat'));
+
+                $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
+                $url = route('order.show', array('order' => $form->model()->id));
+                
+                \Log::info($data);
+
+                $result = $app->notice->uses($templateId)
+                    ->withUrl($url)
+                    ->andData($data)
+                    ->andReceiver($user->openid)
+                    ->send();
+            });
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');

@@ -112,7 +112,8 @@ export default {
                 })
                 
         },
-        onBridgeReady(){
+        onBridgeReady(url){
+            let jumpUrl = url;
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                     "appId": this.json.appId,     //公众号名称，由商户传入     
@@ -125,7 +126,7 @@ export default {
                 function(res){
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                         setTimeout(() => {
-                            window.location.reload();
+                            window.location.href = jumpUrl;
                         }, 2000);
                     }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
                 }
@@ -147,7 +148,7 @@ export default {
                                 document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
                             }
                         }else{
-                            this.onBridgeReady();
+                            this.onBridgeReady(`/orders/${this.order.id}`);
                         }
                     }
                     console.log(response.status);
