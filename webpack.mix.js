@@ -11,21 +11,11 @@ var tailwindcss = require('tailwindcss');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/assets/js/app.js', 'public/js');
+// pc
+// mix.js('resources/assets/js/app.js', 'public/js');
+// mobile
 mix.js('resources/assets/js/mobile.js', 'public/js')
-    .extract(['vue']);
-//    .postCss('resources/assets/css/main.css', 'public/css', [
-//         tailwindcss('tailwind.js'),
-//    ]);
-
-// If you want to use LESS for your preprocessing
-// mix.less('resources/assets/less/main.less', 'public/css')
-//   .options({
-//     postCss: [
-//       tailwindcss('./tailwind.js'),
-//     ]
-//   })
+        .extract(['vue']);
 
 // If you want to use SASS for preprocessing
     mix.sass('resources/assets/sass/app.scss', 'public/css')
