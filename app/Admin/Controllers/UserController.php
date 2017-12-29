@@ -83,6 +83,13 @@ class UserController extends Controller
                 ];
                 return $roles[$role];
             });
+            $grid->certification('实名认证')->display(function ($cert) {
+                $certs = [
+                    '0' => '未认证',
+                    '1' => '已认证',
+                ];
+                return $certs[$cert];
+            });
 
             $grid->remark('备注')->editable('textarea');
 

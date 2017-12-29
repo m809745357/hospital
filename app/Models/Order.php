@@ -25,6 +25,11 @@ class Order extends Model
         return $this->belongsTo(\App\User::class, 'user_id');
     }
 
+    public function ipadRecord()
+    {
+        return $this->hasOne(IpadRecord::class, 'id', 'order_id');
+    }
+
     public function getOrderDetailsAttribute($order_details)
     {
         return $this->attributes['order_details'] = is_array($order_details) ? $order_details : unserialize($order_details);

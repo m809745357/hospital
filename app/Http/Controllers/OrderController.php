@@ -244,6 +244,7 @@ class OrderController extends Controller
                     ])->save();
                 }
                 $order->user_id = $user->id;
+                $address = $order->ipadRecord->ipad->address;
             } elseif ($notify->trade_type === 'JSAPI') {
                 $user = User::where('openid', $notify->openid)->firstOrFail();
             }
@@ -259,15 +260,80 @@ class OrderController extends Controller
             }
             // 用户是否支付成功
             if ($successful) {
+                $url = route('order.show', ['order' => $order->id]);
+
+                switch ($order->order_details_type) {
+                    case 'App\\Models\\Food':
+                        $templateId = '6U64VpcD1B66eXgLjoiy4kGz5e5lY0KrnURK2Sl0e7c';
+                        $data = [
+                            'first' => $user->name . ', 恭喜你点餐成功！',
+                            'keyword1' => $order->out_trade_no,
+                            'keyword2' => $notify->trade_type === 'NATIVE' ? $address : $user->address,
+                            'keyword3' => '医院配送',
+                            'keyword4' => $user->mobile,
+                            'keyword5' => "￥{$order->money}元",
+                            'Remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case 'App\\Models\\Physical':
+                        $templateId = 'seR-235joBnODL78IKmAMxtLuMa44KG8w-6J3inLGpA';
+                        $genders = [
+                            0 => '未知',
+                            1 => '男',
+                            2 => '女'
+                        ];
+                        $data = [
+                            'first' => '恭喜你预约体检成功！订单流水号：' . $order->out_trade_no,
+                            'keyword1' => $user->name,
+                            'keyword2' => $genders[$user->gender],
+                            'keyword3' => $user->mobile,
+                            'keyword4' => $order->order_details[0]['title'] . '等单列体检',
+                            'keyword5' => $order->order_time,
+                            'Remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case 'App\\Models\\Package':
+                        $templateId = 'seR-235joBnODL78IKmAMxtLuMa44KG8w-6J3inLGpA';
+                        $genders = [
+                            0 => '未知',
+                            1 => '男',
+                            2 => '女'
+                        ];
+                        $data = [
+                            'first' => '恭喜你预约体检成功！订单流水号：' . $order->out_trade_no,
+                            'keyword1' => $user->name,
+                            'keyword2' => $genders[$user->gender],
+                            'keyword3' => $user->mobile,
+                            'keyword4' => $order->order_details['title'] . '套餐体检',
+                            'keyword5' => $order->order_time,
+                            'Remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                    case 'App\\Models\\Scheduling':
+                        $templateId = 'JsxDNEqyMhtbwU9ZfpjhbrOQtzkF0bVD4yCDHCgUFGI';
+                        $genders = [
+                            0 => '未知',
+                            1 => '男',
+                            2 => '女'
+                        ];
+                        $configs = App\Models\Config::all()->pluck('contact', 'slug');
+                        $data = [
+                            'first' => $user->name . ', 您好，请预约了门诊，请及时前往医院取号就诊。',
+                            'patientName' => $user->name,
+                            'patientSex' => $genders[$user->gender],
+                            'hospitalName' => $configs['site_title'],
+                            'hospitalTel' => $configs['phone'],
+                            'hospitalAddress' => $configs['address'],
+                            'department' => $order->order_details['doctor']['department']['name'],
+                            'doctor' => $order->order_details['doctor']['name'],
+                            'seq' => $order->out_trade_no,
+                            'Remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+                        ];
+                        break;
+                }
+
                 // 不是已经支付状态则修改为已经支付状态
-                $templateId = 'q7eMJGBtCXDNJUCazF6lI3a2XKz_ENdsyFPCeBU3RVs';
-                $url = config('app.url') . '/orders/' . $order->id;
-                $data = [
-                    'first' => $this->getBody($order) . ', 恭喜你下单成功！',
-                    'orderMoneySum' => config('app.name'),
-                    'orderProductName' => $order->money . '元',
-                    'Remark' => $this->getDetail($order),
-                ];
+
                 \Log::info($data);
 
                 $result = $app->notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($user->openid)->send();

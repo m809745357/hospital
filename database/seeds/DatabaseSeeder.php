@@ -36,8 +36,9 @@ class DatabaseSeeder extends Seeder
             'mobile' => '18367831980',
             'address' => 'NBYZGC0001',
             'name' => '沈益飞',
-            'openid' => 'oktzkwbxksTOGCk9wGLWDV_6gCbA',
-            'avatar' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0'
+            'openid' => 'oFVoa1gJ7i8000kKuVnnQMWQgcCo',
+            'avatar' => 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJPu1sSYJ1XWRYCaTBffZ0fI0lFwqHXiaMIxTNA6TnVBjqE3QXO6qwDkoyAmKI1aqgEZu4uUWpoHrA/0',
+            'certification' => 1
         ]);
 
         $promoter = factory('App\Models\Promoter')->create();

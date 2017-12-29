@@ -31,7 +31,7 @@ class UpdateUserPost extends FormRequest
                 'required',
                 'regex:/^1[34578][0-9]{9}$/'
             ],
-            'card' => 'sometimes|required'
+            'card' => 'sometimes|required|unique:users'
         ];
     }
 
@@ -48,6 +48,7 @@ class UpdateUserPost extends FormRequest
             'mobile.required' => '请输入手机号码',
             'mobile.regex' => '请输入正确的手机号码',
             'card.required' => '请输入身份证号码',
+            'card.unique' => '该身份证已经被绑定了',
         ];
     }
 }

@@ -19,10 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('openid')->unique();
             $table->string('avatar')->nullable();
+            $table->integer('gender')->nullable();
             $table->string('mobile')->nullable();
             $table->string('card')->nullable();
             $table->string('address')->nullable();
             $table->text('remark')->nullable();
+            $table->integer('certification')->default(0);
             $table->enum('role', User::ROLES)->default('normal');
             $table->rememberToken();
             $table->timestamps();

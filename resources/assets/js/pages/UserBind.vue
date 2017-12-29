@@ -6,13 +6,13 @@
                 <input type="text" v-model="form.address" name="address" placeholder="未入住不需要填写">
             </div>
             <span class="help is-danger" v-if="form.errors.has('address')" v-text="form.errors.get('address')"></span> -->
-            <span class="help is-danger" v-if="form.errors.has('name')" v-text="form.errors.get('name')"></span>
-            <div class="from-group">
+            <span class="help is-danger" v-if="certification == 0 && form.errors.has('name')" v-text="form.errors.get('name')"></span>
+            <div class="from-group" v-if="certification == 0">
                 <label for="">姓名</label>
                 <input type="text" v-model="form.name" name="name" placeholder="请输入姓名">
             </div>
             <span class="help is-danger" v-if="form.errors.has('card')" v-text="form.errors.get('card')"></span>
-            <div class="from-group">
+            <div class="from-group" v-if="certification == 0">
                 <label for="">身份证</label>
                 <input type="text" v-model="form.card" name="card" placeholder="请输入身份证">
             </div>
@@ -42,11 +42,8 @@ import Form from "../utils/From.js";
 export default {
     data () {
         return {
-            form: new Form({
-                name: window.App.user.name,
-                mobile: '',
-                card: window.App.user.card,
-            }),
+            form: {},
+            certification: window.App.user.certification,
             phone: window.App.user.mobile,
             time: 61,
             send: false,
@@ -56,6 +53,17 @@ export default {
     created () {
         if (! window.App.signedIn) {
             window.location.href = '/login';
+        }
+        if (this.certification === 1) {
+            this.form = new Form({
+                mobile: '',
+            })
+        } else {
+            this.form = new Form({
+                name: window.App.user.name,
+                mobile: '',
+                card: window.App.user.card,
+            })
         }
     },
     methods: {
@@ -83,8 +91,7 @@ export default {
                         return ;
                     }
                     
-                    this.$alert(error.response.data)
-                    // console.log(error.response);
+                    this.$alert(error.response.data.data)
                 })
             }
         },

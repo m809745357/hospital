@@ -91,6 +91,7 @@ class LoginController extends Controller
                 'name' => $oauthUser->name,
                 'avatar' => $oauthUser->avatar,
                 'openid' => $oauthUser->id,
+                'gender' => $oauthUser->original['sex'],
             ]);
         } else {
             $user = User::where(['openid' => $oauthUser->id])->firstOrFail();

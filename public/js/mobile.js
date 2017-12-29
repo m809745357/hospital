@@ -54139,11 +54139,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            form: new __WEBPACK_IMPORTED_MODULE_0__utils_From_js__["a" /* default */]({
-                name: window.App.user.name,
-                mobile: '',
-                card: window.App.user.card
-            }),
+            form: {},
+            certification: window.App.user.certification,
             phone: window.App.user.mobile,
             time: 61,
             send: false,
@@ -54153,6 +54150,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         if (!window.App.signedIn) {
             window.location.href = '/login';
+        }
+        if (this.certification === 1) {
+            this.form = new __WEBPACK_IMPORTED_MODULE_0__utils_From_js__["a" /* default */]({
+                mobile: ''
+            });
+        } else {
+            this.form = new __WEBPACK_IMPORTED_MODULE_0__utils_From_js__["a" /* default */]({
+                name: window.App.user.name,
+                mobile: '',
+                card: window.App.user.card
+            });
         }
     },
 
@@ -54182,8 +54190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         return;
                     }
 
-                    _this.$alert(error.response.data);
-                    // console.log(error.response);
+                    _this.$alert(error.response.data.data);
                 });
             }
         },
@@ -54320,37 +54327,39 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mx-auto" }, [
     _c("div", { staticClass: "user-form" }, [
-      _vm.form.errors.has("name")
+      _vm.certification == 0 && _vm.form.errors.has("name")
         ? _c("span", {
             staticClass: "help is-danger",
             domProps: { textContent: _vm._s(_vm.form.errors.get("name")) }
           })
         : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("姓名")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.form.name,
-              expression: "form.name"
-            }
-          ],
-          attrs: { type: "text", name: "name", placeholder: "请输入姓名" },
-          domProps: { value: _vm.form.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _vm.certification == 0
+        ? _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("姓名")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.name,
+                  expression: "form.name"
+                }
+              ],
+              attrs: { type: "text", name: "name", placeholder: "请输入姓名" },
+              domProps: { value: _vm.form.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "name", $event.target.value)
+                }
               }
-              _vm.$set(_vm.form, "name", $event.target.value)
-            }
-          }
-        })
-      ]),
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm.form.errors.has("card")
         ? _c("span", {
@@ -54359,30 +54368,36 @@ var render = function() {
           })
         : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "from-group" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("身份证")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.form.card,
-              expression: "form.card"
-            }
-          ],
-          attrs: { type: "text", name: "card", placeholder: "请输入身份证" },
-          domProps: { value: _vm.form.card },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _vm.certification == 0
+        ? _c("div", { staticClass: "from-group" }, [
+            _c("label", { attrs: { for: "" } }, [_vm._v("身份证")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.card,
+                  expression: "form.card"
+                }
+              ],
+              attrs: {
+                type: "text",
+                name: "card",
+                placeholder: "请输入身份证"
+              },
+              domProps: { value: _vm.form.card },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "card", $event.target.value)
+                }
               }
-              _vm.$set(_vm.form, "card", $event.target.value)
-            }
-          }
-        })
-      ]),
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm.phone
         ? _c("div", { staticClass: "from-group" }, [

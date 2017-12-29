@@ -9,7 +9,7 @@ return [
             'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
             // 默认可用的发送网关
             'gateways' => [
-                'aliyun',
+                'aliyun', 'juhe'
             ],
         ],
         // 可用的网关配置
@@ -21,6 +21,9 @@ return [
                 'access_key_id' => 'LTAIWhr0CPiOJBru',
                 'access_key_secret' => 'BhFHRphz7TGJ8ESE3xx7iXQQcFkTI3',
                 'sign_name' => '阿里云短信测试专用',
+            ],
+            'juhe' => [
+                'app_key' => '6f1f00e273f94af51a2ba32f96f2d0f0',
             ],
         ]
     ],
