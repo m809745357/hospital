@@ -74,6 +74,15 @@ class UserController extends Controller
             $grid->name('姓名')->editable();
             $grid->openid('微信编号');
             $grid->mobile('手机号码')->editable();
+            $grid->gender('性别')->display(function ($gender) {
+                $genders = [
+                    0 => '未知',
+                    1 => '男',
+                    2 => '女',
+                ];
+                return $genders[$gender];
+            });
+
             $grid->card('身份证')->editable();
             $grid->address('床位')->editable();
             $grid->role('角色')->display(function ($role) {

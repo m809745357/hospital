@@ -24,7 +24,7 @@ Vue.use(Alert, {
 
 window.wx = require('weixin-js-sdk');
 
-if (App.wxconfig !== undefined) {
+if (App.wxconfig !== '') {
     wx.config(JSON.parse(App.wxconfig));
     wx.ready(function () {
         wx.onMenuShareTimeline({

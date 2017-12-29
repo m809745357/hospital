@@ -13,7 +13,8 @@ var tailwindcss = require('tailwindcss');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js');
-mix.js('resources/assets/js/mobile.js', 'public/js');
+mix.js('resources/assets/js/mobile.js', 'public/js')
+    .extract(['vue']);
 //    .postCss('resources/assets/css/main.css', 'public/css', [
 //         tailwindcss('tailwind.js'),
 //    ]);

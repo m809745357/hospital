@@ -92,7 +92,6 @@ class OrderController extends Controller
 
         $wxOrder = new \EasyWeChat\Payment\Order($this->getWechatOrder('JSAPI', $order));
 
-        auth()->user()->update(['openid' => 'oktzkwbxksTOGCk9wGLWDV_6gCbA']);
         $result = $payment->prepare($wxOrder);
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS') {
             tap($order)->update([
