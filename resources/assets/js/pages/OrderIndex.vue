@@ -18,7 +18,7 @@
                         <div class="order-item" v-for="(order, index) in orders" :key="index" v-if="order.order_details_type.indexOf(menu) > -1 && order.status === status">
                             <div class="order-item-top">
                                 <div class="order-item-desc">
-                                    <h4>订单号：{{ order.out_trade_no }}</h4>
+                                    <h4>单号:{{ order.out_trade_no }}</h4>
                                     <p v-if="order.order_details_type === 'App\\Models\\Food'">{{ order.created_at.substr(0, 10) }} {{ order.order_time }} {{ foodType[order.remark] }}</p>
                                     <p v-if="order.order_details_type === 'App\\Models\\Physical'">{{ order.order_time === '' ? '暂未选择时间' : order.order_time }} {{ order.remark }}</p>
                                     <p v-if="order.order_details_type === 'App\\Models\\Package'">{{ order.order_time === '' ? '暂未选择时间' : order.order_time }} {{ order.remark }}</p>

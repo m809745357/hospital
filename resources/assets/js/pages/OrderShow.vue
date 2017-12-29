@@ -130,7 +130,7 @@
                 <p>微信支付</p>
                 <img :src="payway == 'wechat' ? '/images/choosed.png' : '/images/choose.png'" alt="">
             </div>
-            <div class="pay" @click="change('card')" v-if="!checkIpad">
+            <div class="pay" @click="change('card')" v-if="!checkIpad && order.order_details_type == 'App\\Models\\Food'">
                 <img src="/images/card.png" alt="">
                 <p>一卡通支付</p>
                 <img :src="payway == 'card' ? '/images/choosed.png' : '/images/choose.png'" alt="">
@@ -182,7 +182,7 @@ export default {
         for (let index = 0; index < 7; index++) {
             this.days[index] = moment().add(index, 'days').format('L')
         }
-        console.log(this.attributes.order_details_type !== 'App\\Models\\Scheduling');
+        
         if (this.other.id !== undefined) {
             this.payway = 'ipad';
             this.checkIpad = true;
@@ -211,9 +211,10 @@ export default {
                     "paySign": this.json.paySign //微信签名 
                 },
                 function(res){
-                    alert(res.err_msg);
                     if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                        alert('123');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
                     }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
                 }
             ); 

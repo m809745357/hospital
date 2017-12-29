@@ -187,7 +187,7 @@ class OrderController extends Controller
         }
     }
 
-    public function card(Request $request, Order $order)
+    public function card(Request $request, Order $order, Application $app)
     {
         $secret = $request->secret;
         if (!$secret) {
@@ -207,6 +207,21 @@ class OrderController extends Controller
         ]);
 
         $nurse->addOrderRecord(['order_id' => $order->id]);
+        
+        $user = auth()->user();
+
+        $url = route('order.show', ['order' => $order->id]);
+        $templateId = '6U64VpcD1B66eXgLjoiy4kGz5e5lY0KrnURK2Sl0e7c';
+        $data = [
+            'first' => $user->name . ', 恭喜你点餐成功！',
+            'keyword1' => $order->out_trade_no,
+            'keyword2' => $user->address,
+            'keyword3' => '医院配送',
+            'keyword4' => $user->mobile,
+            'keyword5' => "￥{$order->money}元",
+            'Remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
+        ];
+        $result = $app->notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($user->openid)->send();
 
         return response(['data' => $order], 201);
     }
