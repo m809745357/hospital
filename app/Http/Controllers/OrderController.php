@@ -298,10 +298,11 @@ class OrderController extends Controller
                             1 => '男',
                             2 => '女'
                         ];
+                        $gender = $user->gender == null ?? 0;
                         $data = [
                             'first' => '恭喜你预约体检成功！订单流水号：' . $order->out_trade_no,
                             'keyword1' => $user->name,
-                            'keyword2' => $genders[$user->gender],
+                            'keyword2' => $genders[$gender],
                             'keyword3' => $user->mobile,
                             'keyword4' => $order->order_details['title'] . '套餐体检',
                             'keyword5' => $order->order_time,
@@ -315,7 +316,7 @@ class OrderController extends Controller
                             1 => '男',
                             2 => '女'
                         ];
-                        $configs = App\Models\Config::all()->pluck('contact', 'slug');
+                        $configs = \App\Models\Config::all()->pluck('contact', 'slug');
                         $data = [
                             'first' => $user->name . ', 您好，请预约了门诊，请及时前往医院取号就诊。',
                             'patientName' => $user->name,

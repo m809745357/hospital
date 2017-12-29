@@ -38,7 +38,8 @@ class DatabaseSeeder extends Seeder
             'name' => '沈益飞',
             'openid' => 'oFVoa1gJ7i8000kKuVnnQMWQgcCo',
             'avatar' => 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJPu1sSYJ1XWRYCaTBffZ0fI0lFwqHXiaMIxTNA6TnVBjqE3QXO6qwDkoyAmKI1aqgEZu4uUWpoHrA/0',
-            'certification' => 1
+            'certification' => 1,
+            'gender' => 1
         ]);
 
         $promoter = factory('App\Models\Promoter')->create();
