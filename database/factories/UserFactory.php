@@ -20,6 +20,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'openid' => $faker->unique()->word,
         'avatar' => $faker->imageUrl(200, 200),
+        'gender' => 1,
         'remember_token' => str_random(10),
     ];
 });

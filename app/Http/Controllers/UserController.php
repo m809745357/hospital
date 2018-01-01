@@ -30,10 +30,12 @@ class UserController extends Controller
     public function update(UpdateUserPost $request, Application $app)
     {
         // 实名认证
-        if (!config('app.debug') && $request->card && $request->name) {
+        $name = $request->name;
+        $card = $request->card;
+        if (config('app.debug') && $card && $name) {
             $client = new \GuzzleHttp\Client();
             $res = $client->request('GET', 'http://op.juhe.cn/idcard/query', [
-                'query' => "realname={$request->name}&idcard={$request->card}&key=ceb8ddb853f24618b475aae5d76afd70"
+                'query' => "realname={$name}&idcard={$card}&key=ceb8ddb853f24618b475aae5d76afd70"
             ]);
             $arr = json_decode($res->getBody()->getContents(), true);
             if (!($arr['error_code'] == 0 && $arr['result']['res'] == 1)) {
@@ -44,6 +46,7 @@ class UserController extends Controller
 
         tap($user)->update($request->validated());
 
+        return response(['data' => '更新成功'], 201);
         $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
         $url = route('user.index');
         $data = [
