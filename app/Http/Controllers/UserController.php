@@ -30,6 +30,16 @@ class UserController extends Controller
     public function update(UpdateUserPost $request, Application $app)
     {
         // 实名认证
+        if (!config('app.debug') && $request->card && $request->name) {
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('GET', 'http://op.juhe.cn/idcard/query', [
+                'query' => "realname={$request->name}&idcard={$request->card}&key=ceb8ddb853f24618b475aae5d76afd70"
+            ]);
+            $arr = json_decode($res->getBody()->getContents(), true);
+            if (!($arr['error_code'] == 0 && $arr['result']['res'] == 1)) {
+                return response(['data' => '身份证和姓名不匹配，请重新输入'], 400);
+            }
+        }
         $user = auth()->user();
 
         tap($user)->update($request->validated());
