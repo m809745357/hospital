@@ -73,17 +73,21 @@ export default {
             axios.post(`/orders/promoter/records`, this.data)
                 .then(response => {
                     console.log(response.data);
-                    this.$alert('兑换成功')
-                        .then(response => {
+                    notie.force({
+                        type: 1,
+                        text: '兑换成功',
+                        buttonText: '好的',
+                        callback: () => {
                             window.location.href = '/orders/promoter';
-                        });
+                        }
+                    })
                 })
                 .catch(error => {
                     if (error.response.status === 422) {
-                        this.$alert(error.response.data.errors.secret[0])
+                        notie.alert({ type: 2, text: error.response.data.errors.secret[0] });
                         return ;
                     }
-                    this.$alert(error.response.data.data)
+                    notie.alert({ type: 3, text: error.response.data.data });
                     console.log(error.response);
                 });
         }

@@ -114,6 +114,27 @@ class UserController extends Controller
                     $batch->disableDelete();
                 });
             });
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->where('name', 'like', "%{$this->input}%")
+                        ->orWhere('mobile', 'like', "%{$this->input}%")
+                        ->orWhere('card', 'like', "%{$this->input}%")
+                        ->orWhere('address', 'like', "%{$this->input}%");
+                }, '关键字');
+
+                $filter->equal('role', '角色')->select([
+                    'normal' => '普通用户',
+                    'promoter' => '转诊医生',
+                ]);
+                $filter->equal('certification', '实名认证')->select([
+                    '0' => '未认证',
+                    '1' => '已认证',
+                ]);
+            });
+
         });
     }
 

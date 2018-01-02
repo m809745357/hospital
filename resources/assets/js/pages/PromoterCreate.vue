@@ -43,14 +43,18 @@ export default {
             this.form.post('/promoter')
                 .then(response => {
                     console.log(response);
-                    this.$alert(response.data)
-                        .then(response => {
+                    notie.force({
+                        type: 1,
+                        text: response.data,
+                        buttonText: '好的',
+                        callback: () => {
                             window.location.href = '/user/promoter';
-                        });
+                        }
+                    })
                 })
                 .catch(error => {
                     if (error.response.status === 400) {
-                        this.$alert(error.response.data.data);
+                        notie.alert({ type: 3, text: error.response.data.data });
                         return ;
                     }
                     console.log(error.response);

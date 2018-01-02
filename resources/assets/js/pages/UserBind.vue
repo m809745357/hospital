@@ -73,7 +73,7 @@ export default {
                     mobile: this.form.mobile
                 }).then(response => {
                     this.send = true;
-                    this.$alert('短信发送成功');
+                    notie.alert({ type: 1, text: '短信发送成功' });
 
                     var times = setInterval(() => {
                         if (this.time == 0) {
@@ -87,11 +87,11 @@ export default {
 
                 }).catch(error => {
                     if (error.response.status === 422) {
-                        this.$alert(error.response.data.errors.mobile[0])
+                        notie.alert({ type: 2, text: error.response.data.errors.mobile[0] });
                         return ;
                     }
                     
-                    this.$alert(error.response.data.data)
+                    notie.alert({ type: 3, text: error.response.data.data });
                 })
             }
         },
@@ -103,10 +103,14 @@ export default {
                     .then(response => {
                         this.form.post('/user')
                             .then(response => {
-                                this.$alert(response.data)
-                                    .then(response => {
-                                        window.location.href = '/user/bind';
-                                    });
+                                notie.force({
+                                    type: 1,
+                                    text: response.data,
+                                    buttonText: '好的',
+                                    callback: () => {
+                                        window.location.href = '/user';
+                                    }
+                                })
                             })
                             .catch(error => {
                                 console.log(error.response)
@@ -114,15 +118,15 @@ export default {
                     })
                     .catch(error => {
                         if (error.response.status === 422) {
-                            this.$alert(error.response.data.errors.mobile[0])
+                            notie.alert({ type: 2, text: error.response.data.errors.mobile[0] });
                             return ;
                         }
                         
-                        this.$alert(error.response.data.data)
+                        notie.alert({ type: 3, text: error.response.data.data });
                         console.log(error.response);
                     });
             } else {
-                this.$alert('请先获取短信验证码');
+                notie.alert({ type: 2, text: '请先获取短信验证码' });
             }
         }
     }

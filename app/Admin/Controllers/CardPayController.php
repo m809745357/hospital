@@ -85,6 +85,22 @@ class CardPayController extends Controller
                     $batch->disableDelete();
                 });
             });
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->whereHas('nurse', function ($query) {
+                        $query->where('name', 'like', "%{$this->input}%");
+                    });
+                }, '护士名称');
+                $filter->where(function ($query) {
+                    $query->whereHas('order', function ($query) {
+                        $query->where('out_trade_no', 'like', "%{$this->input}%");
+                    });
+                }, '订单编号');
+            });
+
         });
     }
 

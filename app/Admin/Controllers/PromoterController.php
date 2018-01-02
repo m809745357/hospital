@@ -99,6 +99,18 @@ class PromoterController extends Controller
                     $batch->disableDelete();
                 });
             });
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->whereHas('user', function ($query) {
+                        $query->where('name', 'like', "%{$this->input}%");
+                    });
+                }, '推广人名称');
+
+            });
+
         });
     }
 

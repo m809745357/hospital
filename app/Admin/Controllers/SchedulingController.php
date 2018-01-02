@@ -110,6 +110,19 @@ class SchedulingController extends Controller
             if (in_array(Request::get('scheduling-time'), ['1', '2', '3'])) {
                 $grid->model()->where('time', Request::get('scheduling-time'));
             }
+
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->equal('doctor_id', '医生')->select(Doctor::all()->pluck('name', 'id'));
+                $filter->equal('type', '门诊类型')->select([
+                    'expert' => '专家门诊',
+                    'general' => '普通门诊',
+                    'famous' => '名医门诊',
+                ]);
+            });
+
         });
     }
 

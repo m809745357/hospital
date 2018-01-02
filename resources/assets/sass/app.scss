@@ -155,7 +155,7 @@ th {
         @apply flex items-center justify-around border-b border-grey-lighter bg-white relative z-10;
 
         a {
-            width: 2rem;
+            // width: 2rem;
             @apply no-underline text-grey-darker text-center;
 
             &.on {
@@ -316,8 +316,9 @@ th {
 
             .doctor-item {
                 height: 3.6133rem;
-                margin: 0 0.4rem;
-                @apply border-b border-grey-lighter flex flex-row justify-between;
+                margin: 0 0.2rem;
+                padding: 0 0.2rem;
+                @apply border-b border-grey-lighter flex flex-row justify-between shadow mt-1;
 
                 .doctor-item-left {
 
@@ -358,7 +359,7 @@ th {
 
                             a {
                                 height: 0.72rem;
-                                width: 2rem;
+                                min-width: 2rem;
                                 @apply bg-blue shadow text-white text-sm rounded-4px no-underline flex items-center justify-center;
                             }
                         }
@@ -853,4 +854,19 @@ th {
 }
 .is-danger {
     @apply text-red text-sm;
+}
+$notie-color-success: #57BF57;
+$notie-color-warning: #D6A14D;
+$notie-color-error: #E1715B;
+$notie-color-info: #4D82D6;
+$notie-color-neutral: #A0A0A0;
+// See all overwriteable variables in src/notie.scss
+
+// Then import notie:
+@import './node_modules/notie/src/notie';
+.notie-container {
+    @apply text-lg;
+}
+.notie-textbox, .notie-button {
+    @apply p-1;
 }

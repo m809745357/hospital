@@ -32,7 +32,15 @@ export default {
             this.form.post('/user/')
                 .then(response => {
                     console.log(response);
-                    this.$alert(response.data);
+                    // notie.alert({ type: 1, text: response.data, stay: true });
+                    notie.force({
+                        type: 1,
+                        text: response.data,
+                        buttonText: '好的',
+                        callback: () => {
+                            window.location.href = '/user';
+                        }
+                    })
                 })
                 .catch(error => {
                     console.log(error);

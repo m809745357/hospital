@@ -9,18 +9,64 @@ require('./bootstrap');
 
 require('amfe-flexible');
 
-import { Alert, Confirm, Toast } from 'wc-messagebox'
-import 'wc-messagebox/style.css'
+// import { Alert, Confirm, Toast } from 'wc-messagebox'
+// import 'wc-messagebox/style.css'
+// Before notie is imported:
+
+import notie from 'notie'
+import { alert, force, confirm, input, select, date, setOptions, hideAlerts } from 'notie'
 
 window.Vue = require('vue');
-
-Vue.use(Alert, {
-    title: '提示',  // 默认标题为 '提示'
-    btn: {
-        text: '确定',
-        style: {} // 可以通过 style 来修改按钮的样式, 比如说粗细, 颜色
+window.notie = require('notie');
+notie.setOptions({
+    alertTime: 3,
+    dateMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    overlayClickDismiss: true,
+    overlayOpacity: 0.75,
+    transitionCurve: 'ease',
+    transitionDuration: 0.3,
+    transitionSelector: 'all',
+    classes: {
+        container: 'notie-container',
+        textbox: 'notie-textbox',
+        textboxInner: 'notie-textbox-inner',
+        button: 'notie-button',
+        element: 'notie-element',
+        elementHalf: 'notie-element-half',
+        elementThird: 'notie-element-third',
+        overlay: 'notie-overlay',
+        backgroundSuccess: 'notie-background-success',
+        backgroundWarning: 'notie-background-warning',
+        backgroundError: 'notie-background-error',
+        backgroundInfo: 'notie-background-info',
+        backgroundNeutral: 'notie-background-neutral',
+        backgroundOverlay: 'notie-background-overlay',
+        alert: 'notie-alert',
+        inputField: 'notie-input-field',
+        selectChoiceRepeated: 'notie-select-choice-repeated',
+        dateSelectorInner: 'notie-date-selector-inner',
+        dateSelectorUp: 'notie-date-selector-up'
+    },
+    ids: {
+        overlay: 'notie-overlay'
+    },
+    positions: {
+        alert: 'top',
+        force: 'top',
+        confirm: 'top',
+        input: 'center',
+        select: 'bottom',
+        date: 'top'
     }
 })
+// Vue.use(alert)
+// Vue.use(Alert, {
+//     title: '提示',  // 默认标题为 '提示'
+//     btn: {
+//         text: '确定',
+//         style: {} // 可以通过 style 来修改按钮的样式, 比如说粗细, 颜色
+//     }
+// })
 
 window.wx = require('weixin-js-sdk');
 

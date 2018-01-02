@@ -112,7 +112,7 @@ export default {
                 })
                 .catch(error => {
                     if (error.response.status === 400) {
-                        this.$alert(error.response.data.data);
+                        notie.alert({ type: 3, text: error.response.data.data });
                         return ;
                     }
                     console.log(error.response);

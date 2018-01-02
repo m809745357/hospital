@@ -75,6 +75,15 @@ class DepartmentController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+
+            $grid->filter(function($filter){
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->where('name', 'like', "%{$this->input}%");
+                }, '部门名称');
+            });
         });
     }
 

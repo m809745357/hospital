@@ -72,11 +72,11 @@ class IpadController extends Controller
 
             $grid->name('平板名称')->editable();
 
-            $grid->column('二维码 ')->display(function () {
+            $grid->column('二维码')->display(function () {
                 return \QrCode::size(100)->generate(config('app.url') . '/ipads/' . $this->id . '/parcels');
             });
 
-            $grid->column('订餐地址 ')->display(function () {
+            $grid->column('订餐地址')->display(function () {
                 return config('app.url') . '/ipads/' . $this->id . '/parcels';
             });
             $grid->address('病房地址')->limit(20)->editable();
@@ -91,6 +91,18 @@ class IpadController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->where('name', 'like', "%{$this->input}%");
+                }, '平板名称');
+                $filter->where(function ($query) {
+                    $query->where('address', 'like', "%{$this->input}%");
+                }, '病房地址');
+            });
+
         });
     }
 

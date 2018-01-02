@@ -190,6 +190,20 @@ class OrderController extends Controller
                         break;
                 }
             });
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+                $filter->where(function ($query) {
+                    $query->where('out_trade_no', 'like', "%{$this->input}%");
+                }, '关键字');
+                $filter->where(function ($query) {
+                    $query->whereHas('user', function ($query) {
+                        $query->where('name', 'like', "%{$this->input}%");
+                    });
+                }, '下单用户'); 
+            });
+
         });
     }
 

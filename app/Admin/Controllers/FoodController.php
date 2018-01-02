@@ -90,6 +90,23 @@ class FoodController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+
+                $filter->where(function ($query) {
+                    $query->where('title', 'like', "%{$this->input}%")
+                        ->orWhere('desc', 'like', "%{$this->input}%");
+                }, '菜品标题或描述');
+
+                $filter->equal('channel_id', '菜品分类')->select(Channel::all()->pluck('name', 'id'));
+                $filter->equal('type', '门诊类型')->select([
+                    'am' => '上午',
+                    'pm' => '下午',
+                    'all' => '全天',
+                ]);
+            });
         });
     }
 

@@ -153,17 +153,19 @@ class PromoterRecordController extends Controller
             $form->display('updated_at', '更新时间');
 
             $form->saving(function (Form $form) {
-                $form->model()->order->promoter->decrement('crown', $form->model()->crown);
-                $form->model()->order->promoter->decrement('stars', $form->model()->stars);
-                $date = substr($form->model()->created_at, 0, 7);
-                $user_id = $form->model()->order->promoter->user_id;
-                if (PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->exists()) {
-                    $statistics = PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->first();
-                } else {
-                    $statistics = PromoterRecordStatistics::create(['date' => $date, 'user_id' => $user_id]);
+                if ($form->model()->order()->exists()) {
+                    $form->model()->order->promoter->decrement('crown', $form->model()->crown);
+                    $form->model()->order->promoter->decrement('stars', $form->model()->stars);
+                    $date = substr($form->model()->created_at, 0, 7);
+                    $user_id = $form->model()->order->promoter->user_id;
+                    if (PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->exists()) {
+                        $statistics = PromoterRecordStatistics::where(['date' => $date, 'user_id' => $user_id])->first();
+                    } else {
+                        $statistics = PromoterRecordStatistics::create(['date' => $date, 'user_id' => $user_id]);
+                    }
+                    $statistics->where('date', $date)->decrement('crown', $form->model()->crown);
+                    $statistics->where('date', $date)->decrement('stars', $form->model()->stars);
                 }
-                $statistics->where('date', $date)->decrement('crown', $form->model()->crown);
-                $statistics->where('date', $date)->decrement('stars', $form->model()->stars);
             });
             $form->saved(function (Form $form) {
                 $form->model()->order->promoter->increment('crown', $form->model()->crown);

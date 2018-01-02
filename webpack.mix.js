@@ -14,12 +14,12 @@ var tailwindcss = require('tailwindcss');
 // pc
 // mix.js('resources/assets/js/app.js', 'public/js');
 // mobile
-mix.js('resources/assets/js/mobile.js', 'public/js')
-        .extract(['vue']);
+// mix.js('resources/assets/js/mobile.js', 'public/js')
+//         .extract(['vue']);
 
 // If you want to use SASS for preprocessing
-    // mix.sass('resources/assets/sass/app.scss', 'public/css')
-    // .options({
-    //     processCssUrls: false,
-    //     postCss: [ tailwindcss('tailwind.js') ],
-    // });
+// mix.sass('resources/assets/sass/app.scss', 'public/css')
+// .options({
+//     processCssUrls: false,
+//     postCss: [ tailwindcss('tailwind.js') ],
+// });

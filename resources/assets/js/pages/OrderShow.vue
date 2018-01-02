@@ -230,19 +230,19 @@ export default {
         pay() {
 
             if (this.order.order_time === '' && this.order.order_details_type == 'App\\Models\\Food') {
-                this.$alert('请选择送餐时间');
+                notie.alert({ type: 2, text: '请选择送餐时间' });
                 return ;
             }
             if (this.order.order_details_type == 'App\\Models\\Physical') {
                 if (this.day === '' || this.time === '') {
-                    this.$alert('请选择体检时间');
+                    notie.alert({ type: 2, text: '请选择体检时间' });
                     return ;
                 }
                 this.order.order_time = this.day + ' ' + this.time;
             }
             if (this.order.order_details_type == 'App\\Models\\Package') {
                 if (this.day === '' || this.time === '') {
-                    this.$alert('请选择预约时间');
+                    notie.alert({ type: 2, text: '请选择预约时间' });
                     return ;
                 }
                 this.order.order_time = this.day + ' ' + this.time;
@@ -288,7 +288,7 @@ export default {
                     this.cancelCardPay();
                         console.log(error.response);
                     if (error.response.status === 400) {
-                        this.$alert(error.response.data.data);
+                        notie.alert({ type: 3, text: error.response.data.data });
                         return ;
                     }
                 })

@@ -84,6 +84,19 @@ class PhysicalController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
+            $grid->filter(function ($filter) {
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+                // 在这里添加字段过滤器
+
+                $filter->where(function ($query) {
+                    $query->where('title', 'like', "%{$this->input}%")
+                                    ->orWhere('desc', 'like', "%{$this->input}%");
+                }, '体检名称或描述');
+
+                $filter->equal('department_id', '体检部门')->select(Department::all()->pluck('name', 'id'));
+            });
+
         });
     }
 
@@ -99,7 +112,7 @@ class PhysicalController extends Controller
 
             $form->text('title', '体检名称');
             $form->select('department_id', '部门')->options(function ($ids) {
-                return Department::find($ids)->pluck('name', 'id');
+                return Department::all()->pluck('name', 'id');
             });
             $form->image('image', '体检图片')->removable()->crop(200, 200)->help('推荐像素 200 * 200');
             $form->textarea('desc', '体检描述')->help('最好少于50个字');
