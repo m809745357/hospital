@@ -70,7 +70,7 @@ class PackageController extends Controller
         return Admin::grid(Package::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('体检图片')->image(50, 50);
+            $grid->image('体检图片')->image('/uploads/', 50, 50);
             $grid->title('体检名称')->limit(30)->editable('textarea');
             $grid->men_money('男性价格')->editable()->sortable();
             $grid->women_money('女性价格')->editable()->sortable();

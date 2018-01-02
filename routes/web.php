@@ -37,6 +37,7 @@ Route::get('/ipads/{ipad}/parcels', 'ParcelController@index')->name('ipads.parce
 Route::post('/ipads/{ipad}/orders', 'OrderController@store')->name('ipads.order.store');
 Route::get('/ipads/{ipad}/orders/{order}', 'OrderController@show')->name('ipads.order.show');
 Route::post('/ipads/{ipad}/orders/{order}/ipad', 'OrderController@ipad')->name('order.ipad');
+Route::post('/upload', 'HomeController@upload')->name('upload.file');
 
 Route::group(['middleware' => 'prefect'], function () {
     Route::get('/user', 'UserController@index')->name('user.index');

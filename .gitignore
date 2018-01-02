@@ -10,3 +10,9 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+/public/uploads/wangEditor/*
+/public/uploads/images/
+!/public/uploads/images/bottom_logo.png
+!/public/uploads/images/logo.png
+!/public/uploads/images/qrcode_for_gh_c97385dd910_258.png
+!/public/uploads/images/YvgGjPXqhRXtRDwziYwg.png

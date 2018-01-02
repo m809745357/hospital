@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dynamic;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -45,5 +46,12 @@ class HomeController extends Controller
     public function contact()
     {
         return view('pc.contact');
+    }
+
+    public function upload(Request $request)
+    {
+        $path = \Storage::disk('admin')->putFile('wangEditor', $request->file('nbyzgc'));
+
+        return config('filesystems.disks.admin.url') . '/' . $path;
     }
 }

@@ -6,11 +6,9 @@
 
         @include('admin::form.error')
 
-        <div id="{{$id}}" style="width: 100%; height: 100%;">
-            <p>{!! old($column, $value) !!}</p>
-        </div>
-
-        <input type="hidden" name="{{$name}}" value="{{ old($column, $value) }}" />
+        <textarea class="form-control" style="height:400px;max-height:500px" id="{{$id}}" name="{{$name}}" placeholder="{{$placeholder}}" {!! $attributes !!}>{{ old($column, $value) }}</textarea>
+        
+        @include('admin::form.help-block')
 
     </div>
 </div>

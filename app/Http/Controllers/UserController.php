@@ -41,12 +41,12 @@ class UserController extends Controller
             if (!($arr['error_code'] == 0 && $arr['result']['res'] == 1)) {
                 return response(['data' => '身份证和姓名不匹配，请重新输入'], 400);
             }
+            tap($user)->update(['certification' => 1]);
         }
         $user = auth()->user();
 
         tap($user)->update($request->validated());
 
-        return response(['data' => '更新成功'], 201);
         $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
         $url = route('user.index');
         $data = [
@@ -57,7 +57,7 @@ class UserController extends Controller
         ];
         \Log::info($data);
 
-        $result = $app->notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($user->openid)->send();
+        config('app.debug') || $result = $app->notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($user->openid)->send();
 
         return response(['data' => '更新成功'], 201);
     }

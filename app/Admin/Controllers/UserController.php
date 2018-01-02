@@ -70,7 +70,7 @@ class UserController extends Controller
         return Admin::grid(User::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->avatar('头像')->image(50, 50);
+            $grid->avatar('头像')->image('/uploads/', 50, 50);
             $grid->name('姓名')->editable();
             $grid->openid('微信编号');
             $grid->mobile('手机号码')->editable();

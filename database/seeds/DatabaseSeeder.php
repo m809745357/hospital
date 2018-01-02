@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminUsersTableSeeder::class);
         $this->call(ConfigsTableSeeder::class);
 
+        if (!config('app.debug')) {
+            return ;
+        }
         factory('App\Models\Banner', 6)->create();
         factory('App\Models\Ipad', 20)->create();
         factory('App\Models\Dynamic', 10)->create();

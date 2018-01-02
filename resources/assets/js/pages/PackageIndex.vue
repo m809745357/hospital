@@ -10,7 +10,7 @@
                 <scroll class="parcel-package warpper" :data="packages">
                     <div class="content">
                         <div class="package-item" v-for="(pack, index) in packages" :key="index">
-                            <img :src="pack.image" alt="">
+                            <img :src="'/uploads/' + pack.image" alt="">
                             <div class="package-item-desc">
                                 <h4>{{ pack.title }}</h4>
                                 <p>男：￥{{ pack.men_money }}</p>

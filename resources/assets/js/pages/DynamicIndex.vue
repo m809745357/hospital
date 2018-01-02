@@ -5,7 +5,7 @@
         </div>
         <div class="container">
             <div v-for="(dynamic, index) in dynamics" :key="index" class="mx-pc-25 md:m-0 max-w-full flex flex-col md:flex-row justify-between py-pc-33 border-dashed border-b">
-                <img :src="dynamic.image" class="w-full md:w-1/4" height="213">
+                <img :src="'/uploads/' + dynamic.image" class="w-full md:w-1/4" height="213">
                 <div class="w-full md:w-3/4 md:pl-pc-33 flex flex-col justify-around">
                     <h4 class="no-underline hover:underline hover:text-blue text-2xl text-grey-darker font-normal truncate mt-1 md:mt-0" @click="viewDynamic(dynamic.id)" v-html="dynamic.title"></h4>
                     <span class="text-lg text-grey-dark mt-1 md:mt-0" v-html="dynamic.created_at"></span>

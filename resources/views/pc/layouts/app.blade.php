@@ -30,7 +30,7 @@
                 <div class="flex items-center justify-end md:h-pc-131 h-full">
                     <div class="md:absolute pin-l md:ml-pc-200 m-1 md:m-0 h-full flex items-center">
                         <a href="{{ url('/home') }}" class="no-underline w-3/4 md:w-full">
-                            <img :src="`/uploads/${configs.logo}`" class="w-full md:w-374px">
+                            <img :src="'/uploads/' + configs.logo" class="w-full md:w-374px">
                         </a>
                         <div class="block md:hidden flex-1 text-right"><img @click="changeMenu" src="/images/menu.png" alt=""></div>
                     </div>
@@ -59,7 +59,7 @@
             <div class="w-full">
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-                        <img :src="slide.image" alt="">
+                        <img :src="'/uploads/' + slide.image" alt="">
                         <a :href="slide.url" class="banner-button hidden md:block" v-html="slide.title"></a>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>
@@ -70,8 +70,8 @@
         <footer class="container mx-auto md:mt-pc-176" v-cloak>
             <div class="flex md:flex-row justify-between flex-col m-4 md:m-0">
                 <div class="flex flex-row md:pl-pc-50 md:w-pc-540 w-full justify-between">
-                    <img :src="`/uploads/${configs.bottom_logo}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
-                    <img :src="`/uploads/${configs.qrcode}`" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="'/uploads/' + configs.bottom_logo" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
+                    <img :src="'/uploads/' + configs.qrcode" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
                 </div>
                 <div class="md:w-pc-540 md:text-lg text-xs text-grey-darker leading-normal flex flex-col justify-center">
                     <p>@{{ configs.site_title }}</p>

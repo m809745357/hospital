@@ -14,7 +14,7 @@ class AdvanceController extends Controller
 
     public function index()
     {
-        $schedulings = Scheduling::with('doctor.department')
+        $schedulings = Scheduling::with('doctor.department')->whereHas('doctor')
                         ->orderBy('type', 'asc')
                         ->orderBy('day', 'asc')
                         ->orderBy('time', 'asc')

@@ -70,7 +70,7 @@ class NurseController extends Controller
         return Admin::grid(Nurse::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->avatar('护士头像')->image(50, 50);
+            $grid->avatar('护士头像')->image('/uploads/', 50, 50);
             $grid->name('护士姓名')->editable();
             $grid->secret('护士密码')->editable();
             $grid->order_num('支付次数（次）')->sortable();

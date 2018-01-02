@@ -71,7 +71,7 @@ class FoodController extends Controller
         return Admin::grid(Food::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('菜品图片')->image(50, 50);
+            $grid->image('菜品图片')->image('/uploads/', 50, 50);
             $grid->title('菜品名称')->limit(30)->editable('textarea');
             $grid->desc('菜品描述')->limit(50)->editable('textarea');
             $grid->money('菜品价格')->editable('textarea')->sortable();
@@ -104,8 +104,8 @@ class FoodController extends Controller
             $form->display('id', 'ID');
 
             $form->text('title', '菜品名称');
-            $form->select('channel_id', '菜品分类')->options(function ($ids) {
-                return Channel::find($ids)->pluck('name', 'id');
+            $form->select('channel_id', '菜品分类')->options(function () {
+                return Channel::all()->pluck('name', 'id');
             });
 
             $form->image('image', '菜品图片')->removable()->crop(200, 200)->help('推荐像素 200 * 200');

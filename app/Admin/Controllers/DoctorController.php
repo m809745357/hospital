@@ -71,7 +71,7 @@ class DoctorController extends Controller
         return Admin::grid(Doctor::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('图片')->image(50, 50);
+            $grid->image('图片')->image('/uploads/', 50, 50);
             $grid->name('姓名')->editable();
             $grid->title('职称')->editable();
             $grid->recep_num('诊断次数')->editable()->sortable();

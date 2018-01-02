@@ -21,7 +21,7 @@
                                 v-for="(food, food_index) in channel.food" 
                                 v-if="(food.type == menu || food.type == 'all') && food.status === 1"
                                 :key="food_index">
-                                <img :src="food.image" alt="">
+                                <img :src="'/uploads/' + food.image" alt="">
                                 <div class="parcel-food-desc">
                                     <h4>{{ food.title }}</h4>
                                     <p>{{ food.desc }}</p>
@@ -52,7 +52,7 @@
         <div class="parcel-detail" v-show="show" @click="show = false" @touchmove="touch">
             <div class="food-detail" @click.stop="">
                 <img class="food-close" src="" alt="">
-                <img class="food-image" :src="food.image" alt="">
+                <img class="food-image" :src="'/uploads/' + food.image" alt="">
                 <h4>{{ food.title }}</h4>
                 <p>{{ food.desc }}</p>
                 <div class="food-footer">

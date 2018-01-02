@@ -70,7 +70,7 @@ class DynamicController extends Controller
         return Admin::grid(Dynamic::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('图片')->image(50, 50);
+            $grid->image('图片')->image('/uploads/', 50, 50);
             $grid->title('标题')->limit(30)->editable();
             $grid->desc('描述')->limit(50);
             $grid->click_num('点击量')->editable()->sortable();

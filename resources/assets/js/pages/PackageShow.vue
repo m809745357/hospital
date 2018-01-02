@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto">
         <div class="package-detail">
-            <img class="image" :src="pack.image" alt=""/>
+            <img class="image" :src="'/uploads/' + pack.image" alt=""/>
             <div class="title">
                 <h4>{{ pack.title }}</h4>
             </div>

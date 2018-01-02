@@ -24,11 +24,11 @@ class WangEditor extends Field
 var editor = new wangEditor('{$this->id}');
 // 仅仅想移除某几个菜单，例如想移除『插入代码』和『全屏』菜单：
 // 其中的 wangEditor.config.menus 可获取默认情况下的菜单配置
-editor.config.uploadImgFileName = 'file'
+editor.config.uploadImgFileName = 'nbyzgc'
 editor.config.uploadImgUrl = '/upload';
 // 配置自定义参数（举例）
 editor.config.uploadParams = {
-    // _token: LA.token
+    _token: LA.token
 };
 // 设置 headers（举例）
     editor.config.uploadHeaders = {

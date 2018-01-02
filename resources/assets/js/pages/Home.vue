@@ -8,7 +8,7 @@
             </div>
             <div class="mt-pc-50 flex items-center justify-between flex-col m-1 md:m-pc-50 md:flex-row md:h-pc-403">
                 <div class="h-full md:w-pc-540 flex justify-between flex-col w-full">
-                    <img :src="dynamics[0].image" alt="">
+                    <img :src="'/uploads/' + dynamics[0].image" alt="">
                     <div class="flex items-center mt-1 md:mt-0">
                         <a :href="`/dynamics/${dynamics[0].id}`" class="no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">{{ dynamics[0].title }}</a>
                         <span class="text-grey-darkest text-xs">{{ dynamics[0].created_at }}</span>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="h-full w-full md:w-pc-540 justify-around flex items-center md:justify-between flex-col">
                     <div v-for="(dynamic, index) in dynamics" :key="index" v-if="index > 0" class="h-pc-98 w-full flex items-center justify-between">
-                        <img :src="dynamic.image" class="w-1/4 md:w-pc-98">
+                        <img :src="'/uploads/' + dynamic.image" class="w-1/4 md:w-pc-98">
                         <div class="w-3/4 h-full flex flex-col justify-around pl-2 md:pl-0">
                             <span class="text-grey-darkest text-xs">{{ dynamic.created_at }}</span>
                             <a :href="`/dynamics/${dynamic.id}`" class="no-underline hover:underline hover:text-blue text-lg font-normal text-grey-darkest truncate w-3/4">{{ dynamic.title }}</a>

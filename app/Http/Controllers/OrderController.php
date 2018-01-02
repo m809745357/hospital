@@ -53,8 +53,8 @@ class OrderController extends Controller
             ]);
         }
 
-        // CancelOrder::dispatch($order)
-        //         ->delay(Carbon::now()->addMinutes(15));
+        config('app.debug') || CancelOrder::dispatch($order)
+                ->delay(Carbon::now()->addMinutes(15));
 
         return response(['data' => $order], 201);
     }
@@ -148,7 +148,7 @@ class OrderController extends Controller
             'detail' => $this->getDetail($order),
             'out_trade_no' => $order->out_trade_no,
             // 'total_fee' => $order->money * 100, // 单位：分
-            'total_fee' => 1, // 单位：分
+            'total_fee' => config('app.debug') ? 1 : $order->money * 100, // 单位：分
             'notify_url' => config('app.url') . '/payment/wechat/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'openid' => auth()->user() ? auth()->user()->fresh()->openid : '', // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
         ];
@@ -207,7 +207,7 @@ class OrderController extends Controller
         ]);
 
         $nurse->addOrderRecord(['order_id' => $order->id]);
-        
+
         $user = auth()->user();
 
         $url = route('order.show', ['order' => $order->id]);

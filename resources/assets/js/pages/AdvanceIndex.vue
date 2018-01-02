@@ -19,7 +19,7 @@
                             :key="index" 
                             v-if="(keyword !== '' && scheduling.doctor.name.indexOf(keyword) > -1 && scheduling.doctor.status === '1') || ( keyword === '' && ( week === '' || scheduling.day === week ) && scheduling.doctor.status === '1')">
                             <div class="doctor-item-left">
-                                <img :src="scheduling.doctor.image" alt="">
+                                <img :src="'/uploads/' + scheduling.doctor.image" alt="">
                                 <h4>{{ types[scheduling.type] }}</h4>
                             </div>
                             <div class="doctor-item-desc">

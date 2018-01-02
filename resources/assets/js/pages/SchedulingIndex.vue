@@ -38,7 +38,7 @@
             </div>
             <div v-if="doctors" class="md:border md:border-grey-lighter flex flex-col md:flex-row max-w-full mb-pc-20 md:mt-0 mt-1 shadow" v-for="(doctor, index) in doctors" :key="index">
                 <div class="w-full md:w-1/5 md:border-r md:border-grey-ligter flex items-center md:ml-pc-50 py-pc-10">
-                    <img :src="doctor.image" class="w-pc-60 h-pc-60 rounded-1/2 border border-grey-ligter">
+                    <img :src="'/uploads/' + doctor.image" class="w-pc-60 h-pc-60 rounded-1/2 border border-grey-ligter">
                     <div class="ml-pc-10 flex-1">
                         <h4 class="text-orange text-sm font-normal">{{ doctor.name }} <span class="text-grey-dark">{{ doctor.title }}</span></h4>
                         <p class="mt-pc-6 text-grey-darkest">{{ doctor.department.name }}</p>

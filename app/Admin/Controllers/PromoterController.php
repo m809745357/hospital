@@ -143,6 +143,9 @@ class PromoterController extends Controller
                 $form->select('admin_user_id', '推广员')->options(function ($value) {
                     return AdminUser::all()->pluck('name', 'id');
                 });
+                $form->saving(function (Form $form) {
+                    \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                });
             } else {
                 $form->hidden('admin_user_id');
 

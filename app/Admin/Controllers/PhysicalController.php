@@ -71,7 +71,7 @@ class PhysicalController extends Controller
         return Admin::grid(Physical::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
 
-            $grid->image('体检图片')->image(50, 50);
+            $grid->image('体检图片')->image('/uploads/', 50, 50);
             $grid->title('体检名称')->limit(30)->editable('textarea');
             $grid->desc('体检描述')->limit(50)->editable('textarea');
             $grid->money('体检价格')->editable()->sortable();

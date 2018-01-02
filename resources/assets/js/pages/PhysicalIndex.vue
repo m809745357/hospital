@@ -21,7 +21,7 @@
                                 v-for="(physical, physical_index) in department.physical" 
                                 :key="physical_index"
                                 v-if="physical.status === 1">
-                                <img :src="physical.image" alt="">
+                                <img :src="'/uploads/' + physical.image" alt="">
                                 <div class="parcel-food-desc">
                                     <h4>{{ physical.title }}</h4>
                                     <p>{{ physical.desc }}</p>
@@ -52,7 +52,7 @@
         <div class="parcel-detail" v-show="show" @click="show = false" @touchmove="touch">
             <div class="food-detail" @click.stop="">
                 <img class="food-close" src="" alt="">
-                <img class="food-image" :src="physical.image" alt="">
+                <img class="food-image" :src="'/uploads/' + physical.image" alt="">
                 <h4>{{ physical.title }}</h4>
                 <p>{{ physical.desc }}</p>
                 <div class="food-footer">

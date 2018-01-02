@@ -8,8 +8,8 @@
                 <div v-for="(special, index) in specials" :key="index" class="max-w-full md:max-w-1/3 h-pc-319 mb-pc-25">
                     <a class="mx-pc-25 rounded-4px h-full block hover:shadow" @click="specialDetail(special.id)">
                         <div class="border border-blue-light h-pc-226 rounded-4px">
-                            <!-- <img :src="special.image" class="h-full w-full rounded-4px"> -->
-                            <img :src="'/images/i-' + ( index + 1 ) + '.png'" class="h-full w-full rounded-4px">
+                            <img :src="'/uploads/' + special.image" class="h-full w-full rounded-4px">
+                            <!-- <img :src="'/images/i-' + ( index + 1 ) + '.png'" class="h-full w-full rounded-4px"> -->
                         </div>
                         <div class="h-pc-95 flex flex-row items-center justify-between">
                             <div class="w-3/4">
