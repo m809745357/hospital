@@ -19,7 +19,7 @@ class CreateFoodsTable extends Migration
             $table->unsignedInteger('channel_id');
             $table->string('title');
             $table->string('image');
-            $table->string('desc');
+            $table->string('desc')->default('');
             $table->integer('money');
             $table->integer('status');
             $table->enum('type', Food::TYPES);

@@ -11,6 +11,7 @@ use App\Models\Ipad;
 use App\User;
 use App\Jobs\CancelOrder;
 use Carbon\Carbon;
+use App\Models\IpadRecord;
 
 class OrderController extends Controller
 {
@@ -22,7 +23,7 @@ class OrderController extends Controller
     /**
      * 生成订单
      */
-    public function store(CreateOrderPost $request)
+    public function store(CreateOrderPost $request, Ipad $ipad)
     {
         $money = $request->money ?? collect($request->order_details)->sum(function ($detail) {
             return $detail['money'] * $detail['num'];
@@ -50,6 +51,10 @@ class OrderController extends Controller
                 'order_details_type' => $request->order_details_type,
                 'order_time' => $request->order_time ?? '',
                 'remark' => $request->menu,
+            ]);
+            IpadRecord::create([
+                'ipad_id' => $ipad->id,
+                'order_id' => $order->id
             ]);
         }
 

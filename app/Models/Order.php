@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    // 未支付，已支付，已配送/已兑换，已完成，已取消
-    const STATUS = ['1', '2', '3', '4', '5'];
+    // 未支付，已支付，已配送/已兑换，已完成，已取消，已退款
+    const STATUS = ['1', '2', '3', '4', '5', '6'];
 
     const PAY_WAYS = ['wechat', 'card', 'ipad'];
 

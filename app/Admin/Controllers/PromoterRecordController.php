@@ -90,10 +90,10 @@ class PromoterRecordController extends Controller
 
             $grid->crown('皇冠');
             $grid->stars('星星');
-            $grid->status('是否兑换')->display(function ($stauts) {
+            $grid->status('是否发奖')->display(function ($stauts) {
                 $statuses = [
-                    0 => '没有兑换',
-                    1 => '兑换成功'
+                    0 => '未发奖',
+                    1 => '已发奖'
                 ];
                 return $statuses[$stauts];
             })->label();
@@ -113,6 +113,8 @@ class PromoterRecordController extends Controller
                                 ->orWhere('order_no', 'like', "%{$this->input}%");
                     });
                 }, '转诊订单编号');
+
+                $filter->between('created_at', '兑换时间')->datetime();
             });
         });
     }
@@ -145,8 +147,8 @@ class PromoterRecordController extends Controller
             $form->number('crown', '皇冠');
             $form->number('stars', '星星');
             $form->select('status', '状态')->options([
-                0 => '没有兑换',
-                1 => '兑换成功'
+                0 => '未发奖',
+                1 => '已发奖'
             ]);
 
             $form->display('created_at', '创建时间');
@@ -180,7 +182,6 @@ class PromoterRecordController extends Controller
                 }
                 $statistics->where('date', $date)->increment('crown', $form->model()->crown);
                 $statistics->where('date', $date)->increment('stars', $form->model()->stars);
-
             });
         });
     }

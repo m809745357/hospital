@@ -134,8 +134,9 @@ class PromoterOrderController extends Controller
                 $filter->equal('gender', '性别')->select([
                     'men' => '男', 'women' => '女'
                 ]);
-            });
 
+                $filter->between('created_at', '下单时间')->datetime();
+            });
         });
     }
 

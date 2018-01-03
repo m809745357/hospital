@@ -16,14 +16,22 @@ class OrderDeliver
 
     protected function script()
     {
-        $url = Request::fullUrl();
-
         return <<<SCRIPT
 
 $('.order-deliver').on('click', function () {
 
-    // Your code.
-    console.log($(this).data('id'));
+    $.ajax({
+        method: 'post',
+        url: '/admin/orders/' + $(this).data('id') + '/update',
+        data: {
+            _token: LA.token,
+            status: 3
+        },
+        success: function() {
+            $.pjax.reload('#pjax-container');
+            toastr.success('发货成功');
+        }
+    });
 
 });
 
@@ -34,7 +42,7 @@ SCRIPT;
     {
         Admin::script($this->script());
 
-        return "<a href='javascript:void(0);' class='order-deliver' data-id='{$this->id}'><i class='fa fa-send'></i></a> ";
+        return "<a href='javascript:void(0);' class='order-deliver' data-id='{$this->id}'><i class='fa fa-send'></i>配送</a> ";
     }
 
     public function __toString()

@@ -17,12 +17,7 @@
                 <label for="">送餐时间</label>
                 <select name="order_time" id="" v-model="order.order_time" v-if="order.status == 1">
                     <option value="">请选择</option>
-                    <option value="11:00-11:30">11:00-11:30</option>
-                    <option value="11:30-12:00">11:30-12:00</option>
-                    <option value="12:00-12:30">12:00-12:30</option>
-                    <option value="12:30-13:00">12:30-13:00</option>
-                    <option value="13:00-13:30">13:00-13:30</option>
-                    <option value="13:30-14:00">13:30-14:00</option>
+                    <option value="item" v-for="(item, index) in changeTime.split('\r\n')" :key="index">{{item}}</option>
                 </select>
                 <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
             </div>
@@ -175,7 +170,8 @@ export default {
             time: '',
             img: '',
             json: {},
-            checkIpad: false
+            checkIpad: false,
+            changeTime: []
         }
     },
     created () {
@@ -187,6 +183,8 @@ export default {
             this.payway = 'ipad';
             this.checkIpad = true;
         }
+
+        this.changeTime = this.order.remark === 'am' ? window.App.configs.lunch : window.App.configs.dinner;
     },
     methods: {
         cancelCardPay() {

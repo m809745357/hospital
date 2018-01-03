@@ -30,4 +30,5 @@ Route::group([
     $router->resource('/promoter-orders', 'PromoterOrderController');
     $router->resource('/promoter-records', 'PromoterRecordController');
     $router->resource('/orders', 'OrderController');
+    $router->post('/orders/{order}/update', 'OrderController@update');
 });

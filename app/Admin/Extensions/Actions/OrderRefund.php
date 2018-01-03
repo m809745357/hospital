@@ -19,8 +19,18 @@ class OrderRefund
 
 $('.order-refund').on('click', function () {
 
-    // Your code.
-    console.log($(this).data('id'));
+    $.ajax({
+        method: 'post',
+        url: '/admin/orders/' + $(this).data('id') + '/update',
+        data: {
+            _token: LA.token,
+            status: 6
+        },
+        success: function() {
+            $.pjax.reload('#pjax-container');
+            toastr.success('退款成功');
+        }
+    });
 
 });
 
@@ -31,7 +41,7 @@ SCRIPT;
     {
         Admin::script($this->script());
 
-        return "<a href='javascript:void(0);' class='order-refund' data-id='{$this->id}'><i class='fa fa-money'></i> </a>";
+        return "<a href='javascript:void(0);' class='order-refund' data-id='{$this->id}'><i class='fa fa-money'></i>退款</a>";
     }
 
     public function __toString()

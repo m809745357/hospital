@@ -11,10 +11,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <script>
         window.App = <?php echo json_encode([
-            'user' => Auth::user()->load('promoter'),
+            'user' => Auth::check() ? Auth::user()->load('promoter') : false,
             'signedIn' => Auth::check(),
             'configs' => App\Models\Config::all()->pluck('contact', 'slug'),
-            'promoter' => Auth::user()->promoter()->exists() ? 'data:image/png;base64, ' . base64_encode(QrCode::format('png')->size(400)->generate(route('promoter.order.create', array('promoter' => Auth::user()->promoter->id)))) : false,
+            'promoter' => Auth::check() ? (Auth::user()->promoter()->exists() ? 'data:image/png;base64, ' . base64_encode(QrCode::format('png')->size(400)->generate(route('promoter.order.create', array('promoter' => Auth::user()->promoter->id)))) : false) : false,
             'wxconfig' => config('app.debug') ? '' : $js->config(array(
                'onMenuShareTimeline',
                'onMenuShareAppMessage',

@@ -139,7 +139,10 @@ class OrderController extends Controller
                     return $order_time;
                 }
             });
-            $grid->status('订单状态')->select(['1' => '未支付', '2' => '已支付', '3' => '已兑换/已配送', '4' => '已完成', '5' => '已取消']);
+            $grid->status('订单状态')->display(function ($status) {
+                $statuses = ['1' => '未支付', '2' => '已支付', '3' => '已兑换/已配送', '4' => '已完成', '5' => '已取消', '6' => '已退款'];
+                return $statuses[$status];
+            });
             $grid->pay_way('支付方式')->display(function ($pay_way) {
                 if (is_null($pay_way)) {
                     return '未选择';
@@ -152,15 +155,18 @@ class OrderController extends Controller
                 return $payways[$pay_way];
             });
             $grid->disableCreation();
-            $grid->disableExport();
-            $grid->actions(function ($actions) {
-                $actions->disableEdit();
+            //$grid->disableExport();
+            $grid->tools(function ($tools) {
+                $tools->batch(function ($batch) {
+                    $batch->disableDelete();
+                });
             });
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
             if (Admin::user()->isAdministrator()) {
                 $grid->tools(function ($tools) {
+                    $tools->append('<a class="btn btn-primary btn-sm" href="/admin/orders">重置帅选</a>');
                     $tools->append(new OrderType());
                     $tools->append(new OrderStatus());
                     $tools->append(new OrderPayWay());
@@ -180,15 +186,17 @@ class OrderController extends Controller
             }
 
             $grid->actions(function ($actions) {
+                $actions->disableEdit();
+                $actions->disableDelete();
                 switch ($actions->row->order_details_type) {
                     case 'App\\Models\\Food':
                         $actions->row->status === '2' && $actions->append(new OrderDeliver($actions->getKey()));
                         break;
                     default:
-                        $actions->row->status === '2' && $actions->append(new OrderExchange($actions->getKey()));
-                        $actions->row->status === '5' && $actions->append(new OrderRefund($actions->getKey()));
                         break;
                 }
+                $actions->row->status === '3' && $actions->append(new OrderExchange($actions->getKey()));
+                $actions->row->status !== '1' && $actions->row->status !== '6' && $actions->append(new OrderRefund($actions->getKey()));
             });
             $grid->filter(function ($filter) {
                 // 去掉默认的id过滤器
@@ -201,9 +209,9 @@ class OrderController extends Controller
                     $query->whereHas('user', function ($query) {
                         $query->where('name', 'like', "%{$this->input}%");
                     });
-                }, '下单用户'); 
+                }, '下单用户');
+                $filter->between('created_at', '下单时间')->datetime();
             });
-
         });
     }
 
@@ -228,11 +236,14 @@ class OrderController extends Controller
             $form->saved(function (Form $form) {
                 $status = $form->model()->status;
                 $user = $form->model()->user;
+                $data = [];
+
+                $app = new Application(config('wechat'));
                 switch ($status) {
                     case '3':
                         $data = [
                             'first' => $user->name . '，您的订单已兑换/已配送',
-                            'keyword1' => date('Y年m月d日'),
+                            'keyword1' => date('Y-m-d H:i:s'),
                             'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
                             'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
                         ];
@@ -240,7 +251,7 @@ class OrderController extends Controller
                     case '4':
                         $data = [
                             'first' => $user->name . '，您的订单已成功',
-                            'keyword1' => date('Y年m月d日'),
+                            'keyword1' => date('Y-m-d H:i:s'),
                             'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
                             'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
                         ];
@@ -248,28 +259,30 @@ class OrderController extends Controller
                     case '5':
                         $data = [
                             'first' => $user->name . '，您的订单已取消',
-                            'keyword1' => date('Y年m月d日'),
+                            'keyword1' => date('Y-m-d H:i:s'),
                             'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
                             'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
                         ];
                         break;
-                    case '5':
+                    case '6':
                         $data = [
                             'first' => $user->name . '，您的订单已退款',
-                            'keyword1' => date('Y年m月d日'),
+                            'keyword1' => date('Y-m-d H:i:s'),
                             'keyword2' => '绑定手机号码为：' . $user->mobile . '绑定床号为：' . ($user->address ?? '暂无绑定'),
                             'remark' => '如果有任何问题请打院所电话咨询，祝您生活愉快！',
                         ];
+                        $payment = $app->payment;
+                        $result = $payment->refund($form->model()->out_trade_no, $this->getOutTradeNo(), $form->model()->money);
+                        \Log::info($result);
                         break;
                 }
-                $app = new Application(config('wechat'));
 
                 $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
                 $url = route('order.show', array('order' => $form->model()->id));
                 
                 \Log::info($data);
 
-                $result = $app->notice->uses($templateId)
+                config('app.debug') || $result = $app->notice->uses($templateId)
                     ->withUrl($url)
                     ->andData($data)
                     ->andReceiver($user->openid)
@@ -279,5 +292,9 @@ class OrderController extends Controller
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');
         });
+    }
+    private function getOutTradeNo()
+    {
+        return config('wechat.payment.merchant_id') . date('YmdHis') . rand(1000, 9999);
     }
 }

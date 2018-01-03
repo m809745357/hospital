@@ -7,6 +7,7 @@ use App\Http\Requests\CreatePromoterOrderUpdate;
 use App\Models\PromoterOrder;
 use App\Models\PromoterRecord;
 use App\Models\Config;
+use App\Models\PromoterRecordStatistics;
 
 class PromoterController extends Controller
 {
@@ -28,7 +29,7 @@ class PromoterController extends Controller
     public function order()
     {
         $promoterOrders = auth()->user()->promoter->load(['order' => function ($query) {
-            $query->orderBy('status', 'asc');
+            $query->orderBy('created_at', 'desc')->orderBy('status', 'desc');
         }, 'order.department']);
         return view('mobile.promoters.order', compact('promoterOrders'));
     }
