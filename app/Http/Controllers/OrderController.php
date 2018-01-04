@@ -12,6 +12,7 @@ use App\User;
 use App\Jobs\CancelOrder;
 use Carbon\Carbon;
 use App\Models\IpadRecord;
+use App\Models\Config;
 
 class OrderController extends Controller
 {
@@ -25,6 +26,25 @@ class OrderController extends Controller
      */
     public function store(CreateOrderPost $request, Ipad $ipad)
     {
+        // 单独针对微信点餐
+        if ($request->order_details_type === "App\Models\Food") {
+            $configs = Config::where('slug', 'business')->first();
+            $judge = false;
+            $now = Carbon::now();
+            foreach (explode("\r\n", $configs->contact) as $value) {
+                $arr = explode('-', $value);
+                $start_time = Carbon::parse(date("Y-m-d $arr[0]"));
+                $end_time = Carbon::parse(date("Y-m-d $arr[1]"));
+                if ($now->gte($start_time) && $now->lte($end_time)) {
+                    $judge = true;
+                    break;
+                }
+            }
+            if (! $judge) {
+                return response(['data' => '食堂不在营业中不接受订餐'], 400);
+            }
+        }
+
         $money = $request->money ?? collect($request->order_details)->sum(function ($detail) {
             return $detail['money'] * $detail['num'];
         });
@@ -140,7 +160,7 @@ class OrderController extends Controller
                 'order_id' => $order->id
             ]);
 
-            return response(['data' => \QrCode::size(200)->generate($code_url)], 201);
+            return response(['data' => \QrCode::size(300)->generate($code_url)], 201);
         }
         return response(['data' => $result['err_code_des']], 400);
     }

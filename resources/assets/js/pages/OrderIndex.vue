@@ -15,7 +15,10 @@
             <div class="parcel-contact">
                 <scroll class="parcel-package warpper" :data="orders">
                     <div class="content">
-                        <div class="order-item" v-for="(order, index) in orders" :key="index" v-if="order.order_details_type.indexOf(menu) > -1 && order.status === status">
+                        <div class="order-item" 
+                        v-for="(order, index) in orders" 
+                        :key="index" 
+                        v-if="order.order_details_type.indexOf(menu) > -1 && order.status === status && yesterday(order)">
                             <div class="order-item-top">
                                 <div class="order-item-desc">
                                     <h4>单号:{{ order.out_trade_no }}</h4>
@@ -72,6 +75,14 @@ export default {
         changeStatus(status) {
             this.status = status;
         },
+        yesterday(order) {
+            let day = order.created_at;
+            let status = order.status;
+            if (status !== '1') {
+                return true;
+            }
+            return moment(day.substring(0, 10)).isAfter(moment().subtract(1, 'days').format('YYYY-MM-DD'));
+        }
     }
 }
 </script>

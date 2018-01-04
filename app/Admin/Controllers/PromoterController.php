@@ -30,6 +30,24 @@ class PromoterController extends Controller
         });
     }
 
+    public function statistics(Promoter $promoter)
+    {
+        return Admin::content(function (Content $content) use ($promoter) {
+            $content->header('推广者业绩');
+            $content->description('推广者每月业绩图展示');
+            $label = [];
+            $stars = [];
+            $crown = [];
+            $statistics = $promoter->user->statistics()->where('date', 'like', date('Y') . '%')->get();
+            foreach ($statistics as $value) {
+                $label[] = substr($value->date, 5, 7);
+                $stars[] = $value->stars;
+                $crown[] = $value->crown;
+            }
+            $content->body(view('admin.charts.promoter', compact('label', 'stars', 'crown')));
+        });
+    }
+
     /**
      * Edit interface.
      *
@@ -93,6 +111,7 @@ class PromoterController extends Controller
 
             $grid->actions(function ($actions) {
                 $actions->disableDelete();
+                $actions->append('<a class="btn btn-sm" href="/admin/promoters/' . $this->getKey() . '/statistics">当月业绩</a>');
             });
             $grid->tools(function ($tools) {
                 $tools->batch(function ($batch) {
@@ -108,9 +127,7 @@ class PromoterController extends Controller
                         $query->where('name', 'like', "%{$this->input}%");
                     });
                 }, '推广人名称');
-
             });
-
         });
     }
 

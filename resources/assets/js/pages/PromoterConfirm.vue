@@ -11,7 +11,7 @@
                     <li class="content" v-for="(order, index) in orders" :key="index">
                         <span>{{ order.date }}</span>
                         <span style="width: 33%">{{ order.crown }}皇冠 {{ order.stars }}星星</span>
-                        <a class="block no-underline flex items-center justify-center" v-if="order.status === 0">兑换</a>
+                        <a class="block no-underline flex items-center justify-center" href="javascript:;" @click="exchange(order.id, index)" v-if="order.status === 0">兑换</a>
                         <span v-else>已兑换</span>
                     </li>
                 </div>
@@ -39,6 +39,32 @@ export default {
         touch() {
             event.preventDefault();
         },
+        exchange(id, key) {
+            notie.confirm({
+                text: '确定兑换码',
+                cancelCallback: function () {
+                    notie.alert({ text: '兑换取消' });
+                },
+                submitCallback: function () {
+                    axios.post(`/user/promoter/statistics/${id}/confirm`)
+                        .then(response => {
+                            console.log(response.data);
+                            notie.force({
+                                type: 1,
+                                text: '兑换成功',
+                                buttonText: '好的',
+                                callback: () => {
+                                    window.location.href = '/user/promoter/confirms';
+                                }
+                            })
+                        })
+                        .catch(error => {
+                            notie.alert({ type: 3, text: error.response.data.data });
+                            console.log(error.response);
+                        });
+                }
+            })
+        }
     }
 }
 </script>

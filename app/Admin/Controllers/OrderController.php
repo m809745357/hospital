@@ -16,6 +16,7 @@ use App\Admin\Extensions\Tools\OrderPayWay;
 use App\Admin\Extensions\Actions\OrderExchange;
 use App\Admin\Extensions\Actions\OrderDeliver;
 use App\Admin\Extensions\Actions\OrderRefund;
+use App\Admin\Extensions\Actions\OrderConfirm;
 use EasyWeChat\Foundation\Application;
 
 class OrderController extends Controller
@@ -77,8 +78,9 @@ class OrderController extends Controller
     {
         return Admin::grid(Order::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
+            $grid->model()->latest();
             if (Admin::user()->isRole('canteen')) {
-                $grid->model()->where('status', 'App\\Models\\Food');
+                $grid->model()->where('order_details_type', 'App\\Models\\Food')->orWhere('status', '<>', '1');
             }
 
             $grid->column('user.name', '下单用户');
@@ -193,9 +195,10 @@ class OrderController extends Controller
                         $actions->row->status === '2' && $actions->append(new OrderDeliver($actions->getKey()));
                         break;
                     default:
+                        $actions->row->status === '2' && $actions->append(new OrderExchange($actions->getKey()));
                         break;
                 }
-                $actions->row->status === '3' && $actions->append(new OrderExchange($actions->getKey()));
+                $actions->row->status === '3' && $actions->append(new OrderConfirm($actions->getKey()));
                 $actions->row->status !== '1' && $actions->row->status !== '6' && $actions->append(new OrderRefund($actions->getKey()));
             });
             $grid->filter(function ($filter) {

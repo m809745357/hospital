@@ -27,6 +27,7 @@ Route::group([
     $router->resource('/packages', 'PackageController');
     $router->resource('/nurse-records', 'CardPayController');
     $router->resource('/promoters', 'PromoterController');
+    $router->get('/promoters/{promoter}/statistics', 'PromoterController@statistics');
     $router->resource('/promoter-orders', 'PromoterOrderController');
     $router->resource('/promoter-records', 'PromoterRecordController');
     $router->resource('/orders', 'OrderController');

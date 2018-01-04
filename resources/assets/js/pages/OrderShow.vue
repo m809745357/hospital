@@ -17,7 +17,7 @@
                 <label for="">送餐时间</label>
                 <select name="order_time" id="" v-model="order.order_time" v-if="order.status == 1">
                     <option value="">请选择</option>
-                    <option value="item" v-for="(item, index) in changeTime.split('\r\n')" :key="index">{{item}}</option>
+                    <option :value="item" v-for="(item, index) in changeTime.split('\r\n')" :key="index">{{item}}</option>
                 </select>
                 <input type="text" v-model="order.order_time" name="order_time" disabled v-else>
             </div>
@@ -150,8 +150,9 @@
                 </div>
                 <button type="button" @click="pay">确定</button>
             </div>
-            <div v-if="payway === 'ipad'" class="model-desc" @click.stop="" v-html="img">
-                
+            <div v-if="payway === 'ipad'" class="model-desc" @click.stop="">
+                <div v-html="img"></div>
+                <p>请使用微信扫一扫付款</p>
             </div>
         </div>
     </div>

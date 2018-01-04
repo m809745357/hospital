@@ -16,6 +16,8 @@ require('amfe-flexible');
 import notie from 'notie'
 import { alert, force, confirm, input, select, date, setOptions, hideAlerts } from 'notie'
 
+window.moment = require('moment');
+
 window.Vue = require('vue');
 window.notie = require('notie');
 notie.setOptions({

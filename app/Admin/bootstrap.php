@@ -23,3 +23,7 @@ use App\Admin\Extensions\WangEditor;
 use Encore\Admin\Form;
 
 Form::extend('editor', WangEditor::class);
+
+use Encore\Admin\Facades\Admin;
+
+Admin::js('/vendor/chartjs/dist/Chart.min.js');
