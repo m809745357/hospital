@@ -18,12 +18,14 @@ class PromoterOrderController extends Controller
         if (!$promoter) {
             return redirect()->back();
         }
+        $this->authorize('view', $promoter);
         $departments = Department::all();
         return view('mobile.promoters.order-create', compact('departments'));
     }
 
     public function store(CreatePromoterOrderPost $request, Promoter $promoter)
     {
+        $this->authorize('create', $promoter);
         $promoterOrder = $promoter->addOrder($request->validated());
         return response($promoterOrder, 201);
     }

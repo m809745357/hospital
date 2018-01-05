@@ -18,6 +18,7 @@ use App\Admin\Extensions\Actions\OrderDeliver;
 use App\Admin\Extensions\Actions\OrderRefund;
 use App\Admin\Extensions\Actions\OrderConfirm;
 use EasyWeChat\Foundation\Application;
+use App\Admin\Extensions\Excels\OrderExport;
 
 class OrderController extends Controller
 {
@@ -78,12 +79,22 @@ class OrderController extends Controller
     {
         return Admin::grid(Order::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
-            $grid->model()->latest();
+            $grid->model()->load('user')->latest();
             if (Admin::user()->isRole('canteen')) {
                 $grid->model()->where('order_details_type', 'App\\Models\\Food')->orWhere('status', '<>', '1');
             }
 
-            $grid->column('user.name', '下单用户');
+            $grid->user('下单用户')->display(function ($user) {
+                if (is_null($user)) {
+                    return 'ipad下单用户';
+                }
+                $arr = [
+                    "姓名：{$user['name']}",
+                    "手机：{$user['mobile']}",
+                    "地址：{$user['address']}"
+                ];
+                return implode("<br/>", $arr);
+            });
             $grid->column('订单详情')->display(function () {
                 switch ($this->order_details_type) {
                     case 'App\\Models\\Food':
@@ -215,6 +226,8 @@ class OrderController extends Controller
                 }, '下单用户');
                 $filter->between('created_at', '下单时间')->datetime();
             });
+
+            $grid->exporter(new OrderExport());
         });
     }
 

@@ -279,11 +279,12 @@ class OrderController extends Controller
                     $user->create([
                         'name' => $wxuser->name,
                         'avatar' => $wxuser->headimgurl,
-                        'openid' => $wxuser->openid
+                        'openid' => $wxuser->openid,
                     ])->save();
                 }
                 $order->user_id = $user->id;
                 $address = $order->ipadRecord->ipad->address;
+                tap($user)->update(['address' => $address]);
             } elseif ($notify->trade_type === 'JSAPI') {
                 $user = User::where('openid', $notify->openid)->firstOrFail();
             }
