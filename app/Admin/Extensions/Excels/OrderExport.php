@@ -4,6 +4,7 @@ namespace App\Admin\Extensions\Excels;
 
 use Encore\Admin\Grid\Exporters\AbstractExporter;
 use Maatwebsite\Excel\Facades\Excel;
+use Encore\Admin\Facades\Admin;
 use App\Models\Order;
 
 class OrderExport extends AbstractExporter
@@ -14,8 +15,34 @@ class OrderExport extends AbstractExporter
             $excel->sheet('点餐订单', function ($sheet) {
                 // 这段逻辑是从表格数据中取出需要导出的字段
                 $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
-                $rows = Order::hydrate($this->getData())->load('user')->where('status', '>', 1)->where('order_details_type', 'App\\Models\\Food')->map(function ($item) {
+                $order = Order::hydrate($this->getData())->load('user');
+                if (Admin::user()->isRole('canteen')) {
+                    $order = $order->where('status', '>', 1);
+                }
+                $rows = $order->where('order_details_type', 'App\\Models\\Food')->map(function ($item) {
                     return [
+                        $item->id,
+                        $item->user['name'],
+                        $item->user['mobile'],
+                        $item->user['address'],
+                        $this->getOrderDetials($item),
+                        $item->money,
+                        ' ' . $item->out_trade_no,
+                        $this->getOrderRemark($item->remark),
+                        $item->order_time,
+                        $this->getOrderPayWay($item->pay_way),
+                        $this->getOrderStatus($item->status),
+                        $item->created_at
+                    ];
+                });
+                $sheet->rows($rows);
+            });
+            if (Admin::user()->isAdministrator()) {
+                $excel->sheet('单列体检', function ($sheet) {
+                    // 这段逻辑是从表格数据中取出需要导出的字段
+                    $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
+                    $rows = Order::hydrate($this->getData())->load('user')->where('order_details_type', 'App\\Models\\Physical')->map(function ($item) {
+                        return [
                         $item->id,
                         $item->user['name'],
                         $item->user['mobile'],
@@ -29,14 +56,14 @@ class OrderExport extends AbstractExporter
                         $this->getOrderStatus($item->status),
                         $item->created_at
                     ];
+                    });
+                    $sheet->rows($rows);
                 });
-                $sheet->rows($rows);
-            });
-            $excel->sheet('单列体检', function ($sheet) {
-                // 这段逻辑是从表格数据中取出需要导出的字段
-                $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
-                $rows = Order::hydrate($this->getData())->load('user')->where('status', '>', 1)->where('order_details_type', 'App\\Models\\Physical')->map(function ($item) {
-                    return [
+                $excel->sheet('套餐体检', function ($sheet) {
+                    // 这段逻辑是从表格数据中取出需要导出的字段
+                    $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
+                    $rows = Order::hydrate($this->getData())->load('user')->where('order_details_type', 'App\\Models\\Package')->map(function ($item) {
+                        return [
                         $item->id,
                         $item->user['name'],
                         $item->user['mobile'],
@@ -50,14 +77,14 @@ class OrderExport extends AbstractExporter
                         $this->getOrderStatus($item->status),
                         $item->created_at
                     ];
+                    });
+                    $sheet->rows($rows);
                 });
-                $sheet->rows($rows);
-            });
-            $excel->sheet('套餐体检', function ($sheet) {
-                // 这段逻辑是从表格数据中取出需要导出的字段
-                $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
-                $rows = Order::hydrate($this->getData())->load('user')->where('status', '>', 1)->where('order_details_type', 'App\\Models\\Package')->map(function ($item) {
-                    return [
+                $excel->sheet('预约挂号', function ($sheet) {
+                    // 这段逻辑是从表格数据中取出需要导出的字段
+                    $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
+                    $rows = Order::hydrate($this->getData())->load('user')->where('order_details_type', 'App\\Models\\Scheduling')->map(function ($item) {
+                        return [
                         $item->id,
                         $item->user['name'],
                         $item->user['mobile'],
@@ -71,30 +98,10 @@ class OrderExport extends AbstractExporter
                         $this->getOrderStatus($item->status),
                         $item->created_at
                     ];
+                    });
+                    $sheet->rows($rows);
                 });
-                $sheet->rows($rows);
-            });
-            $excel->sheet('预约挂号', function ($sheet) {
-                // 这段逻辑是从表格数据中取出需要导出的字段
-                $sheet->row(1, ['ID', '下单用户', '手机号码', '送餐地址', '订单详情', '订单价格', '订单编号', '订单备注', '订单时间', '支付方式', '订单状态', '下单时间']);
-                $rows = Order::hydrate($this->getData())->load('user')->where('status', '>', 1)->where('order_details_type', 'App\\Models\\Scheduling')->map(function ($item) {
-                    return [
-                        $item->id,
-                        $item->user['name'],
-                        $item->user['mobile'],
-                        $item->user['address'],
-                        $this->getOrderDetials($item),
-                        $item->money,
-                        $item->out_trade_no,
-                        $this->getOrderRemark($item->remark),
-                        $item->order_time,
-                        $this->getOrderPayWay($item->pay_way),
-                        $this->getOrderStatus($item->status),
-                        $item->created_at
-                    ];
-                });
-                $sheet->rows($rows);
-            });
+            }
         })->export('xls');
     }
 
@@ -119,6 +126,9 @@ class OrderExport extends AbstractExporter
 
     public function getOrderPayWay($pay_way)
     {
+        if ($pay_way == '') {
+            return '暂未支付方式';
+        }
         $payways = [
             'wechat' => '微信支付',
             'card' => '一卡通支付',

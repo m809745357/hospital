@@ -51,7 +51,7 @@
                 <a href="{{ url('/dynamics') }}" class="no-underline text-lg my-1 text-grey-darker">医院动态</a>
                 <a href="{{ url('/specials') }}" class="no-underline text-lg my-1 text-grey-darker">医疗特色</a>
                 <a href="{{ url('/schedulings') }}" class="no-underline text-lg my-1 text-grey-darker">门诊预约</a>
-                <a href="{{ url('/report') }}" class="no-underline text-lg my-1 text-grey-darker">在线去报告</a>
+                <a href="{{ url('/report') }}" class="no-underline text-lg my-1 text-grey-darker">在线取报告</a>
                 <a href="{{ url('/contact') }}" class="no-underline text-lg my-1 text-grey-darker">联系我们</a>
             </div>
         </nav>
@@ -73,16 +73,17 @@
                     <img :src="'/uploads/' + configs.bottom_logo" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
                     <img :src="'/uploads/' + configs.qrcode" class="md:w-pc-165 md:h-pc-165 w-1/2 h-full">
                 </div>
+                <?php $configs = App\Models\Config::all()->pluck('contact', 'slug'); ?>
                 <div class="md:w-pc-540 md:text-lg text-xs text-grey-darker leading-normal flex flex-col justify-center">
-                    <p>@{{ configs.site_title }}</p>
-                    <p>地址：@{{ configs.address }}</p>
-                    <p>电话：@{{ configs.phone }}</p>
-                    <p>网址：@{{ configs.url }}</p>
-                    <p>邮箱：@{{ configs.mail }}</p>
+                    <p>{{ $configs['site_title'] }}</p>
+                    <p>地址：{{ $configs['address'] }}</p>
+                    <p>电话：{{ $configs['phone'] }}</p>
+                    <p>网址：{{ $configs['url'] }}</p>
+                    <p>邮箱：{{ $configs['mail'] }}</p>
                 </div>
             </div>
             <div class="mt-4 md:mt-pc-50 h-pc-60 border-t border-grey-dark text-grey-dark text-base text-center flex flex-col md:flex-row items-center justify-center">
-                © 2000-2017 DXY All rights reserved.<i>浙ICP备15034012号-2</i>浙公网安备 33010802005190号
+                © 2000-2017 DXY All rights reserved.<i>浙ICP备17052777号-1</i>浙公网安备 号
             </div>
         </footer>
     </div>

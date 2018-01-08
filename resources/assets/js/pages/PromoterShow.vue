@@ -14,11 +14,11 @@
                     <img src="/images/right.png" alt="">
                 </a>
                 <a href="/user/promoter/records">
-                    <p>我的收益</p>
+                    <p>我的奖励</p>
                     <img src="/images/right.png" alt="">
                 </a>
                 <a href="/user/promoter/confirms">
-                    <p>兑换确认</p>
+                    <p>奖励确认</p>
                     <img src="/images/right.png" alt="">
                 </a>
             </div>

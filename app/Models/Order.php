@@ -22,7 +22,11 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(\App\User::class, 'user_id');
+        return $this->belongsTo(\App\User::class, 'user_id')->withDefault([
+            'name' => 'ipad支付用户',
+            'mobile' => '无',
+            'address' => '无'
+        ]);
     }
 
     public function ipadRecord()

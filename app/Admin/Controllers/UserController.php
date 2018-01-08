@@ -9,6 +9,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\User;
+use App\Admin\Extensions\Excels\UserExport;
 
 class UserController extends Controller
 {
@@ -135,6 +136,8 @@ class UserController extends Controller
                 ]);
             });
 
+
+            $grid->exporter(new UserExport());
         });
     }
 

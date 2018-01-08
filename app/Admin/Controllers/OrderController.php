@@ -81,7 +81,7 @@ class OrderController extends Controller
             $grid->id('ID')->sortable();
             $grid->model()->load('user')->latest();
             if (Admin::user()->isRole('canteen')) {
-                $grid->model()->where('order_details_type', 'App\\Models\\Food')->orWhere('status', '<>', '1');
+                $grid->model()->where('order_details_type', 'App\\Models\\Food')->where('status', '<>', '1');
             }
 
             $grid->user('下单用户')->display(function ($user) {

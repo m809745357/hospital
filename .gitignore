@@ -16,3 +16,5 @@ yarn-error.log
 !/public/uploads/images/logo.png
 !/public/uploads/images/qrcode_for_gh_c97385dd910_258.png
 !/public/uploads/images/YvgGjPXqhRXtRDwziYwg.png
+public/.DS_Store
+public/images/.DS_Store

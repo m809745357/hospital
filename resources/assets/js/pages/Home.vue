@@ -62,7 +62,7 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
             <div class="mt-1 md:mt-pc-50 text-center">
-                <a class="more" href="/dynamics">MORE</a>
+                <a class="more" href="/specials">MORE</a>
             </div>
         </div>
     </div>

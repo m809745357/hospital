@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\Models\Promoter;
 use App\Models\Department;
+use App\Admin\Extensions\Excels\PromoterOrderExport;
 
 class PromoterOrderController extends Controller
 {
@@ -137,6 +138,8 @@ class PromoterOrderController extends Controller
 
                 $filter->between('created_at', '下单时间')->datetime();
             });
+
+            $grid->exporter(new PromoterOrderExport());
         });
     }
 
