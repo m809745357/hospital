@@ -47,7 +47,7 @@ class UserController extends Controller
 
         tap($user)->update($request->validated());
 
-        $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
+        $templateId = config('wechat.template.user_edit');
         $url = route('user.index');
         $data = [
             'first' => $user->name . '，您的个人信息修改成功',

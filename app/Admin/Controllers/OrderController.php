@@ -293,7 +293,7 @@ class OrderController extends Controller
                         break;
                 }
 
-                $templateId = 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0';
+                $templateId = config('wechat.template.user_edit');
                 $url = route('order.show', array('order' => $form->model()->id));
                 
                 \Log::info($data);

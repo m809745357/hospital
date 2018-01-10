@@ -236,7 +236,7 @@ class OrderController extends Controller
         $user = auth()->user();
 
         $url = route('order.show', ['order' => $order->id]);
-        $templateId = '6U64VpcD1B66eXgLjoiy4kGz5e5lY0KrnURK2Sl0e7c';
+        $templateId = config('wechat.template.pay_food');
         $data = [
             'first' => $user->name . ', 恭喜你点餐成功！',
             'keyword1' => $order->out_trade_no,
@@ -304,7 +304,7 @@ class OrderController extends Controller
 
                 switch ($order->order_details_type) {
                     case 'App\\Models\\Food':
-                        $templateId = '6U64VpcD1B66eXgLjoiy4kGz5e5lY0KrnURK2Sl0e7c';
+                        $templateId = config('wechat.template.pay_food');
                         $data = [
                             'first' => $user->name . ', 恭喜你点餐成功！',
                             'keyword1' => $order->out_trade_no,
@@ -316,7 +316,7 @@ class OrderController extends Controller
                         ];
                         break;
                     case 'App\\Models\\Physical':
-                        $templateId = 'seR-235joBnODL78IKmAMxtLuMa44KG8w-6J3inLGpA';
+                        $templateId = config('wechat.template.physical');
                         $genders = [
                             0 => '未知',
                             1 => '男',
@@ -333,7 +333,7 @@ class OrderController extends Controller
                         ];
                         break;
                     case 'App\\Models\\Package':
-                        $templateId = 'seR-235joBnODL78IKmAMxtLuMa44KG8w-6J3inLGpA';
+                        $templateId = config('wechat.template.physical');
                         $genders = [
                             0 => '未知',
                             1 => '男',
@@ -351,7 +351,7 @@ class OrderController extends Controller
                         ];
                         break;
                     case 'App\\Models\\Scheduling':
-                        $templateId = 'JsxDNEqyMhtbwU9ZfpjhbrOQtzkF0bVD4yCDHCgUFGI';
+                        $templateId = config('wechat.template.scheduling');
                         $genders = [
                             0 => '未知',
                             1 => '男',

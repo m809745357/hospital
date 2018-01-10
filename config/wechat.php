@@ -109,4 +109,14 @@ return [
         'country' => '中国',
         'headimgurl' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0',
     ],
+    
+    /**
+     * 模版消息通知
+     */
+    'template' => [
+        'user_edit' => env('USER_EDIT', 'vZq5xf_uOSap8bViRoI7WkDHSlDpIMvma-zTPayyTn0'),
+        'pay_food' => env('PAY_FOOD', '6U64VpcD1B66eXgLjoiy4kGz5e5lY0KrnURK2Sl0e7c'),
+        'physical' => env('PHYSICAL', 'seR-235joBnODL78IKmAMxtLuMa44KG8w-6J3inLGpA'),
+        'scheduling' => env('SCHEDULING', 'JsxDNEqyMhtbwU9ZfpjhbrOQtzkF0bVD4yCDHCgUFGI')
+    ],
 ];

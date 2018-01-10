@@ -83,7 +83,7 @@ class PromoterRecordController extends Controller
             $adminUser = \App\Models\AdminUser::all()->pluck('name', 'id');
 
             $grid->column('order.promoter', '业务员/转诊医生')->display(function ($promoter) use ($adminUser) {
-                return $adminUser[$promoter['admin_user_id']] . '/' . $promoter['user']['name'];
+                return ($adminUser[$promoter['admin_user_id']] ?? '暂无推荐人') . '/' . $promoter['user']['name'];
             });
 
             $grid->column('order.order_no', '转诊订单编号');
