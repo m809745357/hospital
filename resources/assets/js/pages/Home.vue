@@ -87,39 +87,21 @@ export default {
             medicals: [
                 {
                     id: 1,
-                    slug: '专业',
-                    title: '肛肠专科联盟',
-                    desc: '提供优势资源，建设多学科联诊平台'
+                    slug: '环境',
+                    title: '一流的就诊环境',
+                    desc: ''
                 },
                 {
                     id: 2,
-                    slug: '智慧',
-                    title: '智慧医院',
-                    desc: '打造健康档案区域医疗信息平台'
+                    slug: '售后',
+                    title: '一流的售后服务',
+                    desc: ''
                 },
                 {
                     id: 3,
-                    slug: '安全',
-                    title: '安式疗法',
-                    desc: '手术时间短、出血少痛苦小、疗程短恢复快、不易复发'
-                },
-                {
-                    id: 4,
-                    slug: '保密',
-                    title: '男女分诊',
-                    desc: '使患者避免尴尬，保护患者隐私'
-                },
-                {
-                    id: 5,
-                    slug: '无伤',
-                    title: '微创技术',
-                    desc: '具有创伤小、疼痛轻、恢复快的优越性'
-                },
-                {
-                    id: 6,
-                    slug: '健康',
-                    title: '术后康复',
-                    desc: '为患者提供细心的服务，帮助病人快速恢复'
+                    slug: '卫生',
+                    title: '一流的口腔卫生保健',
+                    desc: ''
                 }
             ],
             dynamics: this.attributes

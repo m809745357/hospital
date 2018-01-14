@@ -9,15 +9,20 @@
                 </div>
                 <img src="/images/right.png" alt="">
             </div>
-            <div class="user-account">
+            <div class="user-account" v-if="show">
                 <a href="/parcels"><img src="/images/parcels.png" alt="">微信点餐</a>
                 <a href="/physicals/single"><img src="/images/physicals.png" alt="">预约体检</a>
                 <a href="/advances"><img src="/images/advances.png" alt="">预约挂号</a>
             </div>
             <div class="user-menu">
-                <a href="/user/room">
+                <a href="/user/room" v-if="show">
                     <img src="/images/room.png" alt="">
                     <p>绑定床号</p>
+                    <img src="/images/right.png" alt="">
+                </a>
+                <a href="/advances" v-else>
+                    <img src="/images/advances.png" alt="">
+                    <p>预约挂号</p>
                     <img src="/images/right.png" alt="">
                 </a>
                 <a href="/orders">
@@ -48,7 +53,8 @@
 export default {
     data () {
         return {
-            user: window.App.user
+            user: window.App.user,
+            show: false,
         }
     },
     created () {
