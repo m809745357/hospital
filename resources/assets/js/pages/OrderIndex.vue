@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto">
         <div class="parcel-index">
-            <div class="parcel-menu" @touchmove="touch">
+            <div class="parcel-menu" @touchmove="touch" v-if="show">
                 <a :class="menu == 'P' ? 'on' : ''" @click="changeMenu('P')">体检订单</a>
                 <a :class="menu == 'S' ? 'on' : ''" @click="changeMenu('S')">挂号订单</a>
                 <a :class="menu == 'F' ? 'on' : ''" @click="changeMenu('F')">点餐订单</a>
@@ -53,12 +53,13 @@ export default {
         return {
             orders: this.attributes,
             date: moment().format('L'),
-            menu: 'P',
+            menu: 'S',
             status: '1',
             foodType: {
                 am: '午餐',
                 pm: '晚餐'
-            }
+            },
+            show: false
         }
     },
     components: {

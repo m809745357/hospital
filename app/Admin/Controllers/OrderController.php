@@ -80,6 +80,7 @@ class OrderController extends Controller
         return Admin::grid(Order::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
             $grid->model()->load('user')->latest();
+            $grid->model()->where('order_details_type', 'App\\Models\\Scheduling');
             if (Admin::user()->isRole('canteen')) {
                 $grid->model()->where('order_details_type', 'App\\Models\\Food')->where('status', '<>', '1');
             }
@@ -103,7 +104,6 @@ class OrderController extends Controller
                         }
                         return implode("<br/>", $arr);
                         break;
-                    case 'App\\Models\\Physical':
                         foreach ($this->order_details as $key => $value) {
                             $arr[] = "体检：{$value['title']} 数量：{$value['num']} 单价：{$value['money']}";
                         }
@@ -179,10 +179,10 @@ class OrderController extends Controller
             $grid->updated_at('更新时间');
             if (Admin::user()->isAdministrator()) {
                 $grid->tools(function ($tools) {
-                    $tools->append('<a class="btn btn-primary btn-sm" href="/admin/orders">重置帅选</a>');
-                    $tools->append(new OrderType());
+                    $tools->append('<a class="btn btn-primary btn-sm" href="/admin/orders">重置筛选</a>');
+                    // $tools->append(new OrderType());
                     $tools->append(new OrderStatus());
-                    $tools->append(new OrderPayWay());
+                    // $tools->append(new OrderPayWay());
                 });
 
                 if (in_array(Request::get('order-type'), ['App\\Models\\Food', 'App\\Models\\Physical', 'App\\Models\\Package', 'App\\Models\\Scheduling'])) {
