@@ -10,7 +10,7 @@ class Food extends Model
 
     protected $appends = ['num'];
 
-    const TYPES = ['am', 'pm', 'all'];
+    const TYPES = ['bf', 'am', 'pm', 'all'];
 
     protected function getNumAttribute($num)
     {

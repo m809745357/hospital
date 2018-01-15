@@ -56,6 +56,7 @@ export default {
             menu: 'P',
             status: '1',
             foodType: {
+                bf: '早餐',
                 am: '午餐',
                 pm: '晚餐'
             }

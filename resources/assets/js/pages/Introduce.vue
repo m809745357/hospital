@@ -5,7 +5,7 @@
         </div>
 
         <div class="container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter">
-            <div class="max-w-full m-1" v-html="introduce"></div>
+            <div class="max-w-full m-1 topic-body" v-html="introduce"></div>
         </div>
     </div>
 </template>

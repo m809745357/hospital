@@ -72,6 +72,9 @@ class ConfigController extends Controller
 
             $grid->slug('别名');
             $grid->contact('内容')->display(function ($value) {
+                if ($this->id == 11) {
+                    return '<a href="/introduce" target="new_window">官网介绍</a>';
+                }
                 if (preg_match('/(.*?(jpg|jpeg|gif|png))/', $value)) {
                     return '<img src="' . config('app.url') . '/uploads/' . $value . '" style="witdh:90px;height:90px;">';
                 }
@@ -107,6 +110,8 @@ class ConfigController extends Controller
             $id || $id = request()->config;
             if ($id <= 3) {
                 $form->image('contact', '内容');
+            } elseif ($id == 11) {
+                $form->editor('contact', '内容');
             } else {
                 $form->textarea('contact', '内容');
             }

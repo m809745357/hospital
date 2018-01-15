@@ -11,7 +11,7 @@
             </div>
             <div class="from-group">
                 <label for="">餐次</label>
-                <input type="text" :value="order.remark == 'am' ? '午餐' : '晚餐'" name="remark" disabled>
+                <input type="text" :value="displayRemark(order.remark)" name="remark" disabled>
             </div>
             <div class="from-group">
                 <label for="">送餐时间</label>
@@ -184,10 +184,24 @@ export default {
             this.payway = 'ipad';
             this.checkIpad = true;
         }
+        let types = {
+            'bf': window.App.configs.breakfast,
+            'am': window.App.configs.lunch,
+            'pm': window.App.configs.dinner
+        }
 
-        this.changeTime = this.order.remark === 'am' ? window.App.configs.lunch : window.App.configs.dinner;
+        this.changeTime = types[this.order.remark];
     },
     methods: {
+        displayRemark(type) {
+            let types = {
+                'bf': '早餐',
+                'am': '午餐',
+                'pm': '晚餐'
+            }
+            return types[type];
+
+        },
         cancelCardPay() {
             this.show = false;
             this.secret = '';

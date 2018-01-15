@@ -18,7 +18,7 @@ class CreateFoodsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('channel_id');
             $table->string('title');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('desc')->default('');
             $table->integer('money');
             $table->integer('status');

@@ -2,6 +2,7 @@
     <div class="container mx-auto">
         <div class="parcel-index">
             <div class="parcel-menu" @touchmove="touch">
+                <a :class="menu == 'bf' ? 'on' : ''" @click="changeMenu('bf')">早餐</a>
                 <a :class="menu == 'am' ? 'on' : ''" @click="changeMenu('am')">午餐</a>
                 <a :class="menu == 'pm' ? 'on' : ''" @click="changeMenu('pm')">晚餐</a>
             </div>
@@ -107,7 +108,7 @@ export default {
             food: {},
             channel_index: '',
             food_index: '',
-            menu: 'am',
+            menu: 'bf',
             foods: []
         }
     },

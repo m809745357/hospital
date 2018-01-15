@@ -133,6 +133,10 @@ class OrderController extends Controller
                     return '暂无备注';
                 }
                 switch ($remark) {
+                    case 'bf':
+                        return '早餐';
+                        break;
+
                     case 'am':
                         return '午餐';
                         break;

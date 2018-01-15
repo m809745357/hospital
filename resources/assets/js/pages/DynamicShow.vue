@@ -9,7 +9,7 @@
         <div class="container mt-1 mx-1 md:mx-0 md:mt-pc-50 md:border-t border-grey-lighter">
             <h4 class="text-2xl text-grey-darker text-center font-normal mt-pc-40">{{ dynamic.title }}</h4>
             <p class="text-lg text-grey-dark text-center my-pc-10">{{ dynamic.created_at }}</p>
-            <div class="max-w-full m-1" v-html="dynamic.body"></div>
+            <div class="max-w-full m-1 topic-body" v-html="dynamic.body"></div>
         </div>
     </div>
 </template>
