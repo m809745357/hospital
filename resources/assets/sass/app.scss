@@ -365,6 +365,9 @@ th {
                         }
 
                         p {
+                            line-height: 1em;
+                            height: 3em;
+                            overflow: hidden;
                             @apply text-xs text-grey-darker font-normal;
 
                             strong {

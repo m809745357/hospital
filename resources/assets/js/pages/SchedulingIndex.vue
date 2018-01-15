@@ -22,7 +22,7 @@
                     <label class="md:ml-pc-25 w-pc-60">门诊时间：</label>
                     <select class="md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey bg-white" name="day" id="" v-model="filter.day" @change="filterDoctor">
                         <option value="">请选择</option>
-                        <option :value="index + 1" v-for="(day, index) in days" :key="index">{{ day }}</option>
+                        <option :value="index" v-for="(day, index) in days" :key="index">{{ day }}</option>
                     </select>
                     <select class="md:ml-pc-25 h-pc-25 md:w-pc-98 border border-grey bg-white" name="time" id="" v-model="filter.time" @change="filterDoctor">
                         <option value="">请选择</option>

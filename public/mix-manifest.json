@@ -1,5 +1,4 @@
 {
-    "/js/mobile.js": "/js/mobile.js",
-    "/js/vendor.js": "/js/vendor.js",
-    "/js/manifest.js": "/js/manifest.js"
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css"
 }
