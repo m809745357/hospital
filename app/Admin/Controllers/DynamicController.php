@@ -82,7 +82,7 @@ class DynamicController extends Controller
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
-            $grid->filter(function($filter){
+            $grid->filter(function ($filter) {
                 // 去掉默认的id过滤器
                 $filter->disableIdFilter();
                 // 在这里添加字段过滤器
@@ -108,7 +108,7 @@ class DynamicController extends Controller
             $form->text('title', '标题')->help('最好少于20个字');
             $form->textarea('desc', '描述')->help('最好少于50个字');
             $form->number('click_num', '点击量');
-            $form->editor('body', '内容');
+            $form->editor('body', '内容')->help('图片压缩地址：<a href="https://tinypng.com/" target="view_window">https://tinypng.com/</a>');
             $form->switch('status', '状态')->options([1 => '展示', 2 => '不展示']);
 
             $form->display('created_at', '创建时间');

@@ -47,10 +47,10 @@
             <swiper :options="medicalOptions" class="w-11/12">
                 <swiper-slide v-for = "(medical, index) in medicals" :key="index" class="h-pc-470 flex items-center justify-center">
                     <div class="border-blue border md:w-pc-350 flex flex-col justify-between h-pc-470 rounded-4px">
-                        <img :src="`/images/i-${medical.id}.png`" class="w-full rounded-t-4px h-pc-226">
+                        <img :src="`/uploads/${medical.image}`" class="w-full rounded-t-4px h-pc-226">
                         <div class="flex flex-col items-center justify-center">
                             <img :src="`/images/icon-3.png`" alt="">
-                            <span class="text-blue text-lg mt-pc-10">{{medical.slug}}</span>
+                            <!-- <span class="text-blue text-lg mt-pc-10">{{medical.slug}}</span> -->
                         </div>
                         <h4 class="text-lg font-normal text-grey-darkest text-center">{{medical.title}}</h4>
                         <div class="text-xs text-grey-dark text-center mb-pc-40">
@@ -73,7 +73,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 export default {
-    props: ['attributes'],
+    props: ['attributes', 'specials'],
     data () {
         return {
             medicalOptions: {
@@ -84,44 +84,7 @@ export default {
                 slidesPerView : 3,
                 loop : true,
             },
-            medicals: [
-                {
-                    id: 1,
-                    slug: '专业',
-                    title: '肛肠专科联盟',
-                    desc: '提供优势资源，建设多学科联诊平台'
-                },
-                {
-                    id: 2,
-                    slug: '智慧',
-                    title: '智慧医院',
-                    desc: '打造健康档案区域医疗信息平台'
-                },
-                {
-                    id: 3,
-                    slug: '安全',
-                    title: '安式疗法',
-                    desc: '手术时间短、出血少痛苦小、疗程短恢复快、不易复发'
-                },
-                {
-                    id: 4,
-                    slug: '保密',
-                    title: '男女分诊',
-                    desc: '使患者避免尴尬，保护患者隐私'
-                },
-                {
-                    id: 5,
-                    slug: '无伤',
-                    title: '微创技术',
-                    desc: '具有创伤小、疼痛轻、恢复快的优越性'
-                },
-                {
-                    id: 6,
-                    slug: '健康',
-                    title: '术后康复',
-                    desc: '为患者提供细心的服务，帮助病人快速恢复'
-                }
-            ],
+            medicals: this.specials,
             dynamics: this.attributes
         }
     },

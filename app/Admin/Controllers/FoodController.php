@@ -77,8 +77,9 @@ class FoodController extends Controller
             $grid->money('菜品价格')->editable('textarea')->sortable();
             $grid->channel_id('菜品分类')->select(Channel::all()->pluck('name', 'id'));
             $grid->type('菜品时间')->select([
-                'am' => '上午',
-                'pm' => '下午',
+                'bf' => '早餐',
+                'am' => '午餐',
+                'pm' => '晚餐',
                 'all' => '全天',
             ]);
 
@@ -101,9 +102,10 @@ class FoodController extends Controller
                 }, '菜品标题或描述');
 
                 $filter->equal('channel_id', '菜品分类')->select(Channel::all()->pluck('name', 'id'));
-                $filter->equal('type', '门诊类型')->select([
-                    'am' => '上午',
-                    'pm' => '下午',
+                $filter->equal('type', '时间')->select([
+                    'bf' => '早餐',
+                    'am' => '午餐',
+                    'pm' => '晚餐',
                     'all' => '全天',
                 ]);
             });
@@ -128,9 +130,10 @@ class FoodController extends Controller
             $form->image('image', '菜品图片')->removable()->crop(200, 200)->help('推荐像素 200 * 200');
             $form->textarea('desc', '菜品描述')->help('最好少于50个字');
             $form->number('money', '菜品价格');
-            $form->select('type', '状态')->options([
-                'am' => '上午',
-                'pm' => '下午',
+            $form->select('type', '时间')->options([
+                'bf' => '早餐',
+                'am' => '午餐',
+                'pm' => '晚餐',
                 'all' => '全天',
             ]);
 

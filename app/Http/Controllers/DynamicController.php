@@ -27,6 +27,7 @@ class DynamicController extends Controller
         if ($dynamic->status !== 1) {
             return redirect()->back();
         }
+        $dynamic->increment('click_num');
         return view('pc/dynamic/show', compact('dynamic'));
     }
 }

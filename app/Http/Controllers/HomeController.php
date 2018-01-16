@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dynamic;
 use Illuminate\Http\Request;
+use App\Models\Special;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $dynamics = Dynamic::latest('click_num')->take(4)->get();
-        return view('pc.home', compact('dynamics'));
+        $dynamics = Dynamic::orderBy('updated_at', 'desc')->take(4)->where('status', 1)->get();
+        $specials = Special::orderBy('updated_at', 'desc')->take(6)->where('status', 1)->get();
+        return view('pc.home', compact('dynamics', 'specials'));
     }
 
     /**

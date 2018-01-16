@@ -111,7 +111,7 @@ class ConfigController extends Controller
             if ($id <= 3) {
                 $form->image('contact', '内容');
             } elseif ($id == 11) {
-                $form->editor('contact', '内容');
+                $form->editor('contact', '内容')->help('图片压缩地址：<a href="https://tinypng.com/" target="view_window">https://tinypng.com/</a>');
             } else {
                 $form->textarea('contact', '内容');
             }
