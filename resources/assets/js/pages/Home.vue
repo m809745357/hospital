@@ -47,10 +47,10 @@
             <swiper :options="medicalOptions" class="w-11/12">
                 <swiper-slide v-for = "(medical, index) in medicals" :key="index" class="h-pc-470 flex items-center justify-center">
                     <div class="border-blue border md:w-pc-350 flex flex-col justify-between h-pc-470 rounded-4px">
-                        <img :src="`/images/i-${medical.id}.png`" class="w-full rounded-t-4px h-pc-226">
+                        <img :src="`/uploads/${medical.image}`" class="w-full rounded-t-4px h-pc-226">
                         <div class="flex flex-col items-center justify-center">
                             <img :src="`/images/icon-3.png`" alt="">
-                            <span class="text-blue text-lg mt-pc-10">{{medical.slug}}</span>
+                            <!-- <span class="text-blue text-lg mt-pc-10">{{medical.slug}}</span> -->
                         </div>
                         <h4 class="text-lg font-normal text-grey-darkest text-center">{{medical.title}}</h4>
                         <div class="text-xs text-grey-dark text-center mb-pc-40">
@@ -73,7 +73,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 export default {
-    props: ['attributes'],
+    props: ['attributes', 'specials'],
     data () {
         return {
             medicalOptions: {
@@ -84,26 +84,7 @@ export default {
                 slidesPerView : 3,
                 loop : true,
             },
-            medicals: [
-                {
-                    id: 1,
-                    slug: '环境',
-                    title: '一流的就诊环境',
-                    desc: ''
-                },
-                {
-                    id: 2,
-                    slug: '售后',
-                    title: '一流的售后服务',
-                    desc: ''
-                },
-                {
-                    id: 3,
-                    slug: '卫生',
-                    title: '一流的口腔卫生保健',
-                    desc: ''
-                }
-            ],
+            medicals: this.specials,
             dynamics: this.attributes
         }
     },

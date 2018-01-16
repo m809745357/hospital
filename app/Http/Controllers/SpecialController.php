@@ -27,7 +27,7 @@ class SpecialController extends Controller
         if ($special->status !== 1) {
             return redirect()->back();
         }
-
+        $special->increment('click_num');
         return view('pc/special/show', compact('special'));
     }
 }
