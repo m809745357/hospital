@@ -60,7 +60,7 @@
             <div class="w-full">
                 <swiper :options="bannerOptions">
                     <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-                        <img :src="'/uploads/' + slide.image" alt="">
+                        <img :src="'/uploads/' + slide.image" width="100%">
                         <a :href="slide.url" class="banner-button hidden md:block" v-html="slide.title"></a>
                     </swiper-slide>
                     <div class="swiper-pagination" slot="pagination"></div>

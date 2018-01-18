@@ -20,6 +20,7 @@ class CreateSpecialsTable extends Migration
             $table->text('body');
             $table->string('image')->nullable();
             $table->integer('status')->default(1);
+            $table->integer('top')->default(0);
             $table->integer('click_num')->default(0);
             $table->timestamps();
         });

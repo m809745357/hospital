@@ -52,7 +52,7 @@
                             <img :src="`/images/icon-3.png`" alt="">
                             <!-- <span class="text-blue text-lg mt-pc-10">{{medical.slug}}</span> -->
                         </div>
-                        <h4 class="text-lg font-normal text-grey-darkest text-center">{{medical.title}}</h4>
+                        <a :href="`/specials/${medical.id}`" class="no-underline text-lg font-normal text-grey-darkest text-center">{{medical.title}}</a>
                         <div class="text-xs text-grey-dark text-center mb-pc-40">
                             <p>{{medical.desc}}</p>
                         </div>
