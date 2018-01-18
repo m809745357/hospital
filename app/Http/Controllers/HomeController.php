@@ -25,8 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $dynamics = Dynamic::orderBy('updated_at', 'desc')->take(4)->where('status', 1)->get();
-        $specials = Special::orderBy('updated_at', 'desc')->take(6)->where('status', 1)->get();
+        $dynamics = Dynamic::orderBy('updated_at', 'desc')->orderBy('top', 'desc')->take(6)->where('status', 1)->get();
+        $specials = Special::orderBy('updated_at', 'desc')->orderBy('top', 'desc')->take(6)->where('status', 1)->get();
         return view('pc.home', compact('dynamics', 'specials'));
     }
 

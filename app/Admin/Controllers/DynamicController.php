@@ -76,9 +76,14 @@ class DynamicController extends Controller
             $grid->click_num('点击量')->editable()->sortable();
             $states = [
                 'on' => ['value' => 1, 'text' => '展示', 'color' => 'primary'],
-                'off' => ['value' => 2, 'text' => '不展示', 'color' => 'default'],
+                'off' => ['value' => 0, 'text' => '不展示', 'color' => 'default'],
             ];
             $grid->status('状态')->switch($states);
+            $states = [
+                'on' => ['value' => 1, 'text' => '置顶', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '不置顶', 'color' => 'default'],
+            ];
+            $grid->top('置顶')->switch($states);
 
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
@@ -110,6 +115,7 @@ class DynamicController extends Controller
             $form->number('click_num', '点击量');
             $form->editor('body', '内容')->help('图片压缩地址：<a href="https://tinypng.com/" target="view_window">https://tinypng.com/</a>');
             $form->switch('status', '状态')->options([1 => '展示', 2 => '不展示']);
+            $form->switch('top', '置顶')->options([1 => '置顶', 2 => '不置顶']);
 
             $form->display('created_at', '创建时间');
             $form->display('updated_at', '更新时间');
