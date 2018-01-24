@@ -10,7 +10,9 @@ class PromoterOrder extends Model
 
     public function department()
     {
-        return $this->belongsTo(Department::class, 'department_id');
+        return $this->belongsTo(Department::class, 'department_id')->withDefault([
+            'name' => '门诊部'
+        ]);
     }
 
     public function record()
