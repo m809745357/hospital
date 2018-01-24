@@ -21,10 +21,14 @@
                     <p>奖励确认</p>
                     <img src="/images/right.png" alt="">
                 </a>
+                <a href="javascript:;" @click="cancel">
+                    <p>注销医生</p>
+                    <img src="/images/right.png" alt="">
+                </a>
             </div>
-            <div class="mt-1">
+            <div class="mt-1 flex flex-col items-center">
                 <p class="text-center text-lg">用户扫二维码转诊</p>
-                <img :src="qrcode" alt="">
+                <img :src="qrcode" width="90%">
             </div>
         </div>
     </div>
@@ -43,6 +47,14 @@ export default {
         touch() {
             event.preventDefault();
         },
+        cancel() {
+            notie.confirm({
+                text: '你确定要注销吗，该动作不可逆',
+                cancelCallback: () => notie.alert({text: '感谢您的支持' }),
+                submitCallback: () => window.location.href = '/user/promoter/cancel'
+            })
+
+        }
     }
 }
 </script>

@@ -28,7 +28,7 @@ class PromoterPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Promoter $promoter)
     {
         return $user->id !== $promoter->user_id;
     }

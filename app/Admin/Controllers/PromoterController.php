@@ -142,12 +142,6 @@ class PromoterController extends Controller
             $form->display('id', 'ID');
 
             $form->select('user_id', '用户')->options(function ($user_id) {
-                if ($user_id) {
-                    $user = \App\User::find($user_id);
-                    return [
-                        $user_id => "姓名：{$user->name} 手机：{$user->mobile}"
-                    ];
-                }
                 return \App\User::with('promoter')->get()->map(function ($item) use ($user_id) {
                     if ($item->promoter == null || $user_id === $item->id) {
                         $item->value = "姓名：{$item->name} 手机：{$item->mobile}";
@@ -173,14 +167,28 @@ class PromoterController extends Controller
                     return AdminUser::all()->pluck('name', 'id');
                 });
                 $form->saving(function (Form $form) {
-                    \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                    if ((int)$form->user_id !== (int)$form->model()->user_id) {
+                        $form->user_id && \App\User::find($form->model()->user_id)->update(['role' => 'normal']);
+                    }
+                    $form->user_id && \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                    $data = request()->all();
+                    if (!isset($data['_previous_']) && isset($data['status'])) {
+                        \App\User::find($form->model()->user_id)->update(['role' => $data['status'] === 'on' ? 'promoter' : 'normal']);
+                    }
                 });
             } else {
                 $form->hidden('admin_user_id');
 
                 $form->saving(function (Form $form) {
                     $form->admin_user_id = Admin::user()->id;
-                    \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                    if ((int)$form->user_id !== (int)$form->model()->user_id) {
+                        $form->user_id && \App\User::find($form->model()->user_id)->update(['role' => 'normal']);
+                    }
+                    $form->user_id && \App\User::find($form->user_id)->update(['role' => 'promoter']);
+                    $data = request()->all();
+                    if (!isset($data['_previous_']) && isset($data['status'])) {
+                        \App\User::find($form->model()->user_id)->update(['role' => $data['status'] === 'on' ? 'promoter' : 'normal']);
+                    }
                 });
             }
 

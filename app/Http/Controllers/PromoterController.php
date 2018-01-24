@@ -40,6 +40,13 @@ class PromoterController extends Controller
         return view('mobile.promoters.confirm', compact('promoterRecords'));
     }
 
+    public function cancel()
+    {
+        auth()->user()->promoter->update(['status' => 0]);
+        auth()->user()->update(['role' => 'normal']);
+        return redirect()->route('user.index');
+    }
+
     public function record()
     {
         $promoterRecords = auth()->user()->promoter->load('order.record', 'order.department');

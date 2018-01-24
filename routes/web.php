@@ -63,6 +63,7 @@ Route::group(['middleware' => 'prefect'], function () {
         Route::get('/user/promoter/orders', 'PromoterController@order')->name('promoter.order');
         Route::get('/user/promoter/records', 'PromoterController@record')->name('promoter.record');
         Route::get('/user/promoter/confirms', 'PromoterController@confirm')->name('promoter.confirm');
+        Route::get('/user/promoter/cancel', 'PromoterController@cancel')->name('promoter.cancel');
         Route::post('/user/promoter/statistics/{statistics}/confirm', 'PromoterRecordStatisticsController@confirm')->name('promoter.update');
         Route::get('/promoter/create', 'PromoterController@create')->name('promoter.create');
         Route::post('/promoter', 'PromoterController@store')->name('promoter.store');
