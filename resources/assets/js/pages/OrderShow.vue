@@ -15,7 +15,11 @@
             </div>
             <div class="from-group">
                 <label for="">送餐时间</label>
-                <select name="order_time" id="" v-model="order.order_time" v-if="order.status == 1">
+                <select name="order_day" id="" v-model="parcel.day" v-if="order.status == 1">
+                    <option value="">请选择</option>
+                    <option v-for="(day, index) in parcelday" :key="index" :value="day">{{day}}</option>
+                </select>
+                <select name="order_time" id="" v-model="parcel.time" v-if="order.status == 1">
                     <option value="">请选择</option>
                     <option :value="item" v-for="(item, index) in changeTime.split('\r\n')" :key="index">{{item}}</option>
                 </select>
@@ -172,7 +176,12 @@ export default {
             img: '',
             json: {},
             checkIpad: false,
-            changeTime: []
+            changeTime: [],
+            parcelday: [],
+            parcel: {
+                day: '',
+                time: '',
+            }
         }
     },
     created () {
@@ -191,6 +200,10 @@ export default {
         }
 
         this.changeTime = types[this.order.remark];
+
+        this.parcelday = [
+            moment().format("LL"), moment().add(1, 'days').format("LL")
+        ];
     },
     methods: {
         displayRemark(type) {
@@ -241,7 +254,17 @@ export default {
             return url;
         },
         pay() {
-
+            if (this.order.order_details_type == 'App\\Models\\Food') {
+                if (this.parcel.day === '') {
+                    notie.alert({ type: 2, text: '请选择送餐日期' });
+                    return ;
+                }
+                if (this.parcel.time === '') {
+                    notie.alert({ type: 2, text: '请选择送餐时间' });
+                    return ;
+                }
+                this.order.order_time = this.parcel.day + ' ' +this.parcel.time;
+            }
             if (this.order.order_time === '' && this.order.order_details_type == 'App\\Models\\Food') {
                 notie.alert({ type: 2, text: '请选择送餐时间' });
                 return ;
